@@ -47,6 +47,7 @@ isolated function initClient() returns Client|error {
 
 final string hs_owner_id = "77367788";
 isolated string hs_call_id = "";
+isolated string[] hs_batch_call_ids = [];
 
 @test:Config {
     groups: ["live_tests", "mock_tests"]
@@ -93,7 +94,7 @@ isolated function testPostACall() returns error? {
     dependsOn: [testPostACall],
     groups: ["live_tests", "mock_tests"]
 }
-isolated function testGetACall() returns error? {
+isolated function testGetCalls() returns error? {
     var response = hubSpotClient->/.get();
 
     if response is CollectionResponseSimplePublicObjectWithAssociationsForwardPaging {
@@ -128,6 +129,43 @@ isolated function testGetACallById() returns error? {
 
 @test:Config {
     dependsOn: [testPostACall, testGetACallById],
+    groups: ["live_tests", "mock_tests"]
+}
+isolated function testUpdateACall() returns error? {
+    string call_id = "";
+    lock {
+        call_id = hs_call_id;
+    }
+    
+    if call_id == "" {
+        test:assertTrue(false, "Call id is empty");
+    }
+
+    SimplePublicObjectInput payload = {
+        "properties": {
+            "hs_timestamp": "2025-02-17T01:32:44.872Z",
+            "hs_call_title": "Support call",
+            "hubspot_owner_id": hs_owner_id,
+            "hs_call_body": "Resolved issue: updated",
+            "hs_call_duration": "3800",
+            "hs_call_from_number": "(857) 829 5489",
+            "hs_call_to_number": "(509) 999 9999",
+            "hs_call_recording_url": "example.com/recordings/abc",
+            "hs_call_status": "COMPLETED"
+        }
+    };
+
+    SimplePublicObject|error response = hubSpotClient->/[call_id].patch(payload);
+
+    if response is SimplePublicObject {
+        test:assertTrue(response.properties["hs_call_body"] == "Resolved issue: updated", "Call body is not updated");
+    } else{
+        test:assertTrue(false, "Response is not in correct type");
+    }
+}
+
+@test:Config {
+    dependsOn: [testUpdateACall],
     groups: ["live_tests", "mock_tests"]
 }
 isolated  function testArchiveACall() returns error? {
@@ -215,19 +253,31 @@ isolated function testBatchCreateCalls() returns error? {
 
     if response is BatchResponseSimplePublicObject {
         test:assertTrue(response.results.length() == 2, "Batch create did not return expected number of results");
+
+        lock {
+            var ids = response.cloneReadOnly().results.map(isolated function (SimplePublicObject result) returns string {
+                return result.id;
+            });
+
+            hs_batch_call_ids = ids.cloneReadOnly();
+        }
     }
 }
 
 @test:Config {
+    dependsOn: [testBatchCreateCalls],
     groups: ["live_tests", "mock_tests"]
 }
 isolated function testBatchReadCalls() returns error? {
+    string[] callIds;
+    lock {
+        callIds = hs_batch_call_ids.cloneReadOnly();
+    }
+
     BatchReadInputSimplePublicObjectId payload = {
-        inputs: [
-            { "id": "75868168947" },
-            { "id": "76533404406" },
-            { "id": "76604609216" }
-        ],
+        inputs: callIds.map(isolated function (string id) returns SimplePublicObjectId {
+            return { "id": id };
+        }),
         properties: [
             "hs_createdate",
             "hs_call_title"
@@ -246,15 +296,19 @@ isolated function testBatchReadCalls() returns error? {
 }
 
 @test:Config {
+    dependsOn: [testBatchCreateCalls, testBatchReadCalls],
     groups: ["live_tests", "mock_tests"]
 }
 isolated function testBatchArchiveCalls() returns error? {
+    string[] callIds;
+    lock {
+        callIds = hs_batch_call_ids.cloneReadOnly();
+    }
+
     BatchReadInputSimplePublicObjectId payload = {
-        inputs: [
-            { "id": "75868168947" },
-            { "id": "76533404406" },
-            { "id": "76604609216" }
-        ],
+        inputs: callIds.map(isolated function (string id) returns SimplePublicObjectId {
+            return { "id": id };
+        }),
         properties: [
             "hs_createdate",
             "hs_call_title"
