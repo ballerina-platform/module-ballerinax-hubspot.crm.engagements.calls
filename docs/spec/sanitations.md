@@ -37,13 +37,9 @@ These changes are done in order to improve the overall usability, and as workaro
 
 - **Reason**: The date-time format is not compatible with the openAPI generation tool. Therefore, it is updated to datetime to make it compatible with the generation tool.
 
-## 4. Replace recording URL `hs_call_recording_url`
+## 4. Protect private information
 
-- **Original**: _(Existing URL contains sensitive information)_
-
-- **Updated**: `example.com/recordings`
-
-- **Reason**: The original recording URL is unnecessary and has been replaced with a placeholder URL for simplicity.
+Replaced the URL in the `hs_call_recording_url` field which contained private information, with a placeholder to prevent data breaches
 
 ## OpenAPI cli command
 
