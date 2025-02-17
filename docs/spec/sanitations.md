@@ -31,9 +31,9 @@ These changes are done in order to improve the overall usability, and as workaro
 
 ## 3. Update the `date-time` into `datetime` to make it compatible with the ballerina type conversions
 
-- **Original**: `foramt:date-time`
+- **Original**: `"format": "date-time"`
 
-- **Updated**: `foramt:datetime`
+- **Updated**: `"format": "datetime"`
 
 - **Reason**: The date-time format is not compatible with the openAPI generation tool. Therefore, it is updated to datetime to make it compatible with the generation tool.
 
