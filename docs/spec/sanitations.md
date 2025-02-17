@@ -24,8 +24,6 @@ These changes are done in order to improve the overall usability, and as workaro
 - **Original**: Paths included common prefix above in each endpoint. (eg: `crm/v3/objects/calls`)
 
 - **Updated**: Common prefix is now removed from the endpoints as it is included in the base URL.
-  - **Original**: `crm/v3/objects/calls`
-  - **Updated**: `/`
 
 - **Reason**: This change simplifies the API paths, making them shorter and more readable.
 
@@ -35,7 +33,7 @@ These changes are done in order to improve the overall usability, and as workaro
 
 - **Updated**: `"format": "datetime"`
 
-- **Reason**: The date-time format is not compatible with the openAPI generation tool. Therefore, it is updated to datetime to make it compatible with the generation tool.
+- **Reason**: The `date-time` format is not compatible with the OpenAPI tool. Therefore, it is updated to `datetime` to make it compatible with the tool.
 
 ## 4. Protect private information
 
