@@ -12,10 +12,10 @@ These changes are done in order to improve the overall usability, and as workaro
 ## 1. Change the `url` property of the servers object
 
 - **Original**:
-```https://api.hubspot.com```
+`https://api.hubspot.com`
 
 - **Updated**:
-```https://api.hubapi.com/crm/v3/objects/calls```
+`https://api.hubapi.com/crm/v3/objects/calls`
 
 - **Reason**: This change of adding the common prefix `crm/v3/objects/calls` to the base url makes it easier to access endpoints using the client.
 
