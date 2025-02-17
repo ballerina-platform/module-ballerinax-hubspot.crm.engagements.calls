@@ -127,8 +127,39 @@ isolated function testGetACallById() returns error? {
     }
 }
 
+
 @test:Config {
-    dependsOn: [testPostACall, testGetACallById],
+    dependsOn: [testPostACall],
+    groups: ["live_tests", "mock_tests"]
+}
+isolated function testSearchCalls() returns error? {
+    PublicObjectSearchRequest payload = {
+        filterGroups: [
+            {
+                filters: [
+                    {
+                        propertyName: "hs_call_title",
+                        operator: "EQ",
+                        value: "Support call"
+                    }
+                ]
+            }
+        ],
+        sorts: ["hs_createdate DESCENDING"],
+        "limit": 10,
+        after: "0"
+    };
+
+    var response = hubSpotClient->/search.post(payload);
+    test:assertNotEquals(response is error, "Response is not in correct type");
+
+    if response is CollectionResponseWithTotalSimplePublicObjectForwardPaging {
+        test:assertTrue(response.results.length() > 0, "No calls found");
+    }
+}
+
+@test:Config {
+    dependsOn: [testPostACall, testGetACallById, testSearchCalls],
     groups: ["live_tests", "mock_tests"]
 }
 isolated function testUpdateACall() returns error? {
@@ -297,6 +328,39 @@ isolated function testBatchReadCalls() returns error? {
 
 @test:Config {
     dependsOn: [testBatchCreateCalls, testBatchReadCalls],
+    groups: ["live_tests", "mock_tests"]
+}
+isolated function testBatchUpdateCalls() returns error? {
+    string[] callIds;
+    lock {
+        callIds = hs_batch_call_ids.cloneReadOnly();
+    }
+
+    BatchInputSimplePublicObjectBatchInput payload = {
+        inputs: callIds.map(isolated function (string id) returns SimplePublicObjectBatchInput {
+            return {
+                id: id,
+                properties: {
+                    "hs_call_body": "Updated call body"
+                }
+            };
+        })
+    };
+
+    BatchResponseSimplePublicObject|error response = hubSpotClient->/batch/update.post(payload);
+    test:assertTrue(response is BatchResponseSimplePublicObject, "Response is not a BatchResponseSimplePublicObject");
+
+    if response is BatchResponseSimplePublicObject {
+        test:assertTrue(response.results.length() == callIds.length(), "Batch update did not return expected number of results");
+
+        foreach var result in response.results {
+            test:assertTrue(result.properties["hs_call_body"] == "Updated call body", "Call body is not updated");
+        }
+    }
+}
+
+@test:Config {
+    dependsOn: [testBatchUpdateCalls],
     groups: ["live_tests", "mock_tests"]
 }
 isolated function testBatchArchiveCalls() returns error? {
