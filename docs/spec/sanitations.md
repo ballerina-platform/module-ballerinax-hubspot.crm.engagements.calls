@@ -21,11 +21,11 @@ These changes are done in order to improve the overall usability, and as workaro
 
 ## 2. Update the API Paths
 
-- **Original**: Paths included common prefix above in each endpoint. (eg: ```crm/v3/objects/calls```)
+- **Original**: Paths included common prefix above in each endpoint. (eg: `crm/v3/objects/calls`)
 
 - **Updated**: Common prefix is now removed from the endpoints as it is included in the base URL.
-  - **Original**: ```crm/v3/objects/calls```
-  - **Updated**: ```/```
+  - **Original**: `crm/v3/objects/calls`
+  - **Updated**: `/`
 
 - **Reason**: This change simplifies the API paths, making them shorter and more readable.
 
