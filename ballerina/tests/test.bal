@@ -148,3 +148,126 @@ isolated  function testArchiveACall() returns error? {
         test:assertTrue(false, "Response is not in correct type");
     }
 }
+
+@test:Config {
+    groups: ["live_tests", "mock_tests"]
+}
+isolated function testBatchCreateCalls() returns error? {
+    BatchInputSimplePublicObjectInputForCreate payload = {
+        inputs: [
+            {
+                properties: {
+                    "hs_timestamp": "2025-02-17T01:32:44.872Z",
+                    "hs_call_title": "Support call 1",
+                    "hubspot_owner_id": hs_owner_id,
+                    "hs_call_body": "Resolved issue 1",
+                    "hs_call_duration": "3800",
+                    "hs_call_from_number": "(857) 829 5489",
+                    "hs_call_to_number": "(509) 999 9999",
+                    "hs_call_recording_url": "example.com/recordings/abc1",
+                    "hs_call_status": "COMPLETED"
+                }, 
+                "associations": [
+                {
+                    "types": [
+                        {
+                            "associationCategory": "HUBSPOT_DEFINED",
+                            "associationTypeId": 194
+                            }
+                        ],
+                        "to": {
+                            "id": "84082396899"
+                        }
+                    }
+                ]
+            },
+            {
+                properties: {
+                    "hs_timestamp": "2025-02-17T01:32:44.872Z",
+                    "hs_call_title": "Support call 2",
+                    "hubspot_owner_id": hs_owner_id,
+                    "hs_call_body": "Resolved issue 2",
+                    "hs_call_duration": "3800",
+                    "hs_call_from_number": "(857) 829 5489",
+                    "hs_call_to_number": "(509) 999 9999",
+                    "hs_call_recording_url": "example.com/recordings/abc2",
+                    "hs_call_status": "COMPLETED"
+                },
+                "associations": [
+                {
+                    "types": [
+                        {
+                            "associationCategory": "HUBSPOT_DEFINED",
+                            "associationTypeId": 194
+                            }
+                        ],
+                        "to": {
+                            "id": "84059587267"
+                        }
+                    }
+                ]
+            }
+        ]
+    };
+
+    BatchResponseSimplePublicObject|error response = hubSpotClient->/batch/create.post(payload);
+    test:assertTrue(response is BatchResponseSimplePublicObject, "Response is not a BatchResponseSimplePublicObject");
+
+    if response is BatchResponseSimplePublicObject {
+        test:assertTrue(response.results.length() == 2, "Batch create did not return expected number of results");
+    }
+}
+
+@test:Config {
+    groups: ["live_tests", "mock_tests"]
+}
+isolated function testBatchReadCalls() returns error? {
+    BatchReadInputSimplePublicObjectId payload = {
+        inputs: [
+            { "id": "75868168947" },
+            { "id": "76533404406" },
+            { "id": "76604609216" }
+        ],
+        properties: [
+            "hs_createdate",
+            "hs_call_title"
+        ],
+        propertiesWithHistory: [
+            "hs_call_status"
+        ]
+    };
+
+    BatchResponseSimplePublicObject|error response = hubSpotClient->/batch/read.post(payload);
+    test:assertTrue(response is BatchResponseSimplePublicObject, "Response is not a BatchResponseSimplePublicObject");
+
+    if response is BatchResponseSimplePublicObject {
+        test:assertTrue(response.results.length() == 2, "Batch read did not return expected number of results");
+    }
+}
+
+@test:Config {
+    groups: ["live_tests", "mock_tests"]
+}
+isolated function testBatchArchiveCalls() returns error? {
+    BatchReadInputSimplePublicObjectId payload = {
+        inputs: [
+            { "id": "75868168947" },
+            { "id": "76533404406" },
+            { "id": "76604609216" }
+        ],
+        properties: [
+            "hs_createdate",
+            "hs_call_title"
+        ],
+        propertiesWithHistory: [
+            "hs_call_status"
+        ]
+    };
+
+    http:Response|error response = hubSpotClient->/batch/archive.post(payload);
+    test:assertTrue(response is http:Response, "Response is not an http:Response");
+
+    if response is http:Response {
+        test:assertTrue(response.statusCode == 204, "Batch archive failed");
+    }
+}
