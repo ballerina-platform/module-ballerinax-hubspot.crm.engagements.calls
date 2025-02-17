@@ -14,11 +14,10 @@
 // specific language governing permissions and limitations
 // under the License.
 
-// import ballerina/http;
 import ballerina/oauth2;
 import ballerina/os;
 import ballerina/test;
-import ballerina/io;
+import ballerina/http;
 
 final boolean isLiveServer = os:getEnv("IS_LIVE_SERVER") == "true";
 final string serviceUrl = isLiveServer ? "https://api.hubapi.com/crm/v3/objects/calls" : "http://localhost:9090";
@@ -27,7 +26,7 @@ final string clientId = os:getEnv("HUBSPOT_CLIENT_ID");
 final string clientSecret = os:getEnv("HUBSPOT_CLIENT_SECRET");
 final string refreshToken = os:getEnv("HUBSPOT_REFRESH_TOKEN");
 
-final Client hubSpotProperties = check initClient();
+final Client hubSpotClient = check initClient();
 
 isolated function initClient() returns Client|error {
     if isLiveServer {
@@ -46,11 +45,106 @@ isolated function initClient() returns Client|error {
     }, serviceUrl);
 }
 
-// test properties
-final string propertyDate = "1572480000000";
-final string propertyRadio = "option_1";
-final string propertyNumber = "17";
-final string propertyString = "value";
-final string propertyCheckbox = "false";
-final string propertyDropdown = "choice_b";
-final string propertyMultipleCheckboxes = "chocolate;strawberry";
+final string hs_owner_id = "77367788";
+isolated string hs_call_id = "";
+
+@test:Config {
+    groups: ["live_tests", "mock_tests"]
+}
+isolated function testPostACall() returns error? {
+    SimplePublicObjectInputForCreate payload = {
+        "properties": {
+            "hs_timestamp": "2025-02-17T01:32:44.872Z",
+            "hs_call_title": "Support call",
+            "hubspot_owner_id": hs_owner_id,
+            "hs_call_body": "Resolved issue",
+            "hs_call_duration": "3800",
+            "hs_call_from_number": "(857) 829 5489",
+            "hs_call_to_number": "(509) 999 9999",
+            "hs_call_recording_url": "example.com/recordings/abc",
+            "hs_call_status": "COMPLETED"
+        },
+        "associations": [
+        {
+            "types": [
+                {
+                    "associationCategory": "HUBSPOT_DEFINED",
+                    "associationTypeId": 194
+                    }
+                ],
+                "to": {
+                    "id": "83829237490"
+                }
+            }
+        ]
+    };
+
+    SimplePublicObject|error response = hubSpotClient->/.post(payload);
+    test:assertTrue(response is SimplePublicObject, "Response is not a SimplePublicObject");
+
+    if response is SimplePublicObject {
+        lock {
+	        hs_call_id = response.id;
+        }
+    }
+}
+
+@test:Config {
+    dependsOn: [testPostACall],
+    groups: ["live_tests", "mock_tests"]
+}
+isolated function testGetACall() returns error? {
+    var response = hubSpotClient->/.get();
+
+    if response is CollectionResponseSimplePublicObjectWithAssociationsForwardPaging {
+        test:assertTrue(response.results.length() > 0, "No calls found");
+    } else {
+        test:assertTrue(false, "Response is not in correct type");
+    }
+}
+
+@test:Config {
+    dependsOn: [testPostACall],
+    groups: ["live_tests", "mock_tests"]
+}
+isolated function testGetACallById() returns error? {
+    string call_id = "";
+    lock {
+        call_id = hs_call_id;
+    }
+    
+    if call_id == "" {
+        test:assertTrue(false, "Call id is empty");
+    }
+    
+    var response = hubSpotClient->/[call_id].get();
+
+    if response is SimplePublicObject {
+        test:assertTrue(response.id == call_id, "Call id mismatch");
+    } else {
+        test:assertTrue(false, "Response is not in correct type");
+    }
+}
+
+@test:Config {
+    dependsOn: [testPostACall, testGetACallById],
+    groups: ["live_tests", "mock_tests"]
+}
+isolated  function testArchiveACall() returns error? {
+    string call_id = "";
+    lock {
+        call_id = hs_call_id;
+    }
+    
+    if call_id == "" {
+        test:assertTrue(false, "Call id is empty");
+    }
+    
+    http:Response|error response = hubSpotClient->/[call_id].delete();
+    
+    if response is http:Response {
+        test:assertTrue(response.statusCode == 204, "Call deletion failed");
+    } else {
+        test:assertTrue(false, "Response is not in correct type");
+    }
+}
