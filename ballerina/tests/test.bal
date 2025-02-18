@@ -94,7 +94,7 @@ isolated function testPostACall() returns error? {
 
 // Test: (Negative) Post a call with invalid associationTypeId
 @test:Config {
-    groups: ["live_tests"]
+    groups: ["live_tests", "mock_tests"]
 }
 isolated function testPostACall_Negative() returns error? {
     SimplePublicObjectInputForCreate payload = {
@@ -197,6 +197,7 @@ isolated function testSearchCalls() returns error? {
 
 // Test: (Negative) Search calls with invalid filter
 @test:Config {
+    enable: isLiveServer,
     dependsOn: [testPostACall],
     groups: ["live_tests"]
 }
@@ -260,7 +261,7 @@ isolated function testUpdateACall() returns error? {
 // Test: (Negative) Update a call
 @test:Config {
     dependsOn: [testUpdateACall],
-    groups: ["live_tests"]
+    groups: ["live_tests", "mock_tests"]
 }
 isolated function testUpdateACall_Negative() returns error? {
     string call_id = "";

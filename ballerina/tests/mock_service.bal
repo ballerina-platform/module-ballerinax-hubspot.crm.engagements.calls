@@ -341,22 +341,30 @@ service on new http:Listener(9090) {
         return response;
     }
 
-    resource function patch [string callId](SimplePublicObjectInput payload) returns SimplePublicObject|error {
+    resource function patch [string callId](SimplePublicObjectInput payload) returns SimplePublicObject|http:Response|error {
+        int id = 0;
         lock {
             // find the id from the call_ids array
-            int id = 0;
             foreach var i in call_ids {
                 if i.toString() == callId {
                     id = i;
                     break;
                 }
             }  
-            if id == 0 { return error("Call ID not found"); }
+        }
+
+        if id == 0 { 
+            http:Response response = new;
+            response.statusCode = http:STATUS_NOT_FOUND;
+            return response;
         }
 
         // validate the hs_call_status
         if payload.properties["hs_call_status"] != "COMPLETED" {
-            return error("Invalid hs_call_status");
+            http:Response response = new;
+            response.statusCode = http:STATUS_BAD_REQUEST;
+            response.setPayload({"error": "Invalid hs_call_status"});
+            return response;
         }
 
         SimplePublicObject response = {
@@ -410,7 +418,7 @@ service on new http:Listener(9090) {
         return response;
     }
 
-    resource function post .(SimplePublicObjectInputForCreate payload) returns SimplePublicObject|error {
+    resource function post .(SimplePublicObjectInputForCreate payload) returns SimplePublicObject|http:Response|error {
         int callId = getMaximumCallId() + 1;
 
         // valid association types
@@ -419,7 +427,9 @@ service on new http:Listener(9090) {
                 var x = ass_type.associationTypeId;
                 
                 if x !is 194 && x !is 182 {
-                   return error("Invalid Assocoation Type ID");
+                    http:Response response = new;
+                    response.statusCode = 400;
+                    return response;
                 }
             }
         }
