@@ -49,6 +49,7 @@ final string hs_owner_id = "77367788";
 isolated string hs_call_id = "";
 isolated string[] hs_batch_call_ids = [];
 
+// Test: Post a call
 @test:Config {
     groups: ["live_tests", "mock_tests"]
 }
@@ -81,13 +82,14 @@ isolated function testPostACall() returns error? {
     };
 
     SimplePublicObject response = check hubSpotClient->/.post(payload);
-    test:assertTrue(response is SimplePublicObject, "Response is not a SimplePublicObject");
+    test:assertTrue(response.createdAt != "", "Call creation failed");
 
     lock {
         hs_call_id = response.id;
     }
 }
 
+// Test: Get calls
 @test:Config {
     dependsOn: [testPostACall],
     groups: ["live_tests", "mock_tests"]
@@ -97,6 +99,7 @@ isolated function testGetCalls() returns error? {
     test:assertTrue(response.results.length() > 0, "No calls found");
 }
 
+// Test: Get a call by id
 @test:Config {
     dependsOn: [testPostACall],
     groups: ["live_tests", "mock_tests"]
@@ -115,7 +118,27 @@ isolated function testGetACallById() returns error? {
     test:assertTrue(response.id == call_id, "Call id mismatch");
 }
 
+// Test: (Nagative) Get a call by id
+@test:Config {
+    dependsOn: [testArchiveACall],
+    groups: ["live_tests", "mock_tests"]
+}
+isolated function testGetACallById_Negative() returns error? {
+    string call_id = "";
+    lock {
+        call_id = hs_call_id;
+    }
+    
+    if call_id == "" {
+        test:assertTrue(false, "Call id is empty");
+    }
+    
+    SimplePublicObject|error response = hubSpotClient->/[call_id].get();
 
+    test:assertFalse(response is SimplePublicObject, "Call is not archived");
+}
+
+// Test: Search calls
 @test:Config {
     dependsOn: [testPostACall],
     groups: ["live_tests", "mock_tests"]
@@ -143,6 +166,7 @@ isolated function testSearchCalls() returns error? {
     test:assertTrue(response.results.length() > 0, "No calls found");
 }
 
+// Test: Update a call
 @test:Config {
     dependsOn: [testPostACall, testGetACallById, testSearchCalls],
     groups: ["live_tests", "mock_tests"]
@@ -180,6 +204,7 @@ isolated function testUpdateACall() returns error? {
     }
 }
 
+// Test: Archive a call
 @test:Config {
     dependsOn: [testUpdateACall],
     groups: ["live_tests", "mock_tests"]
@@ -199,6 +224,7 @@ isolated  function testArchiveACall() returns error? {
     test:assertTrue(response.statusCode == 204, "Call deletion failed");
 }
 
+// Test: Create a batch of calls
 @test:Config {
     groups: ["live_tests", "mock_tests"]
 }
@@ -261,9 +287,12 @@ isolated function testBatchCreateCalls() returns error? {
     };
 
     BatchResponseSimplePublicObject response = check hubSpotClient->/batch/create.post(payload);
-    test:assertTrue(response is BatchResponseSimplePublicObject, "Response is not a BatchResponseSimplePublicObject");
 
     test:assertTrue(response.results.length() == 2, "Batch create did not return expected number of results");
+
+    foreach SimplePublicObject obj in response.results {
+        test:assertTrue(obj.createdAt != "", "Call creation failed");
+    }
 
     lock {
         var ids = response.cloneReadOnly().results.map(isolated function (SimplePublicObject result) returns string {
@@ -274,6 +303,7 @@ isolated function testBatchCreateCalls() returns error? {
     }
 }
 
+// Test: Read a batch of calls
 @test:Config {
     dependsOn: [testBatchCreateCalls],
     groups: ["live_tests", "mock_tests"]
@@ -302,6 +332,7 @@ isolated function testBatchReadCalls() returns error? {
     test:assertTrue(response.results.length() == 2, "Batch read did not return expected number of results");
 }
 
+// Test: Update a batch of calls
 @test:Config {
     dependsOn: [testBatchReadCalls],
     groups: ["live_tests", "mock_tests"]
@@ -332,6 +363,7 @@ isolated function testBatchUpdateCalls() returns error? {
     }
 }
 
+// Test: Archive a batch of calls
 @test:Config {
     dependsOn: [testBatchUpdateCalls],
     groups: ["live_tests", "mock_tests"]
