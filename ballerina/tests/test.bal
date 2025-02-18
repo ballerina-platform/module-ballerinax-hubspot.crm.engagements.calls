@@ -45,7 +45,10 @@ isolated function initClient() returns Client|error {
     }, serviceUrl);
 }
 
-final string hs_owner_id = "77367788";
+final string hs_owner_id = "77367788"; // example owner id
+final string hs_object_id = "83829237490"; // example contact id
+final int:Signed32 hs_association_type_id = 194; // call to contact association
+
 isolated string hs_call_id = "";
 isolated string[] hs_batch_call_ids = [];
 
@@ -71,11 +74,11 @@ isolated function testPostACall() returns error? {
             "types": [
                 {
                     "associationCategory": "HUBSPOT_DEFINED",
-                    "associationTypeId": 194
+                    "associationTypeId": hs_association_type_id
                     }
                 ],
                 "to": {
-                    "id": "83829237490"
+                    "id": hs_object_id
                 }
             }
         ]
@@ -87,6 +90,43 @@ isolated function testPostACall() returns error? {
     lock {
         hs_call_id = response.id;
     }
+}
+
+// Test: (Negative) Post a call with invalid associationTypeId
+@test:Config {
+    groups: ["live_tests", "mock_tests"]
+}
+isolated function testPostACall_Negative() returns error? {
+    SimplePublicObjectInputForCreate payload = {
+        "properties": {
+            "hs_timestamp": "2025-02-17T01:32:44.872Z",
+            "hs_call_title": "Support call",
+            "hubspot_owner_id": hs_owner_id,
+            "hs_call_body": "Resolved issue",
+            "hs_call_duration": "3800",
+            "hs_call_from_number": "(857) 829 5489",
+            "hs_call_to_number": "(509) 999 9999",
+            "hs_call_recording_url": "example.com/recordings/abc",
+            "hs_call_status": "COMPLETED"
+        },
+        "associations": [
+        {
+            "types": [
+                {
+                    "associationCategory": "HUBSPOT_DEFINED",
+                    "associationTypeId": 75 // Invalid associationTypeId to trigger an error
+                    }
+                ],
+                "to": {
+                    "id": hs_object_id
+                }
+            }
+        ]
+    };
+
+    SimplePublicObject|error response = hubSpotClient->/.post(payload);
+
+    test:assertTrue(response is error, "Expected an error response for invalid associationTypeId");
 }
 
 // Test: Get calls
@@ -110,10 +150,6 @@ isolated function testGetACallById() returns error? {
         call_id = hs_call_id;
     }
     
-    if call_id == "" {
-        test:assertTrue(false, "Call id is empty");
-    }
-    
     SimplePublicObject response = check hubSpotClient->/[call_id].get();
     test:assertTrue(response.id == call_id, "Call id mismatch");
 }
@@ -127,10 +163,6 @@ isolated function testGetACallById_Negative() returns error? {
     string call_id = "";
     lock {
         call_id = hs_call_id;
-    }
-    
-    if call_id == "" {
-        test:assertTrue(false, "Call id is empty");
     }
     
     SimplePublicObject|error response = hubSpotClient->/[call_id].get();
@@ -157,13 +189,41 @@ isolated function testSearchCalls() returns error? {
             }
         ],
         sorts: ["hs_createdate DESCENDING"],
-        "limit": 10,
+        'limit: 10,
         after: "0"
     };
 
     CollectionResponseWithTotalSimplePublicObjectForwardPaging response = check hubSpotClient->/search.post(payload);
     
     test:assertTrue(response.results.length() > 0, "No calls found");
+}
+
+// Test: (Negative) Search calls with invalid filter
+@test:Config {
+    dependsOn: [testPostACall],
+    groups: ["live_tests", "mock_tests"]
+}
+isolated function testSearchCalls_Negative() returns error? {
+    PublicObjectSearchRequest payload = {
+        filterGroups: [
+            {
+                filters: [
+                    {
+                        propertyName: "invalid_property", // Invalid property to trigger an error
+                        operator: "EQ",
+                        value: "Non-existent value"
+                    }
+                ]
+            }
+        ],
+        sorts: ["hs_createdate DESCENDING"],
+        'limit: 10,
+        after: "0"
+    };
+
+    CollectionResponseWithTotalSimplePublicObjectForwardPaging|error response = hubSpotClient->/search.post(payload);
+
+    test:assertTrue(response is error, "Expected an error response for invalid search filter");
 }
 
 // Test: Update a call
@@ -175,10 +235,6 @@ isolated function testUpdateACall() returns error? {
     string call_id = "";
     lock {
         call_id = hs_call_id;
-    }
-    
-    if call_id == "" {
-        test:assertTrue(false, "Call id is empty");
     }
 
     SimplePublicObjectInput payload = {
@@ -204,6 +260,36 @@ isolated function testUpdateACall() returns error? {
     }
 }
 
+// Test: (Negative) Update a call
+@test:Config {
+    dependsOn: [testUpdateACall],
+    groups: ["live_tests", "mock_tests"]
+}
+isolated function testUpdateACall_Negative() returns error? {
+    string call_id = "";
+    lock {
+        call_id = hs_call_id;
+    }
+
+    SimplePublicObjectInput payload = {
+        "properties": {
+            "hs_timestamp": "2025-02-17T01:32:44.872Z",
+            "hs_call_title": "Support call",
+            "hubspot_owner_id": hs_owner_id,
+            "hs_call_body": "Resolved issue: invalid update",
+            "hs_call_duration": "3800",
+            "hs_call_from_number": "(857) 829 5489",
+            "hs_call_to_number": "(509) 999 9999",
+            "hs_call_recording_url": "example.com/recordings/abc",
+            "hs_call_status": "INVALID_STATUS" // Invalid status to trigger an error
+        }
+    };
+
+    SimplePublicObject|error response = hubSpotClient->/[call_id].patch(payload);
+
+    test:assertTrue(response is error, "Expected an error response for invalid update");
+}
+
 // Test: Archive a call
 @test:Config {
     dependsOn: [testUpdateACall],
@@ -213,10 +299,6 @@ isolated  function testArchiveACall() returns error? {
     string call_id = "";
     lock {
         call_id = hs_call_id;
-    }
-    
-    if call_id == "" {
-        test:assertTrue(false, "Call id is empty");
     }
     
     http:Response response = check hubSpotClient->/[call_id].delete();
@@ -248,11 +330,11 @@ isolated function testBatchCreateCalls() returns error? {
                     "types": [
                         {
                             "associationCategory": "HUBSPOT_DEFINED",
-                            "associationTypeId": 194
+                            "associationTypeId": hs_association_type_id
                             }
                         ],
                         "to": {
-                            "id": "84082396899"
+                            "id": hs_object_id
                         }
                     }
                 ]
@@ -274,11 +356,11 @@ isolated function testBatchCreateCalls() returns error? {
                     "types": [
                         {
                             "associationCategory": "HUBSPOT_DEFINED",
-                            "associationTypeId": 194
+                            "associationTypeId": hs_association_type_id
                             }
                         ],
                         "to": {
-                            "id": "84059587267"
+                            "id": hs_object_id
                         }
                     }
                 ]
