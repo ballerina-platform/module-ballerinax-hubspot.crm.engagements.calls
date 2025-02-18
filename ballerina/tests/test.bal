@@ -80,13 +80,11 @@ isolated function testPostACall() returns error? {
         ]
     };
 
-    SimplePublicObject|error response = hubSpotClient->/.post(payload);
+    SimplePublicObject response = check hubSpotClient->/.post(payload);
     test:assertTrue(response is SimplePublicObject, "Response is not a SimplePublicObject");
 
-    if response is SimplePublicObject {
-        lock {
-	        hs_call_id = response.id;
-        }
+    lock {
+        hs_call_id = response.id;
     }
 }
 
@@ -95,13 +93,8 @@ isolated function testPostACall() returns error? {
     groups: ["live_tests", "mock_tests"]
 }
 isolated function testGetCalls() returns error? {
-    var response = hubSpotClient->/.get();
-
-    if response is CollectionResponseSimplePublicObjectWithAssociationsForwardPaging {
-        test:assertTrue(response.results.length() > 0, "No calls found");
-    } else {
-        test:assertTrue(false, "Response is not in correct type");
-    }
+    CollectionResponseSimplePublicObjectWithAssociationsForwardPaging response = check hubSpotClient->/.get();
+    test:assertTrue(response.results.length() > 0, "No calls found");
 }
 
 @test:Config {
@@ -118,13 +111,8 @@ isolated function testGetACallById() returns error? {
         test:assertTrue(false, "Call id is empty");
     }
     
-    var response = hubSpotClient->/[call_id].get();
-
-    if response is SimplePublicObject {
-        test:assertTrue(response.id == call_id, "Call id mismatch");
-    } else {
-        test:assertTrue(false, "Response is not in correct type");
-    }
+    SimplePublicObject response = check hubSpotClient->/[call_id].get();
+    test:assertTrue(response.id == call_id, "Call id mismatch");
 }
 
 
@@ -150,12 +138,9 @@ isolated function testSearchCalls() returns error? {
         after: "0"
     };
 
-    var response = hubSpotClient->/search.post(payload);
-    test:assertNotEquals(response is error, "Response is not in correct type");
-
-    if response is CollectionResponseWithTotalSimplePublicObjectForwardPaging {
-        test:assertTrue(response.results.length() > 0, "No calls found");
-    }
+    CollectionResponseWithTotalSimplePublicObjectForwardPaging response = check hubSpotClient->/search.post(payload);
+    
+    test:assertTrue(response.results.length() > 0, "No calls found");
 }
 
 @test:Config {
@@ -209,13 +194,9 @@ isolated  function testArchiveACall() returns error? {
         test:assertTrue(false, "Call id is empty");
     }
     
-    http:Response|error response = hubSpotClient->/[call_id].delete();
+    http:Response response = check hubSpotClient->/[call_id].delete();
     
-    if response is http:Response {
-        test:assertTrue(response.statusCode == 204, "Call deletion failed");
-    } else {
-        test:assertTrue(false, "Response is not in correct type");
-    }
+    test:assertTrue(response.statusCode == 204, "Call deletion failed");
 }
 
 @test:Config {
@@ -279,19 +260,17 @@ isolated function testBatchCreateCalls() returns error? {
         ]
     };
 
-    BatchResponseSimplePublicObject|error response = hubSpotClient->/batch/create.post(payload);
+    BatchResponseSimplePublicObject response = check hubSpotClient->/batch/create.post(payload);
     test:assertTrue(response is BatchResponseSimplePublicObject, "Response is not a BatchResponseSimplePublicObject");
 
-    if response is BatchResponseSimplePublicObject {
-        test:assertTrue(response.results.length() == 2, "Batch create did not return expected number of results");
+    test:assertTrue(response.results.length() == 2, "Batch create did not return expected number of results");
 
-        lock {
-            var ids = response.cloneReadOnly().results.map(isolated function (SimplePublicObject result) returns string {
-                return result.id;
-            });
+    lock {
+        var ids = response.cloneReadOnly().results.map(isolated function (SimplePublicObject result) returns string {
+            return result.id;
+        });
 
-            hs_batch_call_ids = ids.cloneReadOnly();
-        }
+        hs_batch_call_ids = ids.cloneReadOnly();
     }
 }
 
@@ -318,16 +297,13 @@ isolated function testBatchReadCalls() returns error? {
         ]
     };
 
-    BatchResponseSimplePublicObject|error response = hubSpotClient->/batch/read.post(payload);
-    test:assertTrue(response is BatchResponseSimplePublicObject, "Response is not a BatchResponseSimplePublicObject");
+    BatchResponseSimplePublicObject response = check hubSpotClient->/batch/read.post(payload);
 
-    if response is BatchResponseSimplePublicObject {
-        test:assertTrue(response.results.length() == 2, "Batch read did not return expected number of results");
-    }
+    test:assertTrue(response.results.length() == 2, "Batch read did not return expected number of results");
 }
 
 @test:Config {
-    dependsOn: [testBatchCreateCalls, testBatchReadCalls],
+    dependsOn: [testBatchReadCalls],
     groups: ["live_tests", "mock_tests"]
 }
 isolated function testBatchUpdateCalls() returns error? {
@@ -347,15 +323,12 @@ isolated function testBatchUpdateCalls() returns error? {
         })
     };
 
-    BatchResponseSimplePublicObject|error response = hubSpotClient->/batch/update.post(payload);
-    test:assertTrue(response is BatchResponseSimplePublicObject, "Response is not a BatchResponseSimplePublicObject");
+    BatchResponseSimplePublicObject response = check hubSpotClient->/batch/update.post(payload);
+    
+    test:assertTrue(response.results.length() == callIds.length(), "Batch update did not return expected number of results");
 
-    if response is BatchResponseSimplePublicObject {
-        test:assertTrue(response.results.length() == callIds.length(), "Batch update did not return expected number of results");
-
-        foreach var result in response.results {
-            test:assertTrue(result.properties["hs_call_body"] == "Updated call body", "Call body is not updated");
-        }
+    foreach var result in response.results {
+        test:assertTrue(result.properties["hs_call_body"] == "Updated call body", "Call body is not updated");
     }
 }
 
@@ -382,10 +355,7 @@ isolated function testBatchArchiveCalls() returns error? {
         ]
     };
 
-    http:Response|error response = hubSpotClient->/batch/archive.post(payload);
-    test:assertTrue(response is http:Response, "Response is not an http:Response");
-
-    if response is http:Response {
-        test:assertTrue(response.statusCode == 204, "Batch archive failed");
-    }
+    http:Response response = check hubSpotClient->/batch/archive.post(payload);
+   
+    test:assertTrue(response.statusCode == 204, "Batch archive failed");
 }
