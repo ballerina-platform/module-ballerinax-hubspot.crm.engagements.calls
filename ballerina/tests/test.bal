@@ -94,7 +94,7 @@ isolated function testPostACall() returns error? {
 
 // Test: (Negative) Post a call with invalid associationTypeId
 @test:Config {
-    groups: ["live_tests", "mock_tests"]
+    groups: ["live_tests"]
 }
 isolated function testPostACall_Negative() returns error? {
     SimplePublicObjectInputForCreate payload = {
@@ -160,14 +160,11 @@ isolated function testGetACallById() returns error? {
     groups: ["live_tests", "mock_tests"]
 }
 isolated function testGetACallById_Negative() returns error? {
-    string call_id = "";
-    lock {
-        call_id = hs_call_id;
-    }
+    string call_id = "invalid_call_id";
     
     SimplePublicObject|error response = hubSpotClient->/[call_id].get();
 
-    test:assertFalse(response is SimplePublicObject, "Call is not archived");
+    test:assertTrue(response is error, "Call is not archived"); 
 }
 
 // Test: Search calls
@@ -201,7 +198,7 @@ isolated function testSearchCalls() returns error? {
 // Test: (Negative) Search calls with invalid filter
 @test:Config {
     dependsOn: [testPostACall],
-    groups: ["live_tests", "mock_tests"]
+    groups: ["live_tests"]
 }
 isolated function testSearchCalls_Negative() returns error? {
     PublicObjectSearchRequest payload = {
@@ -263,7 +260,7 @@ isolated function testUpdateACall() returns error? {
 // Test: (Negative) Update a call
 @test:Config {
     dependsOn: [testUpdateACall],
-    groups: ["live_tests", "mock_tests"]
+    groups: ["live_tests"]
 }
 isolated function testUpdateACall_Negative() returns error? {
     string call_id = "";
@@ -292,7 +289,7 @@ isolated function testUpdateACall_Negative() returns error? {
 
 // Test: Archive a call
 @test:Config {
-    dependsOn: [testUpdateACall],
+    dependsOn: [testUpdateACall, testPostACall],
     groups: ["live_tests", "mock_tests"]
 }
 isolated  function testArchiveACall() returns error? {
