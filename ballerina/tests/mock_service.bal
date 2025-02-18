@@ -16,6 +16,8 @@
 
 import ballerina/http;
 
+isolated int[] call_ids = [];
+
 service on new http:Listener(9090) {
     // batch
 
@@ -28,13 +30,15 @@ service on new http:Listener(9090) {
                 {
                     id: "76533404406",
                     properties: {
-                        "property_date": "1572480000000",
-                        "property_radio": "option_1",
-                        "property_number": "17",
-                        "property_string": "value",
-                        "property_checkbox": "false",
-                        "property_dropdown": "choice_b",
-                        "property_multiple_checkboxes": "chocolate;strawberry"
+                        "hs_timestamp": "2025-02-17T01:32:44.872Z",
+                        "hs_call_title": "Support call",
+                        "hubspot_owner_id": hs_owner_id,
+                        "hs_call_body": "Resolved issue",
+                        "hs_call_duration": "3800",
+                        "hs_call_from_number": "(857) 829 5489",
+                        "hs_call_to_number": "(509) 999 9999",
+                        "hs_call_recording_url": "example.com/recordings/abc",
+                        "hs_call_status": "COMPLETED"
                     },
                     propertiesWithHistory: {
                         "additionalProp1": [
@@ -48,16 +52,6 @@ service on new http:Listener(9090) {
                             }
                         ],
                         "additionalProp2": [
-                            {
-                                "sourceId": "string",
-                                "sourceType": "string",
-                                "sourceLabel": "string",
-                                "updatedByUserId": 0,
-                                "value": "string",
-                                "timestamp": "2025-02-17T04:04:47.720Z"
-                            }
-                        ],
-                        "additionalProp3": [
                             {
                                 "sourceId": "string",
                                 "sourceType": "string",
@@ -108,36 +102,18 @@ service on new http:Listener(9090) {
                 {
                     id: "76533404406",
                     properties: {
-                        "property_date": "1572480000000",
-                        "property_radio": "option_1",
-                        "property_number": "17",
-                        "property_string": "value",
-                        "property_checkbox": "false",
-                        "property_dropdown": "choice_b",
-                        "property_multiple_checkboxes": "chocolate;strawberry"
+                        "hs_timestamp": "2025-02-17T01:32:44.872Z",
+                        "hs_call_title": "Support call",
+                        "hubspot_owner_id": hs_owner_id,
+                        "hs_call_body": "Resolved issue",
+                        "hs_call_duration": "3800",
+                        "hs_call_from_number": "(857) 829 5489",
+                        "hs_call_to_number": "(509) 999 9999",
+                        "hs_call_recording_url": "example.com/recordings/abc",
+                        "hs_call_status": "COMPLETED"
                     },
                     propertiesWithHistory: {
                         "additionalProp1": [
-                            {
-                                "sourceId": "string",
-                                "sourceType": "string",
-                                "sourceLabel": "string",
-                                "updatedByUserId": 0,
-                                "value": "string",
-                                "timestamp": "2025-02-17T04:04:47.720Z"
-                            }
-                        ],
-                        "additionalProp2": [
-                            {
-                                "sourceId": "string",
-                                "sourceType": "string",
-                                "sourceLabel": "string",
-                                "updatedByUserId": 0,
-                                "value": "string",
-                                "timestamp": "2025-02-17T04:04:47.720Z"
-                            }
-                        ],
-                        "additionalProp3": [
                             {
                                 "sourceId": "string",
                                 "sourceType": "string",
@@ -155,10 +131,15 @@ service on new http:Listener(9090) {
                 {
                     "id": "76604609216",
                     "properties": {
+                        "hs_timestamp": "2025-02-17T01:32:44.872Z",
                         "hs_call_title": "Support call",
-                        "hs_createdate": "2025-02-14T09:37:01.763Z",
-                        "hs_lastmodifieddate": "2025-02-14T09:37:02.094Z",
-                        "hs_object_id": "76604609216"
+                        "hubspot_owner_id": hs_owner_id,
+                        "hs_call_body": "Resolved issue",
+                        "hs_call_duration": "3800",
+                        "hs_call_from_number": "(857) 829 5489",
+                        "hs_call_to_number": "(509) 999 9999",
+                        "hs_call_recording_url": "example.com/recordings/abc",
+                        "hs_call_status": "COMPLETED"
                     },
                     "propertiesWithHistory": {
                         "hs_call_status": [
@@ -189,7 +170,7 @@ service on new http:Listener(9090) {
         return response;
     }
 
-    resource function post batch/update(BatchInputSimplePublicObjectBatchInput payload) returns BatchResponseSimplePublicObject {
+    resource function post batch/update(BatchInputSimplePublicObjectBatchInput payload) returns BatchResponseSimplePublicObject {        
         BatchResponseSimplePublicObject response = {
             status: "COMPLETE",
             startedAt: "2025-02-17T04:27:38.081Z",
@@ -197,49 +178,38 @@ service on new http:Listener(9090) {
             results: [
                 {
                     id: "76533404406",
-                    properties: {
-                        "property_date": "1572480000000",
-                        "property_radio": "option_1",
-                        "property_number": "17",
-                        "property_string": "value",
-                        "property_checkbox": "false",
-                        "property_dropdown": "choice_b",
-                        "property_multiple_checkboxes": "chocolate;strawberry"
-                    },
+                    properties: payload.inputs[0].properties,
                     propertiesWithHistory: {
-                            "additionalProp1": [
+                        "additionalProp1": [
                             {
                                 "sourceId": "string",
                                 "sourceType": "string",
                                 "sourceLabel": "string",
                                 "updatedByUserId": 0,
                                 "value": "string",
-                                "timestamp": "2025-02-17T04:04:47.733Z"
-                            }
-                        ],
-                        "additionalProp2": [
-                            {
-                                "sourceId": "string",
-                                "sourceType": "string",
-                                "sourceLabel": "string",
-                                "updatedByUserId": 0,
-                                "value": "string",
-                                "timestamp": "2025-02-17T04:04:47.733Z"
-                            }
-                        ],
-                        "additionalProp3": [
-                            {
-                                "sourceId": "string",
-                                "sourceType": "string",
-                                "sourceLabel": "string",
-                                "updatedByUserId": 0,
-                                "value": "string",
-                                "timestamp": "2025-02-17T04:04:47.733Z"
+                                "timestamp": "2025-02-17T04:04:47.720Z"
                             }
                         ]
                     },
                     createdAt: "2025-02-14T09:40:49.438Z",
                     updatedAt: "2025-02-14T09:40:49.785Z",
+                    archived: false
+                },
+                {
+                    id: "76604609216",
+                    properties: payload.inputs[1].properties,
+                    propertiesWithHistory: {
+                        "hs_call_status": [
+                            {
+                                "value": "COMPLETED",
+                                "timestamp": "2025-02-14T09:37:01.763Z",
+                                "sourceType": "INTEGRATION",
+                                "sourceId": "8111608"
+                            }
+                        ]
+                    },
+                    createdAt: "2025-02-14T09:37:01.763Z",
+                    updatedAt: "2025-02-14T09:37:02.094Z",
                     archived: false
                 }
             ]
@@ -305,7 +275,24 @@ service on new http:Listener(9090) {
 
     // basic
 
-    resource function get [string callId](http:Request req) returns SimplePublicObjectWithAssociations {
+    resource function get [string callId](http:Request req) returns SimplePublicObjectWithAssociations|http:Response|error {
+        int id = 0;
+        lock {
+            // find the id from the call_ids array  
+            foreach var i in call_ids {
+                if i.toString() == callId {
+                    id = i;
+                    break;
+                }
+            }  
+        }
+        if id == 0 { 
+            http:Response response = new;
+            response.statusCode = http:STATUS_NOT_FOUND;
+            response.setPayload({"error": "Call ID not found"});
+            return response;
+        }
+
         SimplePublicObjectWithAssociations response = {
             id: callId,
             properties: {
@@ -332,12 +319,54 @@ service on new http:Listener(9090) {
     }
 
     resource function delete [string callId](http:Request req) returns http:Response {
+        int id = 0;
+        
         http:Response response = new;
-        response.statusCode = http:STATUS_NO_CONTENT;
+        lock {
+            // find the id from the call_ids array
+            foreach var i in call_ids {
+                if i.toString() == callId {
+                    id = i;
+                    response.statusCode = 204;
+                    _ = call_ids.remove(i);
+                    break;
+                }
+            }
+        }
+
+        if id == 0 {
+            response.statusCode = 404;
+        } 
+        
         return response;
     }
 
-    resource function patch [string callId](SimplePublicObjectInput payload) returns SimplePublicObject {
+    resource function patch [string callId](SimplePublicObjectInput payload) returns SimplePublicObject|http:Response|error {
+        int id = 0;
+        lock {
+            // find the id from the call_ids array
+            foreach var i in call_ids {
+                if i.toString() == callId {
+                    id = i;
+                    break;
+                }
+            }  
+        }
+
+        if id == 0 { 
+            http:Response response = new;
+            response.statusCode = http:STATUS_NOT_FOUND;
+            return response;
+        }
+
+        // validate the hs_call_status
+        if payload.properties["hs_call_status"] != "COMPLETED" {
+            http:Response response = new;
+            response.statusCode = http:STATUS_BAD_REQUEST;
+            response.setPayload({"error": "Invalid hs_call_status"});
+            return response;
+        }
+
         SimplePublicObject response = {
             id: callId,
             properties: payload.properties,
@@ -389,14 +418,32 @@ service on new http:Listener(9090) {
         return response;
     }
 
-    resource function post .(SimplePublicObjectInputForCreate payload) returns SimplePublicObject {
+    resource function post .(SimplePublicObjectInputForCreate payload) returns SimplePublicObject|http:Response|error {
+        int callId = getMaximumCallId() + 1;
+
+        // valid association types
+        foreach PublicAssociationsForObject item in payload.associations {
+            foreach AssociationSpec ass_type in item.types {
+                var x = ass_type.associationTypeId;
+                
+                if x !is 194 && x !is 182 {
+                    http:Response response = new;
+                    response.statusCode = 400;
+                    return response;
+                }
+            }
+        }
+        
         SimplePublicObject response = {
-            id: "new_call_id",
+            id: callId.toString(),
             properties: payload.properties,
             createdAt: "2025-02-14T09:37:01.763Z",
             updatedAt: "2025-02-14T09:37:02.094Z",
             archived: false
         };
+        lock {
+            call_ids.push(callId);
+        }
         return response;
     }
 
@@ -443,4 +490,16 @@ service on new http:Listener(9090) {
         };
         return response;
     }
+}
+
+function getMaximumCallId() returns int {
+    int max = 0;
+    lock {
+	    foreach var id in call_ids {
+	        if id > max {
+	            max = id;
+	        }
+	    }
+    }
+    return max;
 }
