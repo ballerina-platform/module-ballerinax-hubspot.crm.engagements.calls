@@ -15,17 +15,15 @@
 // under the License.
 
 import ballerina/oauth2;
-import ballerina/os;
 import ballerina/test;
 import ballerina/http;
 
-final boolean isLiveServer = os:getEnv("IS_LIVE_SERVER") == "true";
+configurable boolean isLiveServer = ?;
+configurable string clientId = ?;
+configurable string clientSecret = ?;
+configurable string refreshToken = ?;
+
 final string serviceUrl = isLiveServer ? "https://api.hubapi.com/crm/v3/objects/calls" : "http://localhost:9090";
-
-final string clientId = os:getEnv("HUBSPOT_CLIENT_ID");
-final string clientSecret = os:getEnv("HUBSPOT_CLIENT_SECRET");
-final string refreshToken = os:getEnv("HUBSPOT_REFRESH_TOKEN");
-
 final Client hubSpotClient = check initClient();
 
 isolated function initClient() returns Client|error {
