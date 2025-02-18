@@ -19,8 +19,6 @@ import ballerina/http;
 isolated int[] call_ids = [];
 
 service on new http:Listener(9090) {
-    // batch
-
     resource function post batch/read(BatchReadInputSimplePublicObjectId payload) returns BatchResponseSimplePublicObject{
         BatchResponseSimplePublicObject response = {
             status: "COMPLETE",
