@@ -17,8 +17,6 @@
 import ballerina/http;
 
 service on new http:Listener(9090) {
-    // batch
-
     resource function post batch/read(BatchReadInputSimplePublicObjectId payload) returns BatchResponseSimplePublicObject{
         BatchResponseSimplePublicObject response = {
             status: "COMPLETE",
@@ -303,8 +301,6 @@ service on new http:Listener(9090) {
         return response;
     }
 
-    // basic
-
     resource function get [string callId](http:Request req) returns SimplePublicObjectWithAssociations {
         SimplePublicObjectWithAssociations response = {
             id: callId,
@@ -399,8 +395,6 @@ service on new http:Listener(9090) {
         };
         return response;
     }
-
-    // search
 
     resource function post search(PublicObjectSearchRequest payload) returns CollectionResponseWithTotalSimplePublicObjectForwardPaging {
         CollectionResponseWithTotalSimplePublicObjectForwardPaging response = {
