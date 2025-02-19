@@ -1,0 +1,14 @@
+[package]
+org = "isuranga_sandun"
+name = "Call_For_Contact"
+version = "0.1.0"
+distribution = "2201.11.0"
+
+[build-options]
+observabilityIncluded = true
+
+[[dependency]]
+org = "ballerinax"
+name = "hubspot.crm.engagements.calls"
+version = "1.0.0"
+repository = "local"
