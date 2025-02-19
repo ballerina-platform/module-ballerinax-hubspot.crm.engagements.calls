@@ -14,9 +14,9 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import ballerina/http;
 import ballerina/oauth2;
 import ballerina/test;
-import ballerina/http;
 
 configurable boolean isLiveServer = ?;
 configurable string clientId = ?;
@@ -68,11 +68,11 @@ isolated function testPostACall() returns error? {
             "hs_call_status": "COMPLETED"
         },
         "associations": [
-        {
-            "types": [
-                {
-                    "associationCategory": "HUBSPOT_DEFINED",
-                    "associationTypeId": hs_association_type_id
+            {
+                "types": [
+                    {
+                        "associationCategory": "HUBSPOT_DEFINED",
+                        "associationTypeId": hs_association_type_id
                     }
                 ],
                 "to": {
@@ -108,11 +108,11 @@ isolated function testPostACall_Negative() returns error? {
             "hs_call_status": "COMPLETED"
         },
         "associations": [
-        {
-            "types": [
-                {
-                    "associationCategory": "HUBSPOT_DEFINED",
-                    "associationTypeId": 75 // Invalid associationTypeId to trigger an error
+            {
+                "types": [
+                    {
+                        "associationCategory": "HUBSPOT_DEFINED",
+                        "associationTypeId": 75 // Invalid associationTypeId to trigger an error
                     }
                 ],
                 "to": {
@@ -147,7 +147,7 @@ isolated function testGetACallById() returns error? {
     lock {
         call_id = hs_call_id;
     }
-    
+
     SimplePublicObject response = check hubSpotClient->/[call_id].get();
     test:assertTrue(response.id == call_id, "Call id mismatch");
 }
@@ -159,10 +159,10 @@ isolated function testGetACallById() returns error? {
 }
 isolated function testGetACallById_Negative() returns error? {
     string call_id = "invalid_call_id";
-    
+
     SimplePublicObject|error response = hubSpotClient->/[call_id].get();
 
-    test:assertTrue(response is error, "Call is not archived"); 
+    test:assertTrue(response is error, "Call is not archived");
 }
 
 // Test: Search calls
@@ -189,7 +189,7 @@ isolated function testSearchCalls() returns error? {
     };
 
     CollectionResponseWithTotalSimplePublicObjectForwardPaging response = check hubSpotClient->/search.post(payload);
-    
+
     test:assertTrue(response.results.length() > 0, "No calls found");
 }
 
@@ -251,7 +251,7 @@ isolated function testUpdateACall() returns error? {
 
     if response is SimplePublicObject {
         test:assertTrue(response.properties["hs_call_body"] == "Resolved issue: updated", "Call body is not updated");
-    } else{
+    } else {
         test:assertTrue(false, "Response is not in correct type");
     }
 }
@@ -291,14 +291,14 @@ isolated function testUpdateACall_Negative() returns error? {
     dependsOn: [testUpdateACall, testPostACall],
     groups: ["live_tests", "mock_tests"]
 }
-isolated  function testArchiveACall() returns error? {
+isolated function testArchiveACall() returns error? {
     string call_id = "";
     lock {
         call_id = hs_call_id;
     }
-    
+
     http:Response response = check hubSpotClient->/[call_id].delete();
-    
+
     test:assertTrue(response.statusCode == 204, "Call deletion failed");
 }
 
@@ -320,13 +320,13 @@ isolated function testBatchCreateCalls() returns error? {
                     "hs_call_to_number": "(509) 999 9999",
                     "hs_call_recording_url": "example.com/recordings/abc1",
                     "hs_call_status": "COMPLETED"
-                }, 
+                },
                 "associations": [
-                {
-                    "types": [
-                        {
-                            "associationCategory": "HUBSPOT_DEFINED",
-                            "associationTypeId": hs_association_type_id
+                    {
+                        "types": [
+                            {
+                                "associationCategory": "HUBSPOT_DEFINED",
+                                "associationTypeId": hs_association_type_id
                             }
                         ],
                         "to": {
@@ -348,11 +348,11 @@ isolated function testBatchCreateCalls() returns error? {
                     "hs_call_status": "COMPLETED"
                 },
                 "associations": [
-                {
-                    "types": [
-                        {
-                            "associationCategory": "HUBSPOT_DEFINED",
-                            "associationTypeId": hs_association_type_id
+                    {
+                        "types": [
+                            {
+                                "associationCategory": "HUBSPOT_DEFINED",
+                                "associationTypeId": hs_association_type_id
                             }
                         ],
                         "to": {
@@ -373,7 +373,7 @@ isolated function testBatchCreateCalls() returns error? {
     }
 
     lock {
-        var ids = response.cloneReadOnly().results.map(isolated function (SimplePublicObject result) returns string {
+        var ids = response.cloneReadOnly().results.map(isolated function(SimplePublicObject result) returns string {
             return result.id;
         });
 
@@ -393,8 +393,8 @@ isolated function testBatchReadCalls() returns error? {
     }
 
     BatchReadInputSimplePublicObjectId payload = {
-        inputs: callIds.map(isolated function (string id) returns SimplePublicObjectId {
-            return { "id": id };
+        inputs: callIds.map(isolated function(string id) returns SimplePublicObjectId {
+            return {"id": id};
         }),
         properties: [
             "hs_createdate",
@@ -422,7 +422,7 @@ isolated function testBatchUpdateCalls() returns error? {
     }
 
     BatchInputSimplePublicObjectBatchInput payload = {
-        inputs: callIds.map(isolated function (string id) returns SimplePublicObjectBatchInput {
+        inputs: callIds.map(isolated function(string id) returns SimplePublicObjectBatchInput {
             return {
                 id: id,
                 properties: {
@@ -433,7 +433,7 @@ isolated function testBatchUpdateCalls() returns error? {
     };
 
     BatchResponseSimplePublicObject response = check hubSpotClient->/batch/update.post(payload);
-    
+
     test:assertTrue(response.results.length() == callIds.length(), "Batch update did not return expected number of results");
 
     foreach var result in response.results {
@@ -453,8 +453,8 @@ isolated function testBatchArchiveCalls() returns error? {
     }
 
     BatchReadInputSimplePublicObjectId payload = {
-        inputs: callIds.map(isolated function (string id) returns SimplePublicObjectId {
-            return { "id": id };
+        inputs: callIds.map(isolated function(string id) returns SimplePublicObjectId {
+            return {"id": id};
         }),
         properties: [
             "hs_createdate",
@@ -466,6 +466,6 @@ isolated function testBatchArchiveCalls() returns error? {
     };
 
     http:Response response = check hubSpotClient->/batch/archive.post(payload);
-   
+
     test:assertTrue(response.statusCode == 204, "Batch archive failed");
 }

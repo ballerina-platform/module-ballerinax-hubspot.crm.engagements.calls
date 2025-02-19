@@ -19,7 +19,7 @@ import ballerina/http;
 isolated int[] call_ids = [];
 
 service on new http:Listener(9090) {
-    resource function post batch/read(BatchReadInputSimplePublicObjectId payload) returns BatchResponseSimplePublicObject{
+    resource function post batch/read(BatchReadInputSimplePublicObjectId payload) returns BatchResponseSimplePublicObject {
         BatchResponseSimplePublicObject response = {
             status: "COMPLETE",
             startedAt: "2025-02-17T04:27:38.081Z",
@@ -168,7 +168,7 @@ service on new http:Listener(9090) {
         return response;
     }
 
-    resource function post batch/update(BatchInputSimplePublicObjectBatchInput payload) returns BatchResponseSimplePublicObject {        
+    resource function post batch/update(BatchInputSimplePublicObjectBatchInput payload) returns BatchResponseSimplePublicObject {
         BatchResponseSimplePublicObject response = {
             status: "COMPLETE",
             startedAt: "2025-02-17T04:27:38.081Z",
@@ -228,34 +228,34 @@ service on new http:Listener(9090) {
                     "new": true,
                     "propertiesWithHistory": {
                         "additionalProp1": [
-                        {
-                            "sourceId": "string",
-                            "sourceType": "string",
-                            "sourceLabel": "string",
-                            "updatedByUserId": 0,
-                            "value": "string",
-                            "timestamp": "2025-02-17T04:04:47.711Z"
-                        }
+                            {
+                                "sourceId": "string",
+                                "sourceType": "string",
+                                "sourceLabel": "string",
+                                "updatedByUserId": 0,
+                                "value": "string",
+                                "timestamp": "2025-02-17T04:04:47.711Z"
+                            }
                         ],
                         "additionalProp2": [
-                        {
-                            "sourceId": "string",
-                            "sourceType": "string",
-                            "sourceLabel": "string",
-                            "updatedByUserId": 0,
-                            "value": "string",
-                            "timestamp": "2025-02-17T04:04:47.711Z"
-                        }
+                            {
+                                "sourceId": "string",
+                                "sourceType": "string",
+                                "sourceLabel": "string",
+                                "updatedByUserId": 0,
+                                "value": "string",
+                                "timestamp": "2025-02-17T04:04:47.711Z"
+                            }
                         ],
                         "additionalProp3": [
-                        {
-                            "sourceId": "string",
-                            "sourceType": "string",
-                            "sourceLabel": "string",
-                            "updatedByUserId": 0,
-                            "value": "string",
-                            "timestamp": "2025-02-17T04:04:47.711Z"
-                        }
+                            {
+                                "sourceId": "string",
+                                "sourceType": "string",
+                                "sourceLabel": "string",
+                                "updatedByUserId": 0,
+                                "value": "string",
+                                "timestamp": "2025-02-17T04:04:47.711Z"
+                            }
                         ]
                     },
                     "id": "string",
@@ -280,9 +280,9 @@ service on new http:Listener(9090) {
                     id = i;
                     break;
                 }
-            }  
+            }
         }
-        if id == 0 { 
+        if id == 0 {
             http:Response response = new;
             response.statusCode = http:STATUS_NOT_FOUND;
             response.setPayload({"error": "Call ID not found"});
@@ -316,7 +316,7 @@ service on new http:Listener(9090) {
 
     resource function delete [string callId](http:Request req) returns http:Response {
         int id = 0;
-        
+
         http:Response response = new;
         lock {
             // find the id from the call_ids array
@@ -332,8 +332,8 @@ service on new http:Listener(9090) {
 
         if id == 0 {
             response.statusCode = 404;
-        } 
-        
+        }
+
         return response;
     }
 
@@ -346,10 +346,10 @@ service on new http:Listener(9090) {
                     id = i;
                     break;
                 }
-            }  
+            }
         }
 
-        if id == 0 { 
+        if id == 0 {
             http:Response response = new;
             response.statusCode = http:STATUS_NOT_FOUND;
             return response;
@@ -421,7 +421,7 @@ service on new http:Listener(9090) {
         foreach PublicAssociationsForObject item in payload.associations {
             foreach AssociationSpec ass_type in item.types {
                 var x = ass_type.associationTypeId;
-                
+
                 if x !is 194 && x !is 182 {
                     http:Response response = new;
                     response.statusCode = 400;
@@ -429,7 +429,7 @@ service on new http:Listener(9090) {
                 }
             }
         }
-        
+
         SimplePublicObject response = {
             id: callId.toString(),
             properties: payload.properties,
@@ -489,11 +489,11 @@ service on new http:Listener(9090) {
 function getMaximumCallId() returns int {
     int max = 0;
     lock {
-	    foreach var id in call_ids {
-	        if id > max {
-	            max = id;
-	        }
-	    }
+        foreach var id in call_ids {
+            if id > max {
+                max = id;
+            }
+        }
     }
     return max;
 }
