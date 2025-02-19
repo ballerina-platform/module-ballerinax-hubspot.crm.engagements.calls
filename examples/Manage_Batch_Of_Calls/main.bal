@@ -1,0 +1,162 @@
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
+//
+// WSO2 LLC. licenses this file to you under the Apache License,
+// Version 2.0 (the "License"); you may not use this file except
+// in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
+
+import ballerina/io;
+import ballerina/oauth2;
+import ballerinax/hubspot.crm.engagements.calls as hs_calls;
+import ballerina/http;
+
+// Variables required for authentication
+configurable string clientId = ?;
+configurable string clientSecret = ?;
+configurable string refreshToken = ?;
+
+// example IDs for testing
+final string ownerId = "77367788";
+final string contactId = "83829237490";
+
+hs_calls:OAuth2RefreshTokenGrantConfig auth = {
+    clientId,
+    clientSecret,
+    refreshToken,
+    credentialBearer: oauth2:POST_BODY_BEARER
+};
+final hs_calls:Client hubspotClientCalls = check new ({auth});
+
+public function main() returns error? {
+    // Batch create calls
+    io:println("Batch creating calls...");
+
+    hs_calls:BatchInputSimplePublicObjectInputForCreate payloadCreate = {
+        inputs: [
+            {
+                properties: {
+                    "hs_timestamp": "2025-02-17T01:32:44.872Z",
+                    "hs_call_title": "Support call 1",
+                    "hubspot_owner_id": ownerId,
+                    "hs_call_body": "Resolved issue 1",
+                    "hs_call_duration": "3800",
+                    "hs_call_from_number": "(857) 829 5489",
+                    "hs_call_to_number": "(509) 999 9999",
+                    "hs_call_recording_url": "example.com/recordings/abc1",
+                    "hs_call_status": "COMPLETED"
+                },
+                "associations": [
+                    {
+                        "types": [
+                            {
+                                "associationCategory": "HUBSPOT_DEFINED",
+                                "associationTypeId": 194
+                            }
+                        ],
+                        "to": {
+                            "id": contactId
+                        }
+                    }
+                ]
+            },
+            {
+                properties: {
+                    "hs_timestamp": "2025-02-17T01:32:44.872Z",
+                    "hs_call_title": "Support call 2",
+                    "hubspot_owner_id": ownerId,
+                    "hs_call_body": "Resolved issue 2",
+                    "hs_call_duration": "3800",
+                    "hs_call_from_number": "(857) 829 5489",
+                    "hs_call_to_number": "(509) 999 9999",
+                    "hs_call_recording_url": "example.com/recordings/abc2",
+                    "hs_call_status": "COMPLETED"
+                },
+                "associations": [
+                    {
+                        "types": [
+                            {
+                                "associationCategory": "HUBSPOT_DEFINED",
+                                "associationTypeId": 194
+                            }
+                        ],
+                        "to": {
+                            "id": contactId
+                        }
+                    }
+                ]
+            }
+        ]
+    };
+
+    hs_calls:BatchResponseSimplePublicObject responseCreate = check hubspotClientCalls->/batch/create.post(payloadCreate);
+    io:println("Batch create response: ", responseCreate);
+
+    // Extract call IDs for further operations
+    string[] callIds = responseCreate.results.map(function (hs_calls:SimplePublicObject obj) returns string {
+        return obj.id;
+    });
+
+    // Batch read calls
+    io:println("\nBatch reading calls...");
+
+    hs_calls:BatchReadInputSimplePublicObjectId payloadRead = {
+        inputs: callIds.map(function (string id) returns hs_calls:SimplePublicObjectId {
+            return { "id": id };
+        }),
+        properties: [
+            "hs_createdate",
+            "hs_call_title"
+        ],
+        propertiesWithHistory: [
+            "hs_call_status"
+        ]
+    };
+
+    hs_calls:BatchResponseSimplePublicObject responseRead = check hubspotClientCalls->/batch/read.post(payloadRead);
+    io:println("Batch read response: ", responseRead);
+
+    // Batch update calls
+    io:println("\nBatch updating calls...");
+
+    hs_calls:BatchInputSimplePublicObjectBatchInput payloadUpdate = {
+        inputs: callIds.map(function (string id) returns hs_calls:SimplePublicObjectBatchInput {
+            return {
+                id: id,
+                properties: {
+                    "hs_call_body": "Updated call body"
+                }
+            };
+        })
+    };
+
+    hs_calls:BatchResponseSimplePublicObject responseUpdate = check hubspotClientCalls->/batch/update.post(payloadUpdate);
+    io:println("Batch update response: ", responseUpdate);
+
+    // Batch archive calls
+    io:println("\nBatch archiving calls...");
+
+    hs_calls:BatchReadInputSimplePublicObjectId payloadArchive = {
+        inputs: callIds.map(function (string id) returns hs_calls:SimplePublicObjectId {
+            return { id: id };
+        }),
+        properties: [
+            "hs_createdate",
+            "hs_call_title"
+        ],
+        propertiesWithHistory: [
+            "hs_call_status"
+        ]
+    };
+
+    http:Response responseArchive = check hubspotClientCalls->/batch/archive.post(payloadArchive);
+    io:println("Batch archive response status code: ", responseArchive.statusCode);
+}
