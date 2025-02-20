@@ -299,7 +299,7 @@ isolated function testArchiveACall() returns error? {
 
     http:Response response = check hubSpotClient->/[call_id].delete();
 
-    test:assertTrue(response.statusCode == 204, "Call deletion failed");
+    test:assertEquals(response.statusCode, 204, "Call deletion failed");
 }
 
 // Test: Create a batch of calls
@@ -467,5 +467,5 @@ isolated function testBatchArchiveCalls() returns error? {
 
     http:Response response = check hubSpotClient->/batch/archive.post(payload);
 
-    test:assertTrue(response.statusCode == 204, "Batch archive failed");
+    test:assertEquals(response.statusCode, 204, "Batch archive failed");
 }
