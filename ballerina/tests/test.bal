@@ -56,7 +56,7 @@ isolated string[] hs_batch_call_ids = [];
 }
 isolated function testPostACall() returns error? {
     SimplePublicObjectInputForCreate payload = {
-        "properties": {
+        properties: {
             "hs_timestamp": "2025-02-17T01:32:44.872Z",
             "hs_call_title": "Support call",
             "hubspot_owner_id": hs_owner_id,
@@ -67,16 +67,16 @@ isolated function testPostACall() returns error? {
             "hs_call_recording_url": "example.com/recordings/abc",
             "hs_call_status": "COMPLETED"
         },
-        "associations": [
+        associations: [
             {
-                "types": [
+                types: [
                     {
-                        "associationCategory": "HUBSPOT_DEFINED",
-                        "associationTypeId": hs_association_type_id
+                        associationCategory: "HUBSPOT_DEFINED",
+                        associationTypeId: hs_association_type_id
                     }
                 ],
-                "to": {
-                    "id": hs_object_id
+                to: {
+                    id: hs_object_id
                 }
             }
         ]
@@ -96,7 +96,7 @@ isolated function testPostACall() returns error? {
 }
 isolated function testPostACall_Negative() returns error? {
     SimplePublicObjectInputForCreate payload = {
-        "properties": {
+        properties: {
             "hs_timestamp": "2025-02-17T01:32:44.872Z",
             "hs_call_title": "Support call",
             "hubspot_owner_id": hs_owner_id,
@@ -107,16 +107,16 @@ isolated function testPostACall_Negative() returns error? {
             "hs_call_recording_url": "example.com/recordings/abc",
             "hs_call_status": "COMPLETED"
         },
-        "associations": [
+        associations: [
             {
-                "types": [
+                types: [
                     {
-                        "associationCategory": "HUBSPOT_DEFINED",
-                        "associationTypeId": 75 // Invalid associationTypeId to trigger an error
+                        associationCategory: "HUBSPOT_DEFINED",
+                        associationTypeId: 75 // Invalid associationTypeId to trigger an error
                     }
                 ],
-                "to": {
-                    "id": hs_object_id
+                to: {
+                    id: hs_object_id
                 }
             }
         ]
@@ -234,7 +234,7 @@ isolated function testUpdateACall() returns error? {
     }
 
     SimplePublicObjectInput payload = {
-        "properties": {
+        properties: {
             "hs_timestamp": "2025-02-17T01:32:44.872Z",
             "hs_call_title": "Support call",
             "hubspot_owner_id": hs_owner_id,
@@ -268,7 +268,7 @@ isolated function testUpdateACall_Negative() returns error? {
     }
 
     SimplePublicObjectInput payload = {
-        "properties": {
+        properties: {
             "hs_timestamp": "2025-02-17T01:32:44.872Z",
             "hs_call_title": "Support call",
             "hubspot_owner_id": hs_owner_id,
@@ -321,16 +321,16 @@ isolated function testBatchCreateCalls() returns error? {
                     "hs_call_recording_url": "example.com/recordings/abc1",
                     "hs_call_status": "COMPLETED"
                 },
-                "associations": [
+                associations: [
                     {
-                        "types": [
+                        types: [
                             {
-                                "associationCategory": "HUBSPOT_DEFINED",
-                                "associationTypeId": hs_association_type_id
+                                associationCategory: "HUBSPOT_DEFINED",
+                                associationTypeId: hs_association_type_id
                             }
                         ],
-                        "to": {
-                            "id": hs_object_id
+                        to: {
+                            id: hs_object_id
                         }
                     }
                 ]
@@ -347,16 +347,16 @@ isolated function testBatchCreateCalls() returns error? {
                     "hs_call_recording_url": "example.com/recordings/abc2",
                     "hs_call_status": "COMPLETED"
                 },
-                "associations": [
+                associations: [
                     {
-                        "types": [
+                        types: [
                             {
-                                "associationCategory": "HUBSPOT_DEFINED",
-                                "associationTypeId": hs_association_type_id
+                                associationCategory: "HUBSPOT_DEFINED",
+                                associationTypeId: hs_association_type_id
                             }
                         ],
-                        "to": {
-                            "id": hs_object_id
+                        to: {
+                            id: hs_object_id
                         }
                     }
                 ]
@@ -394,7 +394,7 @@ isolated function testBatchReadCalls() returns error? {
 
     BatchReadInputSimplePublicObjectId payload = {
         inputs: callIds.map(isolated function(string id) returns SimplePublicObjectId {
-            return {"id": id};
+            return {id: id};
         }),
         properties: [
             "hs_createdate",
@@ -454,7 +454,7 @@ isolated function testBatchArchiveCalls() returns error? {
 
     BatchReadInputSimplePublicObjectId payload = {
         inputs: callIds.map(isolated function(string id) returns SimplePublicObjectId {
-            return {"id": id};
+            return {id: id};
         }),
         properties: [
             "hs_createdate",
