@@ -38,53 +38,28 @@ service on new http:Listener(9090) {
                         "hs_call_recording_url": "example.com/recordings/abc",
                         "hs_call_status": "COMPLETED"
                     },
-                    propertiesWithHistory: {
-                        "additionalProp1": [
-                            {
-                                "sourceId": "string",
-                                "sourceType": "string",
-                                "sourceLabel": "string",
-                                "updatedByUserId": 0,
-                                "value": "string",
-                                "timestamp": "2025-02-17T04:04:47.720Z"
-                            }
-                        ],
-                        "additionalProp2": [
-                            {
-                                "sourceId": "string",
-                                "sourceType": "string",
-                                "sourceLabel": "string",
-                                "updatedByUserId": 0,
-                                "value": "string",
-                                "timestamp": "2025-02-17T04:04:47.720Z"
-                            }
-                        ]
-                    },
+                    propertiesWithHistory: {},
                     createdAt: "2025-02-14T09:40:49.438Z",
                     updatedAt: "2025-02-14T09:40:49.785Z",
                     archived: false
                 },
                 {
-                    "id": "76604609216",
-                    "properties": {
+                    id: "76604609216",
+                    properties: {
+                        "hs_timestamp": "2025-02-17T01:32:44.872Z",
                         "hs_call_title": "Support call",
-                        "hs_createdate": "2025-02-14T09:37:01.763Z",
-                        "hs_lastmodifieddate": "2025-02-14T09:37:02.094Z",
-                        "hs_object_id": "76604609216"
+                        "hubspot_owner_id": hs_owner_id,
+                        "hs_call_body": "Resolved issue",
+                        "hs_call_duration": "3800",
+                        "hs_call_from_number": "(857) 829 5489",
+                        "hs_call_to_number": "(509) 999 9999",
+                        "hs_call_recording_url": "example.com/recordings/abc",
+                        "hs_call_status": "COMPLETED"
                     },
-                    "propertiesWithHistory": {
-                        "hs_call_status": [
-                            {
-                                "value": "COMPLETED",
-                                "timestamp": "2025-02-14T09:37:01.763Z",
-                                "sourceType": "INTEGRATION",
-                                "sourceId": "8111608"
-                            }
-                        ]
-                    },
-                    "createdAt": "2025-02-14T09:37:01.763Z",
-                    "updatedAt": "2025-02-14T09:37:02.094Z",
-                    "archived": false
+                    propertiesWithHistory: {},
+                    createdAt: "2025-02-14T09:37:01.763Z",
+                    updatedAt: "2025-02-14T09:37:02.094Z",
+                    archived: false
                 }
             ]
         };
@@ -110,25 +85,14 @@ service on new http:Listener(9090) {
                         "hs_call_recording_url": "example.com/recordings/abc",
                         "hs_call_status": "COMPLETED"
                     },
-                    propertiesWithHistory: {
-                        "additionalProp1": [
-                            {
-                                "sourceId": "string",
-                                "sourceType": "string",
-                                "sourceLabel": "string",
-                                "updatedByUserId": 0,
-                                "value": "string",
-                                "timestamp": "2025-02-17T04:04:47.720Z"
-                            }
-                        ]
-                    },
+                    propertiesWithHistory: {},
                     createdAt: "2025-02-14T09:40:49.438Z",
                     updatedAt: "2025-02-14T09:40:49.785Z",
                     archived: false
                 },
                 {
-                    "id": "76604609216",
-                    "properties": {
+                    id: "76604609216",
+                    properties: {
                         "hs_timestamp": "2025-02-17T01:32:44.872Z",
                         "hs_call_title": "Support call",
                         "hubspot_owner_id": hs_owner_id,
@@ -139,19 +103,10 @@ service on new http:Listener(9090) {
                         "hs_call_recording_url": "example.com/recordings/abc",
                         "hs_call_status": "COMPLETED"
                     },
-                    "propertiesWithHistory": {
-                        "hs_call_status": [
-                            {
-                                "value": "COMPLETED",
-                                "timestamp": "2025-02-14T09:37:01.763Z",
-                                "sourceType": "INTEGRATION",
-                                "sourceId": "8111608"
-                            }
-                        ]
-                    },
-                    "createdAt": "2025-02-14T09:37:01.763Z",
-                    "updatedAt": "2025-02-14T09:37:02.094Z",
-                    "archived": false
+                    propertiesWithHistory: {},
+                    createdAt: "2025-02-14T09:37:01.763Z",
+                    updatedAt: "2025-02-14T09:37:02.094Z",
+                    archived: false
                 }
             ]
         };
@@ -177,18 +132,7 @@ service on new http:Listener(9090) {
                 {
                     id: "76533404406",
                     properties: payload.inputs[0].properties,
-                    propertiesWithHistory: {
-                        "additionalProp1": [
-                            {
-                                "sourceId": "string",
-                                "sourceType": "string",
-                                "sourceLabel": "string",
-                                "updatedByUserId": 0,
-                                "value": "string",
-                                "timestamp": "2025-02-17T04:04:47.720Z"
-                            }
-                        ]
-                    },
+                    propertiesWithHistory: {},
                     createdAt: "2025-02-14T09:40:49.438Z",
                     updatedAt: "2025-02-14T09:40:49.785Z",
                     archived: false
@@ -196,16 +140,7 @@ service on new http:Listener(9090) {
                 {
                     id: "76604609216",
                     properties: payload.inputs[1].properties,
-                    propertiesWithHistory: {
-                        "hs_call_status": [
-                            {
-                                "value": "COMPLETED",
-                                "timestamp": "2025-02-14T09:37:01.763Z",
-                                "sourceType": "INTEGRATION",
-                                "sourceId": "8111608"
-                            }
-                        ]
-                    },
+                    propertiesWithHistory: {},
                     createdAt: "2025-02-14T09:37:01.763Z",
                     updatedAt: "2025-02-14T09:37:02.094Z",
                     archived: false
@@ -222,49 +157,24 @@ service on new http:Listener(9090) {
             completedAt: "2025-02-17T04:27:38.101Z",
             results: [
                 {
-                    "createdAt": "2025-02-17T04:04:47.711Z",
-                    "archived": true,
-                    "archivedAt": "2025-02-17T04:04:47.711Z",
-                    "new": true,
-                    "propertiesWithHistory": {
-                        "additionalProp1": [
-                            {
-                                "sourceId": "string",
-                                "sourceType": "string",
-                                "sourceLabel": "string",
-                                "updatedByUserId": 0,
-                                "value": "string",
-                                "timestamp": "2025-02-17T04:04:47.711Z"
-                            }
-                        ],
-                        "additionalProp2": [
-                            {
-                                "sourceId": "string",
-                                "sourceType": "string",
-                                "sourceLabel": "string",
-                                "updatedByUserId": 0,
-                                "value": "string",
-                                "timestamp": "2025-02-17T04:04:47.711Z"
-                            }
-                        ],
-                        "additionalProp3": [
-                            {
-                                "sourceId": "string",
-                                "sourceType": "string",
-                                "sourceLabel": "string",
-                                "updatedByUserId": 0,
-                                "value": "string",
-                                "timestamp": "2025-02-17T04:04:47.711Z"
-                            }
-                        ]
+                    createdAt: "2025-02-17T04:04:47.711Z",
+                    archived: true,
+                    archivedAt: "2025-02-17T04:04:47.711Z",
+                    'new: true,
+                    propertiesWithHistory: {},
+                    id: "string",
+                    properties: {
+                        "hs_timestamp": "2025-02-17T01:32:44.872Z",
+                        "hs_call_title": "Support call",
+                        "hubspot_owner_id": hs_owner_id,
+                        "hs_call_body": "Resolved issue",
+                        "hs_call_duration": "3800",
+                        "hs_call_from_number": "(857) 829 5489",
+                        "hs_call_to_number": "(509) 999 9999",
+                        "hs_call_recording_url": "example.com/recordings/abc",
+                        "hs_call_status": "COMPLETED"
                     },
-                    "id": "string",
-                    "properties": {
-                        "additionalProp1": "string",
-                        "additionalProp2": "string",
-                        "additionalProp3": "string"
-                    },
-                    "updatedAt": "2025-02-17T04:04:47.711Z"
+                    updatedAt: "2025-02-17T04:04:47.711Z"
                 }
             ]
         };
@@ -297,16 +207,7 @@ service on new http:Listener(9090) {
                 "hs_lastmodifieddate": "2025-02-14T09:37:02.094Z",
                 "hs_object_id": callId
             },
-            propertiesWithHistory: {
-                "hs_call_status": [
-                    {
-                        "value": "COMPLETED",
-                        "timestamp": "2025-02-14T09:37:01.763Z",
-                        "sourceType": "INTEGRATION",
-                        "sourceId": "8111608"
-                    }
-                ]
-            },
+            propertiesWithHistory: {},
             createdAt: "2025-02-14T09:37:01.763Z",
             updatedAt: "2025-02-14T09:37:02.094Z",
             archived: false
@@ -379,26 +280,17 @@ service on new http:Listener(9090) {
                 {
                     id: "76533404406",
                     properties: {
-                        "property_date": "1572480000000",
-                        "property_radio": "option_1",
-                        "property_number": "17",
-                        "property_string": "value",
-                        "property_checkbox": "false",
-                        "property_dropdown": "choice_b",
-                        "property_multiple_checkboxes": "chocolate;strawberry"
+                        "hs_timestamp": "2025-02-17T01:32:44.872Z",
+                        "hs_call_title": "Support call",
+                        "hubspot_owner_id": hs_owner_id,
+                        "hs_call_body": "Resolved issue",
+                        "hs_call_duration": "3800",
+                        "hs_call_from_number": "(857) 829 5489",
+                        "hs_call_to_number": "(509) 999 9999",
+                        "hs_call_recording_url": "example.com/recordings/abc",
+                        "hs_call_status": "COMPLETED"
                     },
-                    propertiesWithHistory: {
-                        "additionalProp1": [
-                            {
-                                "sourceId": "string",
-                                "sourceType": "string",
-                                "sourceLabel": "string",
-                                "updatedByUserId": 0,
-                                "value": "string",
-                                "timestamp": "2025-02-17T04:04:47.720Z"
-                            }
-                        ]
-                    },
+                    propertiesWithHistory: {},
                     createdAt: "2025-02-14T09:40:49.438Z",
                     updatedAt: "2025-02-14T09:40:49.785Z",
                     archived: false
@@ -449,26 +341,17 @@ service on new http:Listener(9090) {
                 {
                     id: "76533404406",
                     properties: {
-                        "property_date": "1572480000000",
-                        "property_radio": "option_1",
-                        "property_number": "17",
-                        "property_string": "value",
-                        "property_checkbox": "false",
-                        "property_dropdown": "choice_b",
-                        "property_multiple_checkboxes": "chocolate;strawberry"
+                        "hs_timestamp": "2025-02-17T01:32:44.872Z",
+                        "hs_call_title": "Support call",
+                        "hubspot_owner_id": hs_owner_id,
+                        "hs_call_body": "Resolved issue",
+                        "hs_call_duration": "3800",
+                        "hs_call_from_number": "(857) 829 5489",
+                        "hs_call_to_number": "(509) 999 9999",
+                        "hs_call_recording_url": "example.com/recordings/abc",
+                        "hs_call_status": "COMPLETED"
                     },
-                    propertiesWithHistory: {
-                        "additionalProp1": [
-                            {
-                                "sourceId": "string",
-                                "sourceType": "string",
-                                "sourceLabel": "string",
-                                "updatedByUserId": 0,
-                                "value": "string",
-                                "timestamp": "2025-02-17T04:04:47.720Z"
-                            }
-                        ]
-                    },
+                    propertiesWithHistory: {},
                     createdAt: "2025-02-14T09:40:49.438Z",
                     updatedAt: "2025-02-14T09:40:49.785Z",
                     archived: false
