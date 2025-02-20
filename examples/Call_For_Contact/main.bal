@@ -41,7 +41,7 @@ public function main() returns error? {
     io:println("Creating a new call...");
 
     hs_calls:SimplePublicObjectInputForCreate payloadCreate = {
-        "properties": {
+        properties: {
             "hs_timestamp": "2025-02-17T01:32:44.872Z",
             "hs_call_title": "Support call",
             "hubspot_owner_id": ownerId,
@@ -52,16 +52,16 @@ public function main() returns error? {
             "hs_call_recording_url": "example.com/recordings/abc",
             "hs_call_status": "IN_PROGRESS"
         },
-        "associations": [
+        associations: [
         {
-            "types": [
+            types: [
                 {
-                    "associationCategory": "HUBSPOT_DEFINED",
-                    "associationTypeId": 194
+                    associationCategory: "HUBSPOT_DEFINED",
+                    associationTypeId: 194
                     }
                 ],
-                "to": {
-                    "id": contactId
+                to: {
+                    id: contactId
                 }
             }
         ]
@@ -84,7 +84,7 @@ public function main() returns error? {
     io:println("\nUpdating the call...");
 
     hs_calls:SimplePublicObjectInput payloadUpdate = {
-        "properties": {
+        properties: {
             "hs_call_title": "Support call Updated",
             "hs_call_body": "Resolved issue: updated",
             "hs_call_status": "COMPLETED"

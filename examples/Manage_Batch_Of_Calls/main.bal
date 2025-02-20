@@ -54,15 +54,15 @@ public function main() returns error? {
                     "hs_call_recording_url": "example.com/recordings/abc1",
                     "hs_call_status": "COMPLETED"
                 },
-                "associations": [
+                associations: [
                     {
-                        "types": [
+                        types: [
                             {
-                                "associationCategory": "HUBSPOT_DEFINED",
-                                "associationTypeId": 194
+                                associationCategory: "HUBSPOT_DEFINED",
+                                associationTypeId: 194
                             }
                         ],
-                        "to": {
+                        to: {
                             "id": contactId
                         }
                     }
@@ -80,15 +80,15 @@ public function main() returns error? {
                     "hs_call_recording_url": "example.com/recordings/abc2",
                     "hs_call_status": "COMPLETED"
                 },
-                "associations": [
+                associations: [
                     {
-                        "types": [
+                        types: [
                             {
-                                "associationCategory": "HUBSPOT_DEFINED",
-                                "associationTypeId": 194
+                                associationCategory: "HUBSPOT_DEFINED",
+                                associationTypeId: 194
                             }
                         ],
-                        "to": {
+                        to: {
                             "id": contactId
                         }
                     }
