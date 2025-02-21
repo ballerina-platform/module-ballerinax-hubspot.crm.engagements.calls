@@ -14,10 +14,10 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import ballerina/http;
 import ballerina/io;
 import ballerina/oauth2;
 import ballerinax/hubspot.crm.engagements.calls as hs_calls;
-import ballerina/http;
 
 // Variables required for authentication
 configurable string clientId = ?;
@@ -53,11 +53,11 @@ public function main() returns error? {
             "hs_call_status": "IN_PROGRESS"
         },
         associations: [
-        {
-            types: [
-                {
-                    associationCategory: "HUBSPOT_DEFINED",
-                    associationTypeId: 194
+            {
+                types: [
+                    {
+                        associationCategory: "HUBSPOT_DEFINED",
+                        associationTypeId: 194
                     }
                 ],
                 to: {

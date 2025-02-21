@@ -14,10 +14,10 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import ballerina/http;
 import ballerina/io;
 import ballerina/oauth2;
 import ballerinax/hubspot.crm.engagements.calls as hs_calls;
-import ballerina/http;
 
 // Variables required for authentication
 configurable string clientId = ?;
@@ -101,7 +101,7 @@ public function main() returns error? {
     io:println("Batch create response: ", responseCreate);
 
     // Extract call IDs for further operations
-    string[] callIds = responseCreate.results.map(function (hs_calls:SimplePublicObject obj) returns string {
+    string[] callIds = responseCreate.results.map(function(hs_calls:SimplePublicObject obj) returns string {
         return obj.id;
     });
 
@@ -109,8 +109,8 @@ public function main() returns error? {
     io:println("\nBatch reading calls...");
 
     hs_calls:BatchReadInputSimplePublicObjectId payloadRead = {
-        inputs: callIds.map(function (string id) returns hs_calls:SimplePublicObjectId {
-            return { "id": id };
+        inputs: callIds.map(function(string id) returns hs_calls:SimplePublicObjectId {
+            return {"id": id};
         }),
         properties: [
             "hs_createdate",
@@ -128,7 +128,7 @@ public function main() returns error? {
     io:println("\nBatch updating calls...");
 
     hs_calls:BatchInputSimplePublicObjectBatchInput payloadUpdate = {
-        inputs: callIds.map(function (string id) returns hs_calls:SimplePublicObjectBatchInput {
+        inputs: callIds.map(function(string id) returns hs_calls:SimplePublicObjectBatchInput {
             return {
                 id: id,
                 properties: {
@@ -145,8 +145,8 @@ public function main() returns error? {
     io:println("\nBatch archiving calls...");
 
     hs_calls:BatchReadInputSimplePublicObjectId payloadArchive = {
-        inputs: callIds.map(function (string id) returns hs_calls:SimplePublicObjectId {
-            return { id: id };
+        inputs: callIds.map(function(string id) returns hs_calls:SimplePublicObjectId {
+            return {id: id};
         }),
         properties: [
             "hs_createdate",
