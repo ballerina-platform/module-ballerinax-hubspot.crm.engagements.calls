@@ -181,7 +181,7 @@ service on new http:Listener(9090) {
         return response;
     }
 
-    resource function get [string callId](http:Request req) returns SimplePublicObjectWithAssociations|http:Response|error {
+    resource function get [string callId](http:Request req) returns SimplePublicObjectWithAssociations|error {
         string id = "";
         lock {
             // find the id from the callIds array  
@@ -193,10 +193,7 @@ service on new http:Listener(9090) {
             }
         }
         if id == "" {
-            http:Response response = new;
-            response.statusCode = http:STATUS_NOT_FOUND;
-            response.setPayload({"error": "Call ID not found"});
-            return response;
+            return error("Call ID not found");
         }
 
         SimplePublicObjectWithAssociations response = {
@@ -241,7 +238,7 @@ service on new http:Listener(9090) {
         return response;
     }
 
-    resource function patch [string callId](SimplePublicObjectInput payload) returns SimplePublicObject|http:Response|error {
+    resource function patch [string callId](SimplePublicObjectInput payload) returns SimplePublicObject|error {
         string id = "";
         lock {
             // find the id from the callIds array
@@ -254,17 +251,12 @@ service on new http:Listener(9090) {
         }
 
         if id == "" {
-            http:Response response = new;
-            response.statusCode = http:STATUS_NOT_FOUND;
-            return response;
+            return error("Call ID not found");
         }
 
         // validate the hs_call_status
         if payload.properties["hs_call_status"] != "COMPLETED" {
-            http:Response response = new;
-            response.statusCode = http:STATUS_BAD_REQUEST;
-            response.setPayload({"error": "Invalid hs_call_status"});
-            return response;
+            return error("Invalid hs_call_status");
         }
 
         SimplePublicObject response = {
