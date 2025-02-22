@@ -16,7 +16,7 @@
 
 import ballerina/http;
 
-isolated int[] callIds = [];
+isolated string[] callIds = [];
 
 service on new http:Listener(9090) {
     resource function post batch/read(BatchReadInputSimplePublicObjectId payload) returns BatchResponseSimplePublicObject {
@@ -182,17 +182,17 @@ service on new http:Listener(9090) {
     }
 
     resource function get [string callId](http:Request req) returns SimplePublicObjectWithAssociations|http:Response|error {
-        int id = 0;
+        string id = "";
         lock {
             // find the id from the callIds array  
-            foreach var i in callIds {
-                if i.toString() == callId {
+            foreach string i in callIds {
+                if i == callId {
                     id = i;
                     break;
                 }
             }
         }
-        if id == 0 {
+        if id == "" {
             http:Response response = new;
             response.statusCode = http:STATUS_NOT_FOUND;
             response.setPayload({"error": "Call ID not found"});
@@ -216,22 +216,25 @@ service on new http:Listener(9090) {
     }
 
     resource function delete [string callId](http:Request req) returns http:Response {
-        int id = 0;
+        string id = "";
 
         http:Response response = new;
         lock {
             // find the id from the callIds array
-            foreach var i in callIds {
-                if i.toString() == callId {
+            int index = 0;
+            foreach string i in callIds {
+                if i == callId {
                     id = i;
                     response.statusCode = 204;
-                    _ = callIds.remove(i);
+                    // remove the id from the callIds array
+                    _ = callIds.remove(index);
                     break;
                 }
+                index += 1;
             }
         }
 
-        if id == 0 {
+        if id == "0" {
             response.statusCode = 404;
         }
 
@@ -239,18 +242,18 @@ service on new http:Listener(9090) {
     }
 
     resource function patch [string callId](SimplePublicObjectInput payload) returns SimplePublicObject|http:Response|error {
-        int id = 0;
+        string id = "";
         lock {
             // find the id from the callIds array
-            foreach var i in callIds {
-                if i.toString() == callId {
+            foreach string i in callIds {
+                if i == callId {
                     id = i;
                     break;
                 }
             }
         }
 
-        if id == 0 {
+        if id == "" {
             http:Response response = new;
             response.statusCode = http:STATUS_NOT_FOUND;
             return response;
@@ -307,7 +310,7 @@ service on new http:Listener(9090) {
     }
 
     resource function post .(SimplePublicObjectInputForCreate payload) returns SimplePublicObject|http:Response|error {
-        int callId = getMaximumCallId() + 1;
+        string callId = (getMaximumCallId() + 1).toString();
 
         // valid association types
         foreach PublicAssociationsForObject item in payload.associations {
@@ -372,9 +375,10 @@ service on new http:Listener(9090) {
 function getMaximumCallId() returns int {
     int max = 0;
     lock {
-        foreach var id in callIds {
-            if id > max {
-                max = id;
+        foreach string id in callIds {
+            int intId = checkpanic int:fromString(id);
+            if intId > max {
+                max = intId;
             }
         }
     }
