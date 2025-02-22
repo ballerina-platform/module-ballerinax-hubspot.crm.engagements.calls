@@ -46,7 +46,7 @@ generated/
 .DS_Store
 *Ballerina.lock
 .ballerina
-**/Config.toml
+# **/Config.toml
 
 # Ignore Gradle project-specific cache directory
 .gradle
