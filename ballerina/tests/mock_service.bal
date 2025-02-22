@@ -16,7 +16,7 @@
 
 import ballerina/http;
 
-isolated int[] call_ids = [];
+isolated int[] callIds = [];
 
 service on new http:Listener(9090) {
     resource function post batch/read(BatchReadInputSimplePublicObjectId payload) returns BatchResponseSimplePublicObject {
@@ -30,7 +30,7 @@ service on new http:Listener(9090) {
                     properties: {
                         "hs_timestamp": "2025-02-17T01:32:44.872Z",
                         "hs_call_title": "Support call",
-                        "hubspot_owner_id": hs_owner_id,
+                        "hubspot_owner_id": hsOwnerId,
                         "hs_call_body": "Resolved issue",
                         "hs_call_duration": "3800",
                         "hs_call_from_number": "(857) 829 5489",
@@ -48,7 +48,7 @@ service on new http:Listener(9090) {
                     properties: {
                         "hs_timestamp": "2025-02-17T01:32:44.872Z",
                         "hs_call_title": "Support call",
-                        "hubspot_owner_id": hs_owner_id,
+                        "hubspot_owner_id": hsOwnerId,
                         "hs_call_body": "Resolved issue",
                         "hs_call_duration": "3800",
                         "hs_call_from_number": "(857) 829 5489",
@@ -77,7 +77,7 @@ service on new http:Listener(9090) {
                     properties: {
                         "hs_timestamp": "2025-02-17T01:32:44.872Z",
                         "hs_call_title": "Support call",
-                        "hubspot_owner_id": hs_owner_id,
+                        "hubspot_owner_id": hsOwnerId,
                         "hs_call_body": "Resolved issue",
                         "hs_call_duration": "3800",
                         "hs_call_from_number": "(857) 829 5489",
@@ -95,7 +95,7 @@ service on new http:Listener(9090) {
                     properties: {
                         "hs_timestamp": "2025-02-17T01:32:44.872Z",
                         "hs_call_title": "Support call",
-                        "hubspot_owner_id": hs_owner_id,
+                        "hubspot_owner_id": hsOwnerId,
                         "hs_call_body": "Resolved issue",
                         "hs_call_duration": "3800",
                         "hs_call_from_number": "(857) 829 5489",
@@ -166,7 +166,7 @@ service on new http:Listener(9090) {
                     properties: {
                         "hs_timestamp": "2025-02-17T01:32:44.872Z",
                         "hs_call_title": "Support call",
-                        "hubspot_owner_id": hs_owner_id,
+                        "hubspot_owner_id": hsOwnerId,
                         "hs_call_body": "Resolved issue",
                         "hs_call_duration": "3800",
                         "hs_call_from_number": "(857) 829 5489",
@@ -184,8 +184,8 @@ service on new http:Listener(9090) {
     resource function get [string callId](http:Request req) returns SimplePublicObjectWithAssociations|http:Response|error {
         int id = 0;
         lock {
-            // find the id from the call_ids array  
-            foreach var i in call_ids {
+            // find the id from the callIds array  
+            foreach var i in callIds {
                 if i.toString() == callId {
                     id = i;
                     break;
@@ -220,12 +220,12 @@ service on new http:Listener(9090) {
 
         http:Response response = new;
         lock {
-            // find the id from the call_ids array
-            foreach var i in call_ids {
+            // find the id from the callIds array
+            foreach var i in callIds {
                 if i.toString() == callId {
                     id = i;
                     response.statusCode = 204;
-                    _ = call_ids.remove(i);
+                    _ = callIds.remove(i);
                     break;
                 }
             }
@@ -241,8 +241,8 @@ service on new http:Listener(9090) {
     resource function patch [string callId](SimplePublicObjectInput payload) returns SimplePublicObject|http:Response|error {
         int id = 0;
         lock {
-            // find the id from the call_ids array
-            foreach var i in call_ids {
+            // find the id from the callIds array
+            foreach var i in callIds {
                 if i.toString() == callId {
                     id = i;
                     break;
@@ -282,7 +282,7 @@ service on new http:Listener(9090) {
                     properties: {
                         "hs_timestamp": "2025-02-17T01:32:44.872Z",
                         "hs_call_title": "Support call",
-                        "hubspot_owner_id": hs_owner_id,
+                        "hubspot_owner_id": hsOwnerId,
                         "hs_call_body": "Resolved issue",
                         "hs_call_duration": "3800",
                         "hs_call_from_number": "(857) 829 5489",
@@ -330,7 +330,7 @@ service on new http:Listener(9090) {
             archived: false
         };
         lock {
-            call_ids.push(callId);
+            callIds.push(callId);
         }
         return response;
     }
@@ -343,7 +343,7 @@ service on new http:Listener(9090) {
                     properties: {
                         "hs_timestamp": "2025-02-17T01:32:44.872Z",
                         "hs_call_title": "Support call",
-                        "hubspot_owner_id": hs_owner_id,
+                        "hubspot_owner_id": hsOwnerId,
                         "hs_call_body": "Resolved issue",
                         "hs_call_duration": "3800",
                         "hs_call_from_number": "(857) 829 5489",
@@ -372,7 +372,7 @@ service on new http:Listener(9090) {
 function getMaximumCallId() returns int {
     int max = 0;
     lock {
-        foreach var id in call_ids {
+        foreach var id in callIds {
             if id > max {
                 max = id;
             }
