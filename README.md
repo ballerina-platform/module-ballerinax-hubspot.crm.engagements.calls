@@ -18,29 +18,7 @@ If you already have a HubSpot Developer Account, go to the [HubSpot developer po
 
 If you don't have an account, you can sign up for a free account [here](https://developers.hubspot.com/get-started).
 
-### Step 2 (Optional): Create a developer test account under your account
-
-Within app developer accounts, you can create a [Developer Test Account](https://developers.hubspot.com/beta-docs/getting-started/account-types#developer-test-accounts) to test apps and integrations without affecting any real HubSpot data.
-
- > **Note:** These accounts are only for development and testing purposes. In production, you should not use Developer Test Accounts.
-
-1. Go to the `Test accounts` section from the left sidebar.
-
-   ![test_account image](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/main/docs/setup/resources/1_test_account.png)
-
-2. Click on the `Create developer test account` button on the top right corner.
-
-   ![create_test_account image](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/main/docs/setup/resources/2_create_test_account.png)
-
-3. In the pop-up window, provide a name for the test account and click on the `Create` button.
-
-   ![create_account image](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/main/docs/setup/resources/3_create_account.png)
-
-4. You will see the newly created test account in the list of test accounts.
-
-   ![test_account_portal image](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/main/docs/setup/resources/4_test_account_portal.png)
-
-### Step 3: Create a HubSpot app
+### Step 2: Create a HubSpot app
 
 1. Now navigate to the `Apps` section from the left sidebar and click on the `Create app` button on the top right corner.
 
@@ -50,7 +28,7 @@ Within app developer accounts, you can create a [Developer Test Account](https:/
 
    ![app_name_description image](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/main/docs/setup/resources/6_app_name_description.png)
 
-### Step 4: Set up authentication
+### Step 3: Set up authentication
 
 1. Move to the `Auth` tab.
 
@@ -71,13 +49,13 @@ Within app developer accounts, you can create a [Developer Test Account](https:/
 
    ![redirect_url image](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/main/docs/setup/resources/10_redirect_url.png)
 
-### Step 5: Get the client ID and client secret
+### Step 4: Get the client ID and client secret
 
 Navigate to the `Auth` tab and you will see the `Client ID` and `Client Secret` for your app. Make sure to save these values.
 
 ![client_id_secret image](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/main/docs/setup/resources/11_client_id_secret.png)
 
-### Step 6: Set up authentication flow
+### Step 5: Set up authentication flow
 
 Before proceeding with the Quickstart, ensure you have obtained the Access Token using the following steps:
 
@@ -127,6 +105,28 @@ Before proceeding with the Quickstart, ensure you have obtained the Access Token
    ```
 
 5. Store the access token securely for use in your application.
+
+### Step 6 (Optional): Create a developer test account under your account
+
+Within app developer accounts, you can create a [Developer Test Account](https://developers.hubspot.com/beta-docs/getting-started/account-types#developer-test-accounts) to test apps and integrations without affecting any real HubSpot data.
+
+ > **Note:** These accounts are only for development and testing purposes. In production, you should not use Developer Test Accounts.
+
+1. Go to the `Test accounts` section from the left sidebar.
+
+   ![test_account image](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/main/docs/setup/resources/1_test_account.png)
+
+2. Click on the `Create developer test account` button on the top right corner.
+
+   ![create_test_account image](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/main/docs/setup/resources/2_create_test_account.png)
+
+3. In the pop-up window, provide a name for the test account and click on the `Create` button.
+
+   ![create_account image](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/main/docs/setup/resources/3_create_account.png)
+
+4. You will see the newly created test account in the list of test accounts.
+
+   ![test_account_portal image](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/main/docs/setup/resources/4_test_account_portal.png)
 
 ## Quickstart
 
