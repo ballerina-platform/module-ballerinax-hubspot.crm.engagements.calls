@@ -1,6 +1,6 @@
 [package]
 org = "wso2"
-name = "Manage_Batch_Of_Calls"
+name = "manage_batch_of_calls"
 version = "0.1.0"
 distribution = "2201.11.0"
 

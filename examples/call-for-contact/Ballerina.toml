@@ -1,6 +1,6 @@
 [package]
 org = "wso2"
-name = "Call_For_Contact"
+name = "call_for_contact"
 version = "0.1.0"
 distribution = "2201.11.0"
 

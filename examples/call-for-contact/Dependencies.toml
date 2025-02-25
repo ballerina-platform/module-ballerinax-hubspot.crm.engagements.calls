@@ -70,7 +70,7 @@ dependencies = [
 [[package]]
 org = "ballerina"
 name = "http"
-version = "2.13.2"
+version = "2.13.3"
 dependencies = [
 	{org = "ballerina", name = "auth"},
 	{org = "ballerina", name = "cache"},
@@ -314,7 +314,7 @@ modules = [
 
 [[package]]
 org = "wso2"
-name = "Call_For_Contact"
+name = "call_for_contact"
 version = "0.1.0"
 dependencies = [
 	{org = "ballerina", name = "http"},
@@ -324,6 +324,6 @@ dependencies = [
 	{org = "ballerinax", name = "hubspot.crm.engagements.calls"}
 ]
 modules = [
-	{org = "wso2", packageName = "Call_For_Contact", moduleName = "Call_For_Contact"}
+	{org = "wso2", packageName = "call_for_contact", moduleName = "call_for_contact"}
 ]
 
