@@ -22,38 +22,38 @@ If you don't have an account, you can sign up for a free account [here](https://
 
 1. Now navigate to the `Apps` section from the left sidebar and click on the `Create app` button on the top right corner.
 
-   ![create_app image](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/main/docs/setup/resources/5_create_app.png)
+   ![Create app image](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/main/docs/setup/resources/5_create_app.png)
 
 2. Provide a public app name and description for your app.
 
-   ![app_name_description image](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/main/docs/setup/resources/6_app_name_description.png)
+   ![App name description image](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/main/docs/setup/resources/6_app_name_description.png)
 
 ### Step 3: Set up authentication
 
 1. Move to the `Auth` tab.
 
-   ![config_auth image](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/main/docs/setup/resources/7_config_auth.png)
+   ![Config auth image](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/main/docs/setup/resources/7_config_auth.png)
 
 2. Then scroll down to the `Scopes` section and click on the `Add new scopes` button to add the scopes.
 
-   ![config_scopes image](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/main/docs/setup/resources/8_config_scopes.png)
+   ![Config scopes image](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/main/docs/setup/resources/8_config_scopes.png)
 
 3. Add the following scopes and click on the `Update` button.
 
    - `crm.objects.contacts.read`
    - `crm.objects.contacts.write`
 
-   ![add_scopes image](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/main/docs/setup/resources/9_add_scopes.png)
+   ![Add scopes image](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/main/docs/setup/resources/9_add_scopes.png)
 
 4. In the `Redirect URL` section, add the redirect URL for your app. This is the URL where the user will be redirected after the authentication process. You can use localhost for testing purposes. Then hit the `Create App` button.
 
-   ![redirect_url image](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/main/docs/setup/resources/10_redirect_url.png)
+   ![Redirect URL image](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/main/docs/setup/resources/10_redirect_url.png)
 
 ### Step 4: Get the client ID and client secret
 
 Navigate to the `Auth` tab and you will see the `Client ID` and `Client Secret` for your app. Make sure to save these values.
 
-![client_id_secret image](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/main/docs/setup/resources/11_client_id_secret.png)
+![Client ID secret image](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/main/docs/setup/resources/11_client_id_secret.png)
 
 ### Step 5: Set up authentication flow
 
@@ -69,7 +69,7 @@ Before proceeding with the Quickstart, ensure you have obtained the Access Token
 
 2. Paste it in the browser and select your developer test account to install the app when prompted.
 
-   ![hubspot_auth_config_screen image](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/main/docs/setup/resources/12-hubspot_auth_config_screen.png)
+   ![HubSpot auth config screen image](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/main/docs/setup/resources/12-hubspot_auth_config_screen.png)
 
 3. A code will be displayed in the browser. Copy the code.
 
@@ -114,19 +114,19 @@ Within app developer accounts, you can create a [Developer Test Account](https:/
 
 1. Go to the `Test accounts` section from the left sidebar.
 
-   ![test_account image](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/main/docs/setup/resources/1_test_account.png)
+   ![Test account image](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/main/docs/setup/resources/1_test_account.png)
 
 2. Click on the `Create developer test account` button on the top right corner.
 
-   ![create_test_account image](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/main/docs/setup/resources/2_create_test_account.png)
+   ![Create test account image](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/main/docs/setup/resources/2_create_test_account.png)
 
 3. In the pop-up window, provide a name for the test account and click on the `Create` button.
 
-   ![create_account image](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/main/docs/setup/resources/3_create_account.png)
+   ![Create account image](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/main/docs/setup/resources/3_create_account.png)
 
 4. You will see the newly created test account in the list of test accounts.
 
-   ![test_account_portal image](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/main/docs/setup/resources/4_test_account_portal.png)
+   ![Test account portal image](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/main/docs/setup/resources/4_test_account_portal.png)
 
 ## Quickstart
 
@@ -186,9 +186,9 @@ public function main() returns error? {
 
 The `HubSpot CRM Engagements Calls` connector provides practical examples illustrating usage in various scenarios. Explore these [examples](https://github.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/tree/main/examples), covering the following use cases:
 
-1. [Call for Contact](https://github.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/tree/main/examples/call-for-contact) - Operations on a single call such as creating, updating, and deleting, as well as getting a list of available calls and searching for a call by its content.
+1. [Call for contacts](https://github.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/tree/main/examples/call-for-contact) - Operations on a single call such as creating, updating, and deleting, as well as getting a list of available calls and searching for a call by its content.
 
-2. [Manage Batch Of Calls for Contacts](https://github.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/tree/main/examples/manage-batch-of-calls) - Operations on a batch of calls such as creating, updating, and deleting, as well as getting calls by their ID.
+2. [Manage batch of calls for contacts](https://github.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/tree/main/examples/manage-batch-of-calls) - Operations on a batch of calls such as creating, updating, and deleting, as well as getting calls by their ID.
 
 ## Build from the source
 
