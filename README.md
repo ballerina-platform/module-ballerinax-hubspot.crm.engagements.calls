@@ -184,7 +184,7 @@ public function main() returns error? {
 
 ## Examples
 
-The `HubSpot CRM Engagements Calls` connector provides practical examples illustrating usage in various scenarios. Explore these [examples](https://github.com/module-ballerinax-hubspot.crm.engagements.calls/tree/main/examples/), covering the following use cases:
+The `HubSpot CRM Engagements Calls` connector provides practical examples illustrating usage in various scenarios. Explore these [examples](https://github.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/tree/main/examples), covering the following use cases:
 
 1. [Call for Contact](https://github.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/tree/main/examples/call-for-contact) - Operations on a single call such as creating, updating, and deleting, as well as getting a list of available calls and searching for a call by its content.
 
