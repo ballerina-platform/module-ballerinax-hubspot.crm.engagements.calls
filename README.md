@@ -166,7 +166,7 @@ import ballerina/oauth2;
     };
 
     ConnectionConfig config = {auth:auth};
-    final hscalls:Client hubspotClient  = check new(config);
+    final hscalls:Client hubspot  = check new(config);
     ```
 
 ### Step 3: Invoke the connector operation
@@ -177,7 +177,7 @@ Now, utilize the available connector operations. A sample use case is shown belo
 
 ```ballerina
 public function main() returns error? {
-   hscalls:CollectionResponseSimplePublicObjectWithAssociationsForwardPaging pageOfCalls = check hubspotClient->/.get();
+   hscalls:CollectionResponseSimplePublicObjectWithAssociationsForwardPaging pageOfCalls = check hubspot->/.get();
    io:println("Calls: ", pageOfCalls);
 }
 ```
