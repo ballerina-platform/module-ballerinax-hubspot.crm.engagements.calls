@@ -2,13 +2,15 @@
 
 The `ballerinax/hubspot.crm.engagements.calls` connector provides practical examples illustrating usage in various scenarios.
 
-[//]: # (TODO: Add examples)
-1. 
-2. 
+1. [Call for contacts](https://github.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/tree/main/examples/call-for-contact) - This example demonstrate the operations on a single call such as creating, updating, and deleting, as well as getting a list of available calls and searching for a call by its content.
+
+2. [Manage batch of calls for contacts](https://github.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/tree/main/examples/manage-batch-of-calls) - This example demonstrate operations on a batch of calls such as creating, updating, and deleting, as well as getting calls by their ID.
 
 ## Prerequisites
 
-[//]: # (TODO: Add prerequisites)
+- [Ballerina Swan Lake Update 11 (2201.11.0)](https://ballerina.io/downloads/)
+- A HubSpot account with necessary API permissions (see [README.md](https://github.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/blob/main/README.md) at the root directory for details)
+- OAuth2 credentials (Client ID, Client Secret, and Refresh Token)
 
 ## Running an example
 
