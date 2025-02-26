@@ -52,7 +52,7 @@ public function main() returns error? {
                     "hs_call_from_number": "(857) 829 5489",
                     "hs_call_to_number": "(509) 999 9999",
                     "hs_call_recording_url": "example.com/recordings/abc1",
-                    "hs_call_status": "COMPLETED"
+                    "hs_call_status": "IN_PROGRESS"
                 },
                 associations: [
                     {
@@ -78,7 +78,7 @@ public function main() returns error? {
                     "hs_call_from_number": "(857) 829 5489",
                     "hs_call_to_number": "(509) 999 9999",
                     "hs_call_recording_url": "example.com/recordings/abc2",
-                    "hs_call_status": "COMPLETED"
+                    "hs_call_status": "IN_PROGRESS"
                 },
                 associations: [
                     {
@@ -98,11 +98,11 @@ public function main() returns error? {
     };
 
     hs_calls:BatchResponseSimplePublicObject responseCreate = check hubspotClientCalls->/batch/create.post(payloadCreate);
-    io:println("Batch create response: ", responseCreate);
 
     // Extract call IDs for further operations
-    string[] callIds = responseCreate.results.map(function(hs_calls:SimplePublicObject obj) returns string {
-        return obj.id;
+    string[] callIds = responseCreate.results.map(function(hs_calls:SimplePublicObject call) returns string {
+        io:println("Created call: ", call.id, ", Status: ", call.properties["hs_call_status"]);
+        return call.id;
     });
 
     // Batch read calls
@@ -122,7 +122,9 @@ public function main() returns error? {
     };
 
     hs_calls:BatchResponseSimplePublicObject responseRead = check hubspotClientCalls->/batch/read.post(payloadRead);
-    io:println("Batch read response: ", responseRead);
+    foreach hs_calls:SimplePublicObject call in responseRead.results {
+        io:println("Call ID: ", call.id, ", Title: ", call.properties["hs_call_title"]);
+    }
 
     // Batch update calls
     io:println("\nBatch updating calls...");
@@ -132,14 +134,17 @@ public function main() returns error? {
             return {
                 id: id,
                 properties: {
-                    "hs_call_body": "Updated call body"
+                    "hs_call_title": "Updated call title for " + id,
+                    "hs_call_status": "COMPLETED"
                 }
             };
         })
     };
 
     hs_calls:BatchResponseSimplePublicObject responseUpdate = check hubspotClientCalls->/batch/update.post(payloadUpdate);
-    io:println("Batch update response: ", responseUpdate);
+    foreach hs_calls:SimplePublicObject call in responseUpdate.results {
+        io:println("Updated call: ", call.id, ", Title: ", call.properties["hs_call_title"], ", Status: ", call.properties["hs_call_status"]);
+    }
 
     // Batch archive calls
     io:println("\nBatch archiving calls...");
@@ -158,5 +163,5 @@ public function main() returns error? {
     };
 
     http:Response responseArchive = check hubspotClientCalls->/batch/archive.post(payloadArchive);
-    io:println("Batch archive response status code: ", responseArchive.statusCode);
+    io:println("Batch archive response status code: ", responseArchive.statusCode, "\n");
 }
