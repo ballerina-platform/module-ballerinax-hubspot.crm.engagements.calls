@@ -91,27 +91,26 @@ public function main() returns error? {
                         to: {
                             id: contactId
                         }
-                    }
+                    }   
                 ]
             }
         ]
     };
 
     hsCalls:BatchResponseSimplePublicObject responseCreate = check hubspotClientCalls->/batch/create.post(payloadCreate);
-
-    // Extract call IDs for further operations
-    string[] callIds = responseCreate.results.map(function(hsCalls:SimplePublicObject call) returns string {
-        io:println(string `Created call: ${call.id}, Status: ${call.properties["hs_call_status"] ?: "Not Updated!"}`);
-        return call.id;
-    });
+    foreach hsCalls:SimplePublicObject call in responseCreate.results {
+        io:println(string `Created call: ${call.id}, Status: ${call.properties["hs_call_status"] ?: "Not Found!"}`);
+    }
+    
+    string[] callIds = from hsCalls:SimplePublicObject callId in responseCreate.results select callId.id;
 
     // Batch read calls
     io:println("\nBatch reading calls...");
 
     hsCalls:BatchReadInputSimplePublicObjectId payloadRead = {
-        inputs: callIds.map(function(string id) returns hsCalls:SimplePublicObjectId {
-            return {id};
-        }),
+        inputs: from string callId in callIds select {
+            id: callId
+        },
         properties: [
             "hs_createdate",
             "hs_call_title"
@@ -130,15 +129,13 @@ public function main() returns error? {
     io:println("\nBatch updating calls...");
 
     hsCalls:BatchInputSimplePublicObjectBatchInput payloadUpdate = {
-        inputs: callIds.map(function(string id) returns hsCalls:SimplePublicObjectBatchInput {
-            return {
-                id,
-                properties: {
-                    "hs_call_title": string `Updated call title for ${id}`,
-                    "hs_call_status": "COMPLETED"
-                }
-            };
-        })
+        inputs: from string callId in callIds select {
+            id: callId,
+            properties: {
+                "hs_call_title": string `Updated call title for ${callId}`,
+                "hs_call_status": "COMPLETED"
+            }
+        }
     };
 
     hsCalls:BatchResponseSimplePublicObject responseUpdate = check hubspotClientCalls->/batch/update.post(payloadUpdate);
@@ -150,9 +147,9 @@ public function main() returns error? {
     io:println("\nBatch archiving calls...");
 
     hsCalls:BatchReadInputSimplePublicObjectId payloadArchive = {
-        inputs: callIds.map(function(string id) returns hsCalls:SimplePublicObjectId {
-            return {id};
-        }),
+        inputs: from string callId in callIds select {
+            id: callId
+        },
         properties: [
             "hs_createdate",
             "hs_call_title"
