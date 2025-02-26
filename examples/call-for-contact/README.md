@@ -1,4 +1,4 @@
-# Call For Contact Example
+# Call for contact example
 
 This example demonstrates how to use the `ballerinax/hubspot.crm.engagements.calls` module to create, retrieve, update, and archive a call in HubSpot CRM.
 

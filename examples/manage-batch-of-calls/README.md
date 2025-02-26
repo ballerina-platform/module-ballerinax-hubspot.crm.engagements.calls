@@ -1,4 +1,4 @@
-# Manage Batch Of Calls Example
+# Manage batch of calls example
 
 This example demonstrates how to use the `ballerinax/hubspot.crm.engagements.calls` module to batch create, read, update, and archive calls in HubSpot CRM.
 
