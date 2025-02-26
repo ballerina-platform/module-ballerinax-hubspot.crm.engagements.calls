@@ -69,7 +69,7 @@ public function main() returns error? {
 
     hsCalls:SimplePublicObject responseCreated = check hubspotClientCalls->/.post(payloadCreate);
     string callId = responseCreated.id;
-    io:println("Call created successfully with ID: " + callId);
+    io:println("Call created successfully with ID: ", callId);
 
     // get all calls
     io:println("\nGetting all calls...");
@@ -77,7 +77,7 @@ public function main() returns error? {
     hsCalls:CollectionResponseSimplePublicObjectWithAssociationsForwardPaging responseGetAll = check hubspotClientCalls->/.get();
     io:println("All calls:");
     foreach hsCalls:SimplePublicObjectWithAssociations call in responseGetAll.results {
-        io:println("ID: " + call.id);
+        io:println("ID: ", call.id);
     }
 
     // update the call
@@ -92,7 +92,7 @@ public function main() returns error? {
     };
 
     hsCalls:SimplePublicObject responseUpdated = check hubspotClientCalls->/[callId].patch(payloadUpdate);
-    io:println("Call updated successfully with ID: " + responseUpdated.id);
+    io:println("Call updated successfully with ID: ", responseUpdated.id);
     io:println("Updated status: ", responseUpdated.properties["hs_call_status"]);
 
     // archive the call

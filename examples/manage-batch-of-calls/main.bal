@@ -110,7 +110,7 @@ public function main() returns error? {
 
     hsCalls:BatchReadInputSimplePublicObjectId payloadRead = {
         inputs: callIds.map(function(string id) returns hsCalls:SimplePublicObjectId {
-            return {"id": id};
+            return {id};
         }),
         properties: [
             "hs_createdate",
@@ -134,7 +134,7 @@ public function main() returns error? {
             return {
                 id: id,
                 properties: {
-                    "hs_call_title": "Updated call title for " + id,
+                    "hs_call_title": string `Updated call title for ${id}`,
                     "hs_call_status": "COMPLETED"
                 }
             };
