@@ -101,7 +101,7 @@ public function main() returns error? {
 
     // Extract call IDs for further operations
     string[] callIds = responseCreate.results.map(function(hsCalls:SimplePublicObject call) returns string {
-        io:println("Created call: ", call.id, ", Status: ", call.properties["hs_call_status"]);
+        io:println(string `Created call: ${call.id}, Status: ${call.properties["hs_call_status"] ?: "Not Updated!"}`);
         return call.id;
     });
 
@@ -123,7 +123,7 @@ public function main() returns error? {
 
     hsCalls:BatchResponseSimplePublicObject responseRead = check hubspotClientCalls->/batch/read.post(payloadRead);
     foreach hsCalls:SimplePublicObject call in responseRead.results {
-        io:println("Call ID: ", call.id, ", Title: ", call.properties["hs_call_title"]);
+        io:println(string `Call ID: ${call.id}, Title: ${call.properties["hs_call_title"] ?: "Not Found!"}`);
     }
 
     // Batch update calls
@@ -143,7 +143,7 @@ public function main() returns error? {
 
     hsCalls:BatchResponseSimplePublicObject responseUpdate = check hubspotClientCalls->/batch/update.post(payloadUpdate);
     foreach hsCalls:SimplePublicObject call in responseUpdate.results {
-        io:println("Updated call: ", call.id, ", Title: ", call.properties["hs_call_title"], ", Status: ", call.properties["hs_call_status"]);
+        io:println(string `Updated call: ${call.id}, Title: ${call.properties["hs_call_title"] ?: "Not Found!"}, Status: ${call.properties["hs_call_status"] ?: ""}`);
     }
 
     // Batch archive calls
