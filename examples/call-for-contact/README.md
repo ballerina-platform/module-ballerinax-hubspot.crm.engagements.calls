@@ -32,7 +32,7 @@ Replace `<your_client_id>`, `<your_client_secret>`, and `<your_refresh_token>` w
 
 ## Running the Example
 
-1. Navigate to the directory containing `main.bal`.
+1. Navigate to the Ballerina package directory.
 2. Run the Ballerina program using the following command:
 
 ```sh
