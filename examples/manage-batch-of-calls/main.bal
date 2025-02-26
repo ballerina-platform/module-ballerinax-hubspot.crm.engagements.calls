@@ -132,7 +132,7 @@ public function main() returns error? {
     hsCalls:BatchInputSimplePublicObjectBatchInput payloadUpdate = {
         inputs: callIds.map(function(string id) returns hsCalls:SimplePublicObjectBatchInput {
             return {
-                id: id,
+                id,
                 properties: {
                     "hs_call_title": string `Updated call title for ${id}`,
                     "hs_call_status": "COMPLETED"
@@ -151,7 +151,7 @@ public function main() returns error? {
 
     hsCalls:BatchReadInputSimplePublicObjectId payloadArchive = {
         inputs: callIds.map(function(string id) returns hsCalls:SimplePublicObjectId {
-            return {id: id};
+            return {id};
         }),
         properties: [
             "hs_createdate",
