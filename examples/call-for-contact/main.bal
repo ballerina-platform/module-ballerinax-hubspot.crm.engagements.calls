@@ -17,7 +17,7 @@
 import ballerina/http;
 import ballerina/io;
 import ballerina/oauth2;
-import ballerinax/hubspot.crm.engagements.calls as hs_calls;
+import ballerinax/hubspot.crm.engagements.calls as hsCalls;
 
 // Variables required for authentication
 configurable string clientId = ?;
@@ -28,19 +28,19 @@ configurable string refreshToken = ?;
 final string ownerId = "77367788";
 final string contactId = "83829237490";
 
-hs_calls:OAuth2RefreshTokenGrantConfig auth = {
+hsCalls:OAuth2RefreshTokenGrantConfig auth = {
     clientId,
     clientSecret,
     refreshToken,
     credentialBearer: oauth2:POST_BODY_BEARER
 };
-final hs_calls:Client hubspotClientCalls = check new ({auth});
+final hsCalls:Client hubspotClientCalls = check new ({auth});
 
 public function main() returns error? {
     // create a new call
     io:println("Creating a new call...");
 
-    hs_calls:SimplePublicObjectInputForCreate payloadCreate = {
+    hsCalls:SimplePublicObjectInputForCreate payloadCreate = {
         properties: {
             "hs_timestamp": "2025-02-17T01:32:44.872Z",
             "hs_call_title": "Support call",
@@ -67,23 +67,23 @@ public function main() returns error? {
         ]
     };
 
-    hs_calls:SimplePublicObject responseCreated = check hubspotClientCalls->/.post(payloadCreate);
-    var callId = responseCreated.id;
+    hsCalls:SimplePublicObject responseCreated = check hubspotClientCalls->/.post(payloadCreate);
+    string callId = responseCreated.id;
     io:println("Call created successfully with ID: " + callId);
 
     // get all calls
     io:println("\nGetting all calls...");
 
-    hs_calls:CollectionResponseSimplePublicObjectWithAssociationsForwardPaging responseGetAll = check hubspotClientCalls->/.get();
+    hsCalls:CollectionResponseSimplePublicObjectWithAssociationsForwardPaging responseGetAll = check hubspotClientCalls->/.get();
     io:println("All calls:");
-    foreach var call in responseGetAll.results {
+    foreach hsCalls:SimplePublicObjectWithAssociations call in responseGetAll.results {
         io:println("ID: " + call.id);
     }
 
     // update the call
     io:println("\nUpdating the call...");
 
-    hs_calls:SimplePublicObjectInput payloadUpdate = {
+    hsCalls:SimplePublicObjectInput payloadUpdate = {
         properties: {
             "hs_call_title": "Support call Updated",
             "hs_call_body": "Resolved issue: updated",
@@ -91,7 +91,7 @@ public function main() returns error? {
         }
     };
 
-    hs_calls:SimplePublicObject responseUpdated = check hubspotClientCalls->/[callId].patch(payloadUpdate);
+    hsCalls:SimplePublicObject responseUpdated = check hubspotClientCalls->/[callId].patch(payloadUpdate);
     io:println("Call updated successfully with ID: " + responseUpdated.id);
     io:println("Updated status: ", responseUpdated.properties["hs_call_status"]);
 

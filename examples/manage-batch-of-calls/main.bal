@@ -17,7 +17,7 @@
 import ballerina/http;
 import ballerina/io;
 import ballerina/oauth2;
-import ballerinax/hubspot.crm.engagements.calls as hs_calls;
+import ballerinax/hubspot.crm.engagements.calls as hsCalls;
 
 // Variables required for authentication
 configurable string clientId = ?;
@@ -28,19 +28,19 @@ configurable string refreshToken = ?;
 final string ownerId = "77367788";
 final string contactId = "83829237490";
 
-hs_calls:OAuth2RefreshTokenGrantConfig auth = {
+hsCalls:OAuth2RefreshTokenGrantConfig auth = {
     clientId,
     clientSecret,
     refreshToken,
     credentialBearer: oauth2:POST_BODY_BEARER
 };
-final hs_calls:Client hubspotClientCalls = check new ({auth});
+final hsCalls:Client hubspotClientCalls = check new ({auth});
 
 public function main() returns error? {
     // Batch create calls
     io:println("Batch creating calls...");
 
-    hs_calls:BatchInputSimplePublicObjectInputForCreate payloadCreate = {
+    hsCalls:BatchInputSimplePublicObjectInputForCreate payloadCreate = {
         inputs: [
             {
                 properties: {
@@ -63,7 +63,7 @@ public function main() returns error? {
                             }
                         ],
                         to: {
-                            "id": contactId
+                            id: contactId
                         }
                     }
                 ]
@@ -89,7 +89,7 @@ public function main() returns error? {
                             }
                         ],
                         to: {
-                            "id": contactId
+                            id: contactId
                         }
                     }
                 ]
@@ -97,10 +97,10 @@ public function main() returns error? {
         ]
     };
 
-    hs_calls:BatchResponseSimplePublicObject responseCreate = check hubspotClientCalls->/batch/create.post(payloadCreate);
+    hsCalls:BatchResponseSimplePublicObject responseCreate = check hubspotClientCalls->/batch/create.post(payloadCreate);
 
     // Extract call IDs for further operations
-    string[] callIds = responseCreate.results.map(function(hs_calls:SimplePublicObject call) returns string {
+    string[] callIds = responseCreate.results.map(function(hsCalls:SimplePublicObject call) returns string {
         io:println("Created call: ", call.id, ", Status: ", call.properties["hs_call_status"]);
         return call.id;
     });
@@ -108,8 +108,8 @@ public function main() returns error? {
     // Batch read calls
     io:println("\nBatch reading calls...");
 
-    hs_calls:BatchReadInputSimplePublicObjectId payloadRead = {
-        inputs: callIds.map(function(string id) returns hs_calls:SimplePublicObjectId {
+    hsCalls:BatchReadInputSimplePublicObjectId payloadRead = {
+        inputs: callIds.map(function(string id) returns hsCalls:SimplePublicObjectId {
             return {"id": id};
         }),
         properties: [
@@ -121,16 +121,16 @@ public function main() returns error? {
         ]
     };
 
-    hs_calls:BatchResponseSimplePublicObject responseRead = check hubspotClientCalls->/batch/read.post(payloadRead);
-    foreach hs_calls:SimplePublicObject call in responseRead.results {
+    hsCalls:BatchResponseSimplePublicObject responseRead = check hubspotClientCalls->/batch/read.post(payloadRead);
+    foreach hsCalls:SimplePublicObject call in responseRead.results {
         io:println("Call ID: ", call.id, ", Title: ", call.properties["hs_call_title"]);
     }
 
     // Batch update calls
     io:println("\nBatch updating calls...");
 
-    hs_calls:BatchInputSimplePublicObjectBatchInput payloadUpdate = {
-        inputs: callIds.map(function(string id) returns hs_calls:SimplePublicObjectBatchInput {
+    hsCalls:BatchInputSimplePublicObjectBatchInput payloadUpdate = {
+        inputs: callIds.map(function(string id) returns hsCalls:SimplePublicObjectBatchInput {
             return {
                 id: id,
                 properties: {
@@ -141,16 +141,16 @@ public function main() returns error? {
         })
     };
 
-    hs_calls:BatchResponseSimplePublicObject responseUpdate = check hubspotClientCalls->/batch/update.post(payloadUpdate);
-    foreach hs_calls:SimplePublicObject call in responseUpdate.results {
+    hsCalls:BatchResponseSimplePublicObject responseUpdate = check hubspotClientCalls->/batch/update.post(payloadUpdate);
+    foreach hsCalls:SimplePublicObject call in responseUpdate.results {
         io:println("Updated call: ", call.id, ", Title: ", call.properties["hs_call_title"], ", Status: ", call.properties["hs_call_status"]);
     }
 
     // Batch archive calls
     io:println("\nBatch archiving calls...");
 
-    hs_calls:BatchReadInputSimplePublicObjectId payloadArchive = {
-        inputs: callIds.map(function(string id) returns hs_calls:SimplePublicObjectId {
+    hsCalls:BatchReadInputSimplePublicObjectId payloadArchive = {
+        inputs: callIds.map(function(string id) returns hsCalls:SimplePublicObjectId {
             return {id: id};
         }),
         properties: [
@@ -163,5 +163,5 @@ public function main() returns error? {
     };
 
     http:Response responseArchive = check hubspotClientCalls->/batch/archive.post(payloadArchive);
-    io:println("Batch archive response status code: ", responseArchive.statusCode, "\n");
+    io:println("Batch archive response status code: ", responseArchive.statusCode);
 }
