@@ -1,7 +1,5 @@
 ## Overview
 
-[HubSpot](https://www.hubspot.com/) is an AI-powered customer relationship management (CRM) platform.
-
 The `ballerinax/hubspot.crm.engagements.calls` connector offers APIs to connect and interact with the [Hubspot CRM Engagements Calls API](https://developers.hubspot.com/docs/guides/api/crm/engagements/calls) endpoints, specifically based on the [HubSpot REST API](https://developers.hubspot.com/docs/reference/api/overview).
 
 ## Setup guide
@@ -100,7 +98,7 @@ Before proceeding with the Quickstart, ensure you have obtained the Access Token
 
 5. Store the access token securely for use in your application.
 
-### Step 6 (Optional): Create a developer test account
+### Step 6 (Optional): Create a developer test account under your account
 
 Within app developer accounts, you can create a [Developer Test Account](https://developers.hubspot.com/beta-docs/getting-started/account-types#developer-test-accounts) to test apps and integrations without affecting any real HubSpot data.
 
@@ -131,7 +129,7 @@ To use the `HubSpot CRM Engagement Calls` connector in your Ballerina applicatio
 Import the `hubspot.crm.engagements.calls` module and `oauth2` module.
 
 ```ballerina
-import ballerinax/hubspot.crm.engagements.calls as hsCalls;
+import ballerinax/hubspot.crm.engagements.calls as hscalls;
 import ballerina/oauth2;
 ```
 
@@ -160,7 +158,7 @@ import ballerina/oauth2;
     };
 
     ConnectionConfig config = {auth:auth};
-    final hsCalls:Client hubspot  = check new(config);
+    final hscalls:Client hubspot  = check new(config);
     ```
 
 ### Step 3: Invoke the connector operation
@@ -171,7 +169,7 @@ Now, utilize the available connector operations. A sample use case is shown belo
 
 ```ballerina
 public function main() returns error? {
-   hsCalls:CollectionResponseSimplePublicObjectWithAssociationsForwardPaging pageOfCalls = check hubspot->/.get();
+   hscalls:CollectionResponseSimplePublicObjectWithAssociationsForwardPaging pageOfCalls = check hubspot->/.get();
    io:println("Calls: ", pageOfCalls);
 }
 ```
@@ -180,6 +178,6 @@ public function main() returns error? {
 
 The `HubSpot CRM Engagements Calls` connector provides practical examples illustrating usage in various scenarios. Explore these [examples](https://github.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/tree/main/examples), covering the following use cases:
 
-1. [Call for contacts](https://github.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/tree/main/examples/call-for-contact) - Operations on a single call such as creating, updating, and deleting, as well as getting a list of available calls and searching for a call by its content.
+1. [Call for contacts](https://github.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/tree/main/examples/call-for-contact) - This example demonstrate the operations on a single call such as creating, updating, and deleting, as well as getting a list of available calls and searching for a call by its content.
 
-2. [Manage batch of calls for contacts](https://github.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/tree/main/examples/manage-batch-of-calls) - Operations on a batch of calls such as creating, updating, and deleting, as well as getting calls by their ID.
+2. [Manage batch of calls for contacts](https://github.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/tree/main/examples/manage-batch-of-calls) - This example demonstrate operations on a batch of calls such as creating, updating, and deleting, as well as getting calls by their ID.
