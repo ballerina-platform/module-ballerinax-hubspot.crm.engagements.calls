@@ -8,8 +8,8 @@ The `ballerinax/hubspot.crm.engagements.calls` connector provides practical exam
 
 ## Prerequisites
 
-- Ballerina Swan Lake Update 11 (2201.11.0)
-- A HubSpot account with necessary API permissions
+- [Ballerina Swan Lake Update 11 (2201.11.0)](https://ballerina.io/downloads/)
+- A HubSpot account with necessary API permissions (see [README.md](https://github.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/blob/main/README.md) at the root directory for details)
 - OAuth2 credentials (Client ID, Client Secret, and Refresh Token)
 
 ## Running an example

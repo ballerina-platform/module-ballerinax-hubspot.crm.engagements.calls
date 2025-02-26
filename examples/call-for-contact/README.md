@@ -1,4 +1,3 @@
-
 # Call For Contact Example
 
 This example demonstrates how to use the `ballerinax/hubspot.crm.engagements.calls` module to create, retrieve, update, and archive a call in HubSpot CRM.
@@ -14,8 +13,8 @@ The `main.bal` file contains a Ballerina program that performs the following ope
 
 ## Prerequisites
 
-- Ballerina Swan Lake Update 11 (2201.11.0)
-- A HubSpot account with necessary API permissions
+- [Ballerina Swan Lake Update 11 (2201.11.0)](https://ballerina.io/downloads/)
+- A HubSpot account with necessary API permissions (see [README.md](https://github.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/blob/main/README.md) at the root directory for details)
 - OAuth2 credentials (Client ID, Client Secret, and Refresh Token)
 
 ## Configuration
