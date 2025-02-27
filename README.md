@@ -12,6 +12,8 @@
 
 The `ballerinax/hubspot.crm.engagements.calls` connector offers APIs to connect and interact with the [Hubspot CRM Engagements Calls API](https://developers.hubspot.com/docs/guides/api/crm/engagements/calls) endpoints, specifically based on the [HubSpot REST API](https://developers.hubspot.com/docs/reference/api/overview).
 
+## Setup guide
+
 ### Step 1: Create/login to a HubSpot developer account
 
 If you already have a HubSpot Developer Account, go to the [HubSpot developer portal](https://app.hubspot.com/).
