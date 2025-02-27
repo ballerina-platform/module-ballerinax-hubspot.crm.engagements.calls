@@ -5,8 +5,7 @@ name = "hubspot.crm.engagements.calls"
 version = "1.0.0"
 license = ["Apache-2.0"]
 authors = ["Ballerina"]
-keywords = []
-# icon = "icon.png" # TODO: update icon.png
+keywords = ["hubspot", "CRM", "Engagements", "Calls Management", "Customer Interaction", "Communication Tracking"]
 repository = "https://github.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls"
 
 [build-options]
