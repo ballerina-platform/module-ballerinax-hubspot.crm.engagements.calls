@@ -184,6 +184,46 @@ public function main() returns error? {
 }
 ```
 
+#### Create a Call
+
+```ballerina
+public function main() returns error? {
+    hs_calls:SimplePublicObjectInputForCreate payloadCreate = {
+        properties: {
+            "hs_timestamp": "2025-02-17T01:32:44.872Z",
+            "hs_call_title": "Support call",
+            "hubspot_owner_id": "12345", // Use existing owner ID
+            "hs_call_body": "Resolved issue",
+            "hs_call_duration": "3800",
+            "hs_call_from_number": "(857) 829 5489",
+            "hs_call_to_number": "(509) 999 9999",
+            "hs_call_recording_url": "example.com/recordings/abc",
+            "hs_call_status": "IN_PROGRESS"
+        },
+        associations: [
+        {
+            types: [
+                {
+                    associationCategory: "HUBSPOT_DEFINED",
+                    associationTypeId: 194
+                    }
+                ],
+                to: {
+                    id: contactId
+                }
+            }
+        ]
+    };
+
+    hs_calls:SimplePublicObject responseCreated = check hubspot->/.post(payloadCreate);
+    string callId = responseCreated.id;
+    io:println("Call created successfully with ID: " + callId);
+}
+```
+
+Refer to the [HubSpot CRM Association Documentation](https://medium.com/r/?url=https%3A%2F%2Fdevelopers.hubspot.com%2Fdocs%2Fguides%2Fapi%2Fcrm%2Fassociations%2Fassociations-v4%23call-to-object) to learn about associations and default association types. In this example, I used the association for 'call to contact,' which is 194.
+Also, refer to the [HubSpot CRM Engagements Calls Documentation](https://medium.com/r/?url=https%3A%2F%2Fdevelopers.hubspot.com%2Fdocs%2Freference%2Fapi%2Fcrm%2Fengagements%2Fcalls) to learn about the properties of a call in HubSpot CRM.
+
 ## Examples
 
 The `HubSpot CRM Engagements Calls` connector provides practical examples illustrating usage in various scenarios. Explore these [examples](https://github.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/tree/main/examples), covering the following use cases:
