@@ -42,15 +42,15 @@ public function main() returns error? {
 
     hscalls:SimplePublicObjectInputForCreate payloadCreate = {
         properties: {
-            "hs_timestamp": "2025-02-17T01:32:44.872Z",
-            "hs_call_title": "Support call",
-            "hubspot_owner_id": OWNER_ID,
-            "hs_call_body": "Resolved issue",
-            "hs_call_duration": "3800",
-            "hs_call_from_number": "(857) 829 5489",
-            "hs_call_to_number": "(509) 999 9999",
-            "hs_call_recording_url": "example.com/recordings/abc",
-            "hs_call_status": "IN_PROGRESS"
+            hs_timestamp: "2025-02-17T01:32:44.872Z",
+            hs_call_title: "Support call",
+            hubspot_owner_id: OWNER_ID,
+            hs_call_body: "Resolved issue",
+            hs_call_duration: "3800",
+            hs_call_from_number: "(857) 829 5489",
+            hs_call_to_number: "(509) 999 9999",
+            hs_call_recording_url: "example.com/recordings/abc",
+            hs_call_status: "IN_PROGRESS"
         },
         associations: [
             {
@@ -85,15 +85,15 @@ public function main() returns error? {
 
     hscalls:SimplePublicObjectInput payloadUpdate = {
         properties: {
-            "hs_call_title": "Support call Updated",
-            "hs_call_body": "Resolved issue: updated",
-            "hs_call_status": "COMPLETED"
+            hs_call_title: "Support call Updated",
+            hs_call_body: "Resolved issue: updated",
+            hs_call_status: "COMPLETED"
         }
     };
 
     hscalls:SimplePublicObject responseUpdated = check hubspotClientCalls->/[callId].patch(payloadUpdate);
     io:println("Call updated successfully with ID: ", responseUpdated.id);
-    io:println("Updated status: ", responseUpdated.properties["hs_call_status"]);
+    io:println("Updated status: ", responseUpdated.properties?.hs_call_status);
 
     // archive the call
     io:println("\nArchive the call...");

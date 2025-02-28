@@ -28,15 +28,15 @@ service on new http:Listener(9090) {
                 {
                     id: "76533404406",
                     properties: {
-                        "hs_timestamp": "2025-02-17T01:32:44.872Z",
-                        "hs_call_title": "Support call",
-                        "hubspot_owner_id": HS_OWNER_ID,
-                        "hs_call_body": "Resolved issue",
-                        "hs_call_duration": "3800",
-                        "hs_call_from_number": "(857) 829 5489",
-                        "hs_call_to_number": "(509) 999 9999",
-                        "hs_call_recording_url": "example.com/recordings/abc",
-                        "hs_call_status": "COMPLETED"
+                        hs_timestamp: "2025-02-17T01:32:44.872Z",
+                        hs_call_title: "Support call",
+                        hubspot_owner_id: HS_OWNER_ID,
+                        hs_call_body: "Resolved issue",
+                        hs_call_duration: "3800",
+                        hs_call_from_number: "(857) 829 5489",
+                        hs_call_to_number: "(509) 999 9999",
+                        hs_call_recording_url: "example.com/recordings/abc",
+                        hs_call_status: "COMPLETED"
                     },
                     propertiesWithHistory: {},
                     createdAt: "2025-02-14T09:40:49.438Z",
@@ -46,15 +46,15 @@ service on new http:Listener(9090) {
                 {
                     id: "76604609216",
                     properties: {
-                        "hs_timestamp": "2025-02-17T01:32:44.872Z",
-                        "hs_call_title": "Support call",
-                        "hubspot_owner_id": HS_OWNER_ID,
-                        "hs_call_body": "Resolved issue",
-                        "hs_call_duration": "3800",
-                        "hs_call_from_number": "(857) 829 5489",
-                        "hs_call_to_number": "(509) 999 9999",
-                        "hs_call_recording_url": "example.com/recordings/abc",
-                        "hs_call_status": "COMPLETED"
+                        hs_timestamp: "2025-02-17T01:32:44.872Z",
+                        hs_call_title: "Support call",
+                        hubspot_owner_id: HS_OWNER_ID,
+                        hs_call_body: "Resolved issue",
+                        hs_call_duration: "3800",
+                        hs_call_from_number: "(857) 829 5489",
+                        hs_call_to_number: "(509) 999 9999",
+                        hs_call_recording_url: "example.com/recordings/abc",
+                        hs_call_status: "COMPLETED"
                     },
                     propertiesWithHistory: {},
                     createdAt: "2025-02-14T09:37:01.763Z",
@@ -75,15 +75,15 @@ service on new http:Listener(9090) {
                 {
                     id: "76533404406",
                     properties: {
-                        "hs_timestamp": "2025-02-17T01:32:44.872Z",
-                        "hs_call_title": "Support call",
-                        "hubspot_owner_id": HS_OWNER_ID,
-                        "hs_call_body": "Resolved issue",
-                        "hs_call_duration": "3800",
-                        "hs_call_from_number": "(857) 829 5489",
-                        "hs_call_to_number": "(509) 999 9999",
-                        "hs_call_recording_url": "example.com/recordings/abc",
-                        "hs_call_status": "COMPLETED"
+                        hs_timestamp: "2025-02-17T01:32:44.872Z",
+                        hs_call_title: "Support call",
+                        hubspot_owner_id: HS_OWNER_ID,
+                        hs_call_body: "Resolved issue",
+                        hs_call_duration: "3800",
+                        hs_call_from_number: "(857) 829 5489",
+                        hs_call_to_number: "(509) 999 9999",
+                        hs_call_recording_url: "example.com/recordings/abc",
+                        hs_call_status: "COMPLETED"
                     },
                     propertiesWithHistory: {},
                     createdAt: "2025-02-14T09:40:49.438Z",
@@ -93,15 +93,15 @@ service on new http:Listener(9090) {
                 {
                     id: "76604609216",
                     properties: {
-                        "hs_timestamp": "2025-02-17T01:32:44.872Z",
-                        "hs_call_title": "Support call",
-                        "hubspot_owner_id": HS_OWNER_ID,
-                        "hs_call_body": "Resolved issue",
-                        "hs_call_duration": "3800",
-                        "hs_call_from_number": "(857) 829 5489",
-                        "hs_call_to_number": "(509) 999 9999",
-                        "hs_call_recording_url": "example.com/recordings/abc",
-                        "hs_call_status": "COMPLETED"
+                        hs_timestamp: "2025-02-17T01:32:44.872Z",
+                        hs_call_title: "Support call",
+                        hubspot_owner_id: HS_OWNER_ID,
+                        hs_call_body: "Resolved issue",
+                        hs_call_duration: "3800",
+                        hs_call_from_number: "(857) 829 5489",
+                        hs_call_to_number: "(509) 999 9999",
+                        hs_call_recording_url: "example.com/recordings/abc",
+                        hs_call_status: "COMPLETED"
                     },
                     propertiesWithHistory: {},
                     createdAt: "2025-02-14T09:37:01.763Z",
@@ -164,15 +164,15 @@ service on new http:Listener(9090) {
                     propertiesWithHistory: {},
                     id: "string",
                     properties: {
-                        "hs_timestamp": "2025-02-17T01:32:44.872Z",
-                        "hs_call_title": "Support call",
-                        "hubspot_owner_id": HS_OWNER_ID,
-                        "hs_call_body": "Resolved issue",
-                        "hs_call_duration": "3800",
-                        "hs_call_from_number": "(857) 829 5489",
-                        "hs_call_to_number": "(509) 999 9999",
-                        "hs_call_recording_url": "example.com/recordings/abc",
-                        "hs_call_status": "COMPLETED"
+                        hs_timestamp: "2025-02-17T01:32:44.872Z",
+                        hs_call_title: "Support call",
+                        hubspot_owner_id: HS_OWNER_ID,
+                        hs_call_body: "Resolved issue",
+                        hs_call_duration: "3800",
+                        hs_call_from_number: "(857) 829 5489",
+                        hs_call_to_number: "(509) 999 9999",
+                        hs_call_recording_url: "example.com/recordings/abc",
+                        hs_call_status: "COMPLETED"
                     },
                     updatedAt: "2025-02-17T04:04:47.711Z"
                 }
@@ -199,10 +199,10 @@ service on new http:Listener(9090) {
         SimplePublicObjectWithAssociations response = {
             id: callId,
             properties: {
-                "hs_call_title": "Support call",
-                "hs_createdate": "2025-02-14T09:37:01.763Z",
-                "hs_lastmodifieddate": "2025-02-14T09:37:02.094Z",
-                "hs_object_id": callId
+                hs_call_title: "Support call",
+                hs_createdate: "2025-02-14T09:37:01.763Z",
+                hs_lastmodifieddate: "2025-02-14T09:37:02.094Z",
+                hs_object_id: callId
             },
             propertiesWithHistory: {},
             createdAt: "2025-02-14T09:37:01.763Z",
@@ -255,7 +255,7 @@ service on new http:Listener(9090) {
         }
 
         // validate the hs_call_status
-        if payload.properties["hs_call_status"] != "COMPLETED" {
+        if payload.properties?.hs_call_status != "COMPLETED" {
             return error("Invalid hs_call_status");
         }
 
@@ -275,15 +275,15 @@ service on new http:Listener(9090) {
                 {
                     id: "76533404406",
                     properties: {
-                        "hs_timestamp": "2025-02-17T01:32:44.872Z",
-                        "hs_call_title": "Support call",
-                        "hubspot_owner_id": HS_OWNER_ID,
-                        "hs_call_body": "Resolved issue",
-                        "hs_call_duration": "3800",
-                        "hs_call_from_number": "(857) 829 5489",
-                        "hs_call_to_number": "(509) 999 9999",
-                        "hs_call_recording_url": "example.com/recordings/abc",
-                        "hs_call_status": "COMPLETED"
+                        hs_timestamp: "2025-02-17T01:32:44.872Z",
+                        hs_call_title: "Support call",
+                        hubspot_owner_id: HS_OWNER_ID,
+                        hs_call_body: "Resolved issue",
+                        hs_call_duration: "3800",
+                        hs_call_from_number: "(857) 829 5489",
+                        hs_call_to_number: "(509) 999 9999",
+                        hs_call_recording_url: "example.com/recordings/abc",
+                        hs_call_status: "COMPLETED"
                     },
                     propertiesWithHistory: {},
                     createdAt: "2025-02-14T09:40:49.438Z",
@@ -336,15 +336,15 @@ service on new http:Listener(9090) {
                 {
                     id: "76533404406",
                     properties: {
-                        "hs_timestamp": "2025-02-17T01:32:44.872Z",
-                        "hs_call_title": "Support call",
-                        "hubspot_owner_id": HS_OWNER_ID,
-                        "hs_call_body": "Resolved issue",
-                        "hs_call_duration": "3800",
-                        "hs_call_from_number": "(857) 829 5489",
-                        "hs_call_to_number": "(509) 999 9999",
-                        "hs_call_recording_url": "example.com/recordings/abc",
-                        "hs_call_status": "COMPLETED"
+                        hs_timestamp: "2025-02-17T01:32:44.872Z",
+                        hs_call_title: "Support call",
+                        hubspot_owner_id: HS_OWNER_ID,
+                        hs_call_body: "Resolved issue",
+                        hs_call_duration: "3800",
+                        hs_call_from_number: "(857) 829 5489",
+                        hs_call_to_number: "(509) 999 9999",
+                        hs_call_recording_url: "example.com/recordings/abc",
+                        hs_call_status: "COMPLETED"
                     },
                     propertiesWithHistory: {},
                     createdAt: "2025-02-14T09:40:49.438Z",

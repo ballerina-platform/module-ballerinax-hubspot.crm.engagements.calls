@@ -56,15 +56,15 @@ isolated string[] hsBatchCallIds = [];
 isolated function testPostACall() returns error? {
     SimplePublicObjectInputForCreate payload = {
         properties: {
-            "hs_timestamp": "2025-02-17T01:32:44.872Z",
-            "hs_call_title": "Support call",
-            "hubspot_owner_id": HS_OWNER_ID,
-            "hs_call_body": "Resolved issue",
-            "hs_call_duration": "3800",
-            "hs_call_from_number": "(857) 829 5489",
-            "hs_call_to_number": "(509) 999 9999",
-            "hs_call_recording_url": "example.com/recordings/abc",
-            "hs_call_status": "COMPLETED"
+            hs_timestamp: "2025-02-17T01:32:44.872Z",
+            hs_call_title: "Support call",
+            hubspot_owner_id: HS_OWNER_ID,
+            hs_call_body: "Resolved issue",
+            hs_call_duration: "3800",
+            hs_call_from_number: "(857) 829 5489",
+            hs_call_to_number: "(509) 999 9999",
+            hs_call_recording_url: "example.com/recordings/abc",
+            hs_call_status: "COMPLETED"
         },
         associations: [
             {
@@ -96,15 +96,15 @@ isolated function testPostACall() returns error? {
 isolated function testPostACallNegative() returns error? {
     SimplePublicObjectInputForCreate payload = {
         properties: {
-            "hs_timestamp": "2025-02-17T01:32:44.872Z",
-            "hs_call_title": "Support call",
-            "hubspot_owner_id": HS_OWNER_ID,
-            "hs_call_body": "Resolved issue",
-            "hs_call_duration": "3800",
-            "hs_call_from_number": "(857) 829 5489",
-            "hs_call_to_number": "(509) 999 9999",
-            "hs_call_recording_url": "example.com/recordings/abc",
-            "hs_call_status": "COMPLETED"
+            hs_timestamp: "2025-02-17T01:32:44.872Z",
+            hs_call_title: "Support call",
+            hubspot_owner_id: HS_OWNER_ID,
+            hs_call_body: "Resolved issue",
+            hs_call_duration: "3800",
+            hs_call_from_number: "(857) 829 5489",
+            hs_call_to_number: "(509) 999 9999",
+            hs_call_recording_url: "example.com/recordings/abc",
+            hs_call_status: "COMPLETED"
         },
         associations: [
             {
@@ -234,22 +234,22 @@ isolated function testUpdateACall() returns error? {
 
     SimplePublicObjectInput payload = {
         properties: {
-            "hs_timestamp": "2025-02-17T01:32:44.872Z",
-            "hs_call_title": "Support call",
-            "hubspot_owner_id": HS_OWNER_ID,
-            "hs_call_body": "Resolved issue: updated",
-            "hs_call_duration": "3800",
-            "hs_call_from_number": "(857) 829 5489",
-            "hs_call_to_number": "(509) 999 9999",
-            "hs_call_recording_url": "example.com/recordings/abc",
-            "hs_call_status": "COMPLETED"
+            hs_timestamp: "2025-02-17T01:32:44.872Z",
+            hs_call_title: "Support call",
+            hubspot_owner_id: HS_OWNER_ID,
+            hs_call_body: "Resolved issue: updated",
+            hs_call_duration: "3800",
+            hs_call_from_number: "(857) 829 5489",
+            hs_call_to_number: "(509) 999 9999",
+            hs_call_recording_url: "example.com/recordings/abc",
+            hs_call_status: "COMPLETED"
         }
     };
 
     SimplePublicObject|error response = hubSpotClient->/[callId].patch(payload);
 
     if response is SimplePublicObject {
-        test:assertTrue(response.properties["hs_call_body"] == "Resolved issue: updated", "Call body is not updated");
+        test:assertTrue(response.properties?.hs_call_body == "Resolved issue: updated", "Call body is not updated");
     } else {
         test:assertTrue(false, "Response is not in correct type");
     }
@@ -268,15 +268,15 @@ isolated function testUpdateACallNegative() returns error? {
 
     SimplePublicObjectInput payload = {
         properties: {
-            "hs_timestamp": "2025-02-17T01:32:44.872Z",
-            "hs_call_title": "Support call",
-            "hubspot_owner_id": HS_OWNER_ID,
-            "hs_call_body": "Resolved issue: invalid update",
-            "hs_call_duration": "3800",
-            "hs_call_from_number": "(857) 829 5489",
-            "hs_call_to_number": "(509) 999 9999",
-            "hs_call_recording_url": "example.com/recordings/abc",
-            "hs_call_status": "INVALID_STATUS" // Invalid status to trigger an error
+            hs_timestamp: "2025-02-17T01:32:44.872Z",
+            hs_call_title: "Support call",
+            hubspot_owner_id: HS_OWNER_ID,
+            hs_call_body: "Resolved issue: invalid update",
+            hs_call_duration: "3800",
+            hs_call_from_number: "(857) 829 5489",
+            hs_call_to_number: "(509) 999 9999",
+            hs_call_recording_url: "example.com/recordings/abc",
+            hs_call_status: "INVALID_STATUS" // Invalid status to trigger an error
         }
     };
 
@@ -310,15 +310,15 @@ isolated function testBatchCreateCalls() returns error? {
         inputs: [
             {
                 properties: {
-                    "hs_timestamp": "2025-02-17T01:32:44.872Z",
-                    "hs_call_title": "Support call 1",
-                    "hubspot_owner_id": HS_OWNER_ID,
-                    "hs_call_body": "Resolved issue 1",
-                    "hs_call_duration": "3800",
-                    "hs_call_from_number": "(857) 829 5489",
-                    "hs_call_to_number": "(509) 999 9999",
-                    "hs_call_recording_url": "example.com/recordings/abc1",
-                    "hs_call_status": "COMPLETED"
+                    hs_timestamp: "2025-02-17T01:32:44.872Z",
+                    hs_call_title: "Support call 1",
+                    hubspot_owner_id: HS_OWNER_ID,
+                    hs_call_body: "Resolved issue 1",
+                    hs_call_duration: "3800",
+                    hs_call_from_number: "(857) 829 5489",
+                    hs_call_to_number: "(509) 999 9999",
+                    hs_call_recording_url: "example.com/recordings/abc1",
+                    hs_call_status: "COMPLETED"
                 },
                 associations: [
                     {
@@ -336,15 +336,15 @@ isolated function testBatchCreateCalls() returns error? {
             },
             {
                 properties: {
-                    "hs_timestamp": "2025-02-17T01:32:44.872Z",
-                    "hs_call_title": "Support call 2",
-                    "hubspot_owner_id": HS_OWNER_ID,
-                    "hs_call_body": "Resolved issue 2",
-                    "hs_call_duration": "3800",
-                    "hs_call_from_number": "(857) 829 5489",
-                    "hs_call_to_number": "(509) 999 9999",
-                    "hs_call_recording_url": "example.com/recordings/abc2",
-                    "hs_call_status": "COMPLETED"
+                    hs_timestamp: "2025-02-17T01:32:44.872Z",
+                    hs_call_title: "Support call 2",
+                    hubspot_owner_id: HS_OWNER_ID,
+                    hs_call_body: "Resolved issue 2",
+                    hs_call_duration: "3800",
+                    hs_call_from_number: "(857) 829 5489",
+                    hs_call_to_number: "(509) 999 9999",
+                    hs_call_recording_url: "example.com/recordings/abc2",
+                    hs_call_status: "COMPLETED"
                 },
                 associations: [
                     {
@@ -425,7 +425,7 @@ isolated function testBatchUpdateCalls() returns error? {
             return {
                 id: id,
                 properties: {
-                    "hs_call_body": "Updated call body"
+                    hs_call_body: "Updated call body"
                 }
             };
         })
@@ -436,7 +436,7 @@ isolated function testBatchUpdateCalls() returns error? {
     test:assertTrue(response.results.length() == callIds.length(), "Batch update did not return expected number of results");
 
     foreach var result in response.results {
-        test:assertTrue(result.properties["hs_call_body"] == "Updated call body", "Call body is not updated");
+        test:assertTrue(result.properties?.hs_call_body == "Updated call body", "Call body is not updated");
     }
 }
 
