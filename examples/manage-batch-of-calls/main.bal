@@ -25,8 +25,8 @@ configurable string clientSecret = ?;
 configurable string refreshToken = ?;
 
 // example IDs for testing
-final string ownerId = "77367788";
-final string contactId = "83829237490";
+const string OWNER_ID = "77367788";
+const string CONTACT_ID = "83829237490";
 
 hsCalls:OAuth2RefreshTokenGrantConfig auth = {
     clientId,
@@ -46,7 +46,7 @@ public function main() returns error? {
                 properties: {
                     "hs_timestamp": "2025-02-17T01:32:44.872Z",
                     "hs_call_title": "Support call 1",
-                    "hubspot_owner_id": ownerId,
+                    "hubspot_owner_id": OWNER_ID,
                     "hs_call_body": "Resolved issue 1",
                     "hs_call_duration": "3800",
                     "hs_call_from_number": "(857) 829 5489",
@@ -63,7 +63,7 @@ public function main() returns error? {
                             }
                         ],
                         to: {
-                            id: contactId
+                            id: CONTACT_ID
                         }
                     }
                 ]
@@ -72,7 +72,7 @@ public function main() returns error? {
                 properties: {
                     "hs_timestamp": "2025-02-17T01:32:44.872Z",
                     "hs_call_title": "Support call 2",
-                    "hubspot_owner_id": ownerId,
+                    "hubspot_owner_id": OWNER_ID,
                     "hs_call_body": "Resolved issue 2",
                     "hs_call_duration": "3800",
                     "hs_call_from_number": "(857) 829 5489",
@@ -89,7 +89,7 @@ public function main() returns error? {
                             }
                         ],
                         to: {
-                            id: contactId
+                            id: CONTACT_ID
                         }
                     }   
                 ]

@@ -42,9 +42,9 @@ isolated function initClient() returns Client|error {
     }, "http://localhost:9090");
 }
 
-final string hsOwnerId = "77367788"; // example owner id
-final string hsObjectId = "83829237490"; // example contact id
-final int:Signed32 hsAssociationTypeId = 194; // call to contact association
+const string HS_OWNER_ID = "77367788"; // example owner id
+const string HS_OBJECT_ID = "83829237490"; // example contact id
+const int:Signed32 HS_ASSOCIATION_TYPE_ID = 194; // call to contact association
 
 isolated string hsCallId = "";
 isolated string[] hsBatchCallIds = [];
@@ -58,7 +58,7 @@ isolated function testPostACall() returns error? {
         properties: {
             "hs_timestamp": "2025-02-17T01:32:44.872Z",
             "hs_call_title": "Support call",
-            "hubspot_owner_id": hsOwnerId,
+            "hubspot_owner_id": HS_OWNER_ID,
             "hs_call_body": "Resolved issue",
             "hs_call_duration": "3800",
             "hs_call_from_number": "(857) 829 5489",
@@ -71,11 +71,11 @@ isolated function testPostACall() returns error? {
                 types: [
                     {
                         associationCategory: "HUBSPOT_DEFINED",
-                        associationTypeId: hsAssociationTypeId
+                        associationTypeId: HS_ASSOCIATION_TYPE_ID
                     }
                 ],
                 to: {
-                    id: hsObjectId
+                    id: HS_OBJECT_ID
                 }
             }
         ]
@@ -98,7 +98,7 @@ isolated function testPostACall_Negative() returns error? {
         properties: {
             "hs_timestamp": "2025-02-17T01:32:44.872Z",
             "hs_call_title": "Support call",
-            "hubspot_owner_id": hsOwnerId,
+            "hubspot_owner_id": HS_OWNER_ID,
             "hs_call_body": "Resolved issue",
             "hs_call_duration": "3800",
             "hs_call_from_number": "(857) 829 5489",
@@ -115,7 +115,7 @@ isolated function testPostACall_Negative() returns error? {
                     }
                 ],
                 to: {
-                    id: hsObjectId
+                    id: HS_OBJECT_ID
                 }
             }
         ]
@@ -236,7 +236,7 @@ isolated function testUpdateACall() returns error? {
         properties: {
             "hs_timestamp": "2025-02-17T01:32:44.872Z",
             "hs_call_title": "Support call",
-            "hubspot_owner_id": hsOwnerId,
+            "hubspot_owner_id": HS_OWNER_ID,
             "hs_call_body": "Resolved issue: updated",
             "hs_call_duration": "3800",
             "hs_call_from_number": "(857) 829 5489",
@@ -270,7 +270,7 @@ isolated function testUpdateACall_Negative() returns error? {
         properties: {
             "hs_timestamp": "2025-02-17T01:32:44.872Z",
             "hs_call_title": "Support call",
-            "hubspot_owner_id": hsOwnerId,
+            "hubspot_owner_id": HS_OWNER_ID,
             "hs_call_body": "Resolved issue: invalid update",
             "hs_call_duration": "3800",
             "hs_call_from_number": "(857) 829 5489",
@@ -312,7 +312,7 @@ isolated function testBatchCreateCalls() returns error? {
                 properties: {
                     "hs_timestamp": "2025-02-17T01:32:44.872Z",
                     "hs_call_title": "Support call 1",
-                    "hubspot_owner_id": hsOwnerId,
+                    "hubspot_owner_id": HS_OWNER_ID,
                     "hs_call_body": "Resolved issue 1",
                     "hs_call_duration": "3800",
                     "hs_call_from_number": "(857) 829 5489",
@@ -325,11 +325,11 @@ isolated function testBatchCreateCalls() returns error? {
                         types: [
                             {
                                 associationCategory: "HUBSPOT_DEFINED",
-                                associationTypeId: hsAssociationTypeId
+                                associationTypeId: HS_ASSOCIATION_TYPE_ID
                             }
                         ],
                         to: {
-                            id: hsObjectId
+                            id: HS_OBJECT_ID
                         }
                     }
                 ]
@@ -338,7 +338,7 @@ isolated function testBatchCreateCalls() returns error? {
                 properties: {
                     "hs_timestamp": "2025-02-17T01:32:44.872Z",
                     "hs_call_title": "Support call 2",
-                    "hubspot_owner_id": hsOwnerId,
+                    "hubspot_owner_id": HS_OWNER_ID,
                     "hs_call_body": "Resolved issue 2",
                     "hs_call_duration": "3800",
                     "hs_call_from_number": "(857) 829 5489",
@@ -351,11 +351,11 @@ isolated function testBatchCreateCalls() returns error? {
                         types: [
                             {
                                 associationCategory: "HUBSPOT_DEFINED",
-                                associationTypeId: hsAssociationTypeId
+                                associationTypeId: HS_ASSOCIATION_TYPE_ID
                             }
                         ],
                         to: {
-                            id: hsObjectId
+                            id: HS_OBJECT_ID
                         }
                     }
                 ]
