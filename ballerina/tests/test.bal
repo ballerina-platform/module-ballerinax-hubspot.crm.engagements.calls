@@ -23,7 +23,6 @@ configurable string clientId = "clientId";
 configurable string clientSecret = "clientSecret";
 configurable string refreshToken = "refreshToken";
 
-final string serviceUrl = isLiveServer ? "https://api.hubapi.com/crm/v3/objects/calls" : "http://localhost:9090";
 final Client hubSpotClient = check initClient();
 
 isolated function initClient() returns Client|error {
@@ -34,13 +33,13 @@ isolated function initClient() returns Client|error {
             refreshToken: refreshToken,
             credentialBearer: oauth2:POST_BODY_BEARER
         };
-        return check new ({auth}, serviceUrl);
+        return check new ({auth}, "https://api.hubapi.com/crm/v3/objects/calls");
     }
     return check new ({
         auth: {
             token: "test-token"
         }
-    }, serviceUrl);
+    }, "http://localhost:9090");
 }
 
 final string hsOwnerId = "77367788"; // example owner id
