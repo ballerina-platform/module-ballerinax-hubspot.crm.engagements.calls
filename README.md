@@ -139,7 +139,7 @@ To use the `HubSpot CRM Engagement Calls` connector in your Ballerina applicatio
 Import the `hubspot.crm.engagements.calls` module and `oauth2` module.
 
 ```ballerina
-import ballerinax/hubspot.crm.engagements.calls as hsCalls;
+import ballerinax/hubspot.crm.engagements.calls as hscalls;
 import ballerina/oauth2;
 ```
 
@@ -168,7 +168,7 @@ import ballerina/oauth2;
     };
 
     ConnectionConfig config = {auth:auth};
-    final hsCalls:Client hubspot  = check new(config);
+    final hscalls:Client hubspot  = check new(config);
     ```
 
 ### Step 3: Invoke the connector operation
@@ -179,7 +179,7 @@ Now, utilize the available connector operations. A sample use case is shown belo
 
 ```ballerina
 public function main() returns error? {
-   hsCalls:CollectionResponseSimplePublicObjectWithAssociationsForwardPaging pageOfCalls = check hubspot->/.get();
+   hscalls:CollectionResponseSimplePublicObjectWithAssociationsForwardPaging pageOfCalls = check hubspot->/.get();
    io:println("Calls: ", pageOfCalls);
 }
 ```

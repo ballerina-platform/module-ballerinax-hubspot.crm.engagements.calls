@@ -17,7 +17,7 @@
 import ballerina/http;
 import ballerina/io;
 import ballerina/oauth2;
-import ballerinax/hubspot.crm.engagements.calls as hsCalls;
+import ballerinax/hubspot.crm.engagements.calls as hscalls;
 
 // Variables required for authentication
 configurable string clientId = ?;
@@ -28,19 +28,19 @@ configurable string refreshToken = ?;
 const string OWNER_ID = "77367788";
 const string CONTACT_ID = "83829237490";
 
-hsCalls:OAuth2RefreshTokenGrantConfig auth = {
+hscalls:OAuth2RefreshTokenGrantConfig auth = {
     clientId,
     clientSecret,
     refreshToken,
     credentialBearer: oauth2:POST_BODY_BEARER
 };
-final hsCalls:Client hubspotClientCalls = check new ({auth});
+final hscalls:Client hubspotClientCalls = check new ({auth});
 
 public function main() returns error? {
     // Batch create calls
     io:println("Batch creating calls...");
 
-    hsCalls:BatchInputSimplePublicObjectInputForCreate payloadCreate = {
+    hscalls:BatchInputSimplePublicObjectInputForCreate payloadCreate = {
         inputs: [
             {
                 properties: {
@@ -97,17 +97,17 @@ public function main() returns error? {
         ]
     };
 
-    hsCalls:BatchResponseSimplePublicObject responseCreate = check hubspotClientCalls->/batch/create.post(payloadCreate);
-    foreach hsCalls:SimplePublicObject call in responseCreate.results {
+    hscalls:BatchResponseSimplePublicObject responseCreate = check hubspotClientCalls->/batch/create.post(payloadCreate);
+    foreach hscalls:SimplePublicObject call in responseCreate.results {
         io:println(string `Created call: ${call.id}, Status: ${call.properties["hs_call_status"] ?: "Not Found!"}`);
     }
     
-    string[] callIds = from hsCalls:SimplePublicObject callId in responseCreate.results select callId.id;
+    string[] callIds = from hscalls:SimplePublicObject callId in responseCreate.results select callId.id;
 
     // Batch read calls
     io:println("\nBatch reading calls...");
 
-    hsCalls:BatchReadInputSimplePublicObjectId payloadRead = {
+    hscalls:BatchReadInputSimplePublicObjectId payloadRead = {
         inputs: from string callId in callIds select {
             id: callId
         },
@@ -120,15 +120,15 @@ public function main() returns error? {
         ]
     };
 
-    hsCalls:BatchResponseSimplePublicObject responseRead = check hubspotClientCalls->/batch/read.post(payloadRead);
-    foreach hsCalls:SimplePublicObject call in responseRead.results {
+    hscalls:BatchResponseSimplePublicObject responseRead = check hubspotClientCalls->/batch/read.post(payloadRead);
+    foreach hscalls:SimplePublicObject call in responseRead.results {
         io:println(string `Call ID: ${call.id}, Title: ${call.properties["hs_call_title"] ?: "Not Found!"}`);
     }
 
     // Batch update calls
     io:println("\nBatch updating calls...");
 
-    hsCalls:BatchInputSimplePublicObjectBatchInput payloadUpdate = {
+    hscalls:BatchInputSimplePublicObjectBatchInput payloadUpdate = {
         inputs: from string callId in callIds select {
             id: callId,
             properties: {
@@ -138,15 +138,15 @@ public function main() returns error? {
         }
     };
 
-    hsCalls:BatchResponseSimplePublicObject responseUpdate = check hubspotClientCalls->/batch/update.post(payloadUpdate);
-    foreach hsCalls:SimplePublicObject call in responseUpdate.results {
+    hscalls:BatchResponseSimplePublicObject responseUpdate = check hubspotClientCalls->/batch/update.post(payloadUpdate);
+    foreach hscalls:SimplePublicObject call in responseUpdate.results {
         io:println(string `Updated call: ${call.id}, Title: ${call.properties["hs_call_title"] ?: "Not Found!"}, Status: ${call.properties["hs_call_status"] ?: ""}`);
     }
 
     // Batch archive calls
     io:println("\nBatch archiving calls...");
 
-    hsCalls:BatchReadInputSimplePublicObjectId payloadArchive = {
+    hscalls:BatchReadInputSimplePublicObjectId payloadArchive = {
         inputs: from string callId in callIds select {
             id: callId
         },
