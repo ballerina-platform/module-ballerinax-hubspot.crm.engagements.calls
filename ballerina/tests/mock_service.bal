@@ -30,7 +30,7 @@ service on new http:Listener(9090) {
                     properties: {
                         "hs_timestamp": "2025-02-17T01:32:44.872Z",
                         "hs_call_title": "Support call",
-                        "hubspot_owner_id": hsOwnerId,
+                        "hubspot_owner_id": HS_OWNER_ID,
                         "hs_call_body": "Resolved issue",
                         "hs_call_duration": "3800",
                         "hs_call_from_number": "(857) 829 5489",
@@ -48,7 +48,7 @@ service on new http:Listener(9090) {
                     properties: {
                         "hs_timestamp": "2025-02-17T01:32:44.872Z",
                         "hs_call_title": "Support call",
-                        "hubspot_owner_id": hsOwnerId,
+                        "hubspot_owner_id": HS_OWNER_ID,
                         "hs_call_body": "Resolved issue",
                         "hs_call_duration": "3800",
                         "hs_call_from_number": "(857) 829 5489",
@@ -77,7 +77,7 @@ service on new http:Listener(9090) {
                     properties: {
                         "hs_timestamp": "2025-02-17T01:32:44.872Z",
                         "hs_call_title": "Support call",
-                        "hubspot_owner_id": hsOwnerId,
+                        "hubspot_owner_id": HS_OWNER_ID,
                         "hs_call_body": "Resolved issue",
                         "hs_call_duration": "3800",
                         "hs_call_from_number": "(857) 829 5489",
@@ -95,7 +95,7 @@ service on new http:Listener(9090) {
                     properties: {
                         "hs_timestamp": "2025-02-17T01:32:44.872Z",
                         "hs_call_title": "Support call",
-                        "hubspot_owner_id": hsOwnerId,
+                        "hubspot_owner_id": HS_OWNER_ID,
                         "hs_call_body": "Resolved issue",
                         "hs_call_duration": "3800",
                         "hs_call_from_number": "(857) 829 5489",
@@ -166,7 +166,7 @@ service on new http:Listener(9090) {
                     properties: {
                         "hs_timestamp": "2025-02-17T01:32:44.872Z",
                         "hs_call_title": "Support call",
-                        "hubspot_owner_id": hsOwnerId,
+                        "hubspot_owner_id": HS_OWNER_ID,
                         "hs_call_body": "Resolved issue",
                         "hs_call_duration": "3800",
                         "hs_call_from_number": "(857) 829 5489",
@@ -277,7 +277,7 @@ service on new http:Listener(9090) {
                     properties: {
                         "hs_timestamp": "2025-02-17T01:32:44.872Z",
                         "hs_call_title": "Support call",
-                        "hubspot_owner_id": hsOwnerId,
+                        "hubspot_owner_id": HS_OWNER_ID,
                         "hs_call_body": "Resolved issue",
                         "hs_call_duration": "3800",
                         "hs_call_from_number": "(857) 829 5489",
@@ -338,7 +338,7 @@ service on new http:Listener(9090) {
                     properties: {
                         "hs_timestamp": "2025-02-17T01:32:44.872Z",
                         "hs_call_title": "Support call",
-                        "hubspot_owner_id": hsOwnerId,
+                        "hubspot_owner_id": HS_OWNER_ID,
                         "hs_call_body": "Resolved issue",
                         "hs_call_duration": "3800",
                         "hs_call_from_number": "(857) 829 5489",
