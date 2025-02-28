@@ -89,11 +89,11 @@ isolated function testPostACall() returns error? {
     }
 }
 
-// Test: (Negative) Post a call with invalid associationTypeId
+// Test: Post a call with invalid associationTypeId
 @test:Config {
     groups: ["live_tests", "mock_tests"]
 }
-isolated function testPostACall_Negative() returns error? {
+isolated function testPostACallNegative() returns error? {
     SimplePublicObjectInputForCreate payload = {
         properties: {
             "hs_timestamp": "2025-02-17T01:32:44.872Z",
@@ -151,12 +151,12 @@ isolated function testGetACallById() returns error? {
     test:assertTrue(response.id == callId, "Call id mismatch");
 }
 
-// Test: (Nagative) Get a call by id
+// Test: Get a call by id
 @test:Config {
     dependsOn: [testArchiveACall],
     groups: ["live_tests", "mock_tests"]
 }
-isolated function testGetACallById_Negative() returns error? {
+isolated function testGetACallByIdNegative() returns error? {
     string callId = "invalid_call_id";
 
     SimplePublicObject|error response = hubSpotClient->/[callId].get();
@@ -192,13 +192,13 @@ isolated function testSearchCalls() returns error? {
     test:assertTrue(response.results.length() > 0, "No calls found");
 }
 
-// Test: (Negative) Search calls with invalid filter
+// Test: Search calls with invalid filter
 @test:Config {
     enable: isLiveServer,
     dependsOn: [testPostACall],
     groups: ["live_tests"]
 }
-isolated function testSearchCalls_Negative() returns error? {
+isolated function testSearchCallsNegative() returns error? {
     PublicObjectSearchRequest payload = {
         filterGroups: [
             {
@@ -255,12 +255,12 @@ isolated function testUpdateACall() returns error? {
     }
 }
 
-// Test: (Negative) Update a call
+// Test: Update a call
 @test:Config {
     dependsOn: [testUpdateACall],
     groups: ["live_tests", "mock_tests"]
 }
-isolated function testUpdateACall_Negative() returns error? {
+isolated function testUpdateACallNegative() returns error? {
     string callId = "";
     lock {
         callId = hsCallId;
