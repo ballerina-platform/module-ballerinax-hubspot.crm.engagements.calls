@@ -24,7 +24,7 @@ If you don't have an account, you can sign up for a free account [here](https://
 
 Within app developer accounts, you can create a [Developer Test Account](https://developers.hubspot.com/beta-docs/getting-started/account-types#developer-test-accounts) to test apps and integrations without affecting any real HubSpot data.
 
- > **Note:** These accounts are only for development and testing purposes. In production, you should not use Developer Test Accounts.
+> **Note:** These accounts are only for development and testing purposes. In production, you should not use Developer Test Accounts.
 
 1. Go to the `Test accounts` section from the left sidebar.
 
@@ -155,21 +155,21 @@ import ballerina/oauth2;
 
 2. Instantiate a `OAuth2RefreshTokenGrantConfig` with the obtained credentials and initialize the connector with it.
 
-    ```ballerina
-    configurable string clientId = ?;
-    configurable string clientSecret = ?;
-    configurable string refreshToken = ?;
+   ```ballerina
+   configurable string clientId = ?;
+   configurable string clientSecret = ?;
+   configurable string refreshToken = ?;
 
-    OAuth2RefreshTokenGrantConfig auth = {
-        clientId,
-        clientSecret,
-        refreshToken,
-        credentialBearer: oauth2:POST_BODY_BEARER
-    };
+   OAuth2RefreshTokenGrantConfig auth = {
+       clientId,
+       clientSecret,
+       refreshToken,
+       credentialBearer: oauth2:POST_BODY_BEARER
+   };
 
-    ConnectionConfig config = {auth:auth};
-    final hscalls:Client hubspot  = check new(config);
-    ```
+   ConnectionConfig config = {auth:auth};
+   final hscalls:Client hubspot  = check new(config);
+   ```
 
 ### Step 3: Invoke the connector operation
 
@@ -221,8 +221,8 @@ public function main() returns error? {
 }
 ```
 
-Refer to the [HubSpot CRM Association Documentation](https://medium.com/r/?url=https%3A%2F%2Fdevelopers.hubspot.com%2Fdocs%2Fguides%2Fapi%2Fcrm%2Fassociations%2Fassociations-v4%23call-to-object) to learn about associations and default association types. In this example, I used the association for 'call to contact,' which is 194.
-Also, refer to the [HubSpot CRM Engagements Calls Documentation](https://medium.com/r/?url=https%3A%2F%2Fdevelopers.hubspot.com%2Fdocs%2Freference%2Fapi%2Fcrm%2Fengagements%2Fcalls) to learn about the properties of a call in HubSpot CRM.
+Refer to the [HubSpot CRM Association Documentation](https://developers.hubspot.com/docs/guides/api/crm/associations/associations-v4#call-to-object) to learn about associations and default association types. In this example, I used the association for 'call to contact,' which is 194.
+Also, refer to the [HubSpot CRM Engagements Calls Documentation](https://developers.hubspot.com/docs/reference/api/crm/engagements/calls) to learn about the properties of a call in HubSpot CRM.
 
 ## Examples
 
@@ -238,8 +238,8 @@ The `HubSpot CRM Engagements Calls` connector provides practical examples illust
 
 1. Download and install Java SE Development Kit (JDK) version 21. You can download it from either of the following sources:
 
-    * [Oracle JDK](https://www.oracle.com/java/technologies/downloads/)
-    * [OpenJDK](https://adoptium.net/)
+   - [Oracle JDK](https://www.oracle.com/java/technologies/downloads/)
+   - [OpenJDK](https://adoptium.net/)
 
    > **Note:** After installation, remember to set the `JAVA_HOME` environment variable to the directory where JDK was installed.
 
@@ -251,10 +251,10 @@ The `HubSpot CRM Engagements Calls` connector provides practical examples illust
 
 4. Export Github Personal access token with read package permissions as follows,
 
-    ```bash
-    export packageUser=<Username>
-    export packagePAT=<Personal access token>
-    ```
+   ```bash
+   export packageUser=<Username>
+   export packagePAT=<Personal access token>
+   ```
 
 ### Build options
 
@@ -298,9 +298,9 @@ Execute the commands below to build from the source.
 
 7. Publish the generated artifacts to the local Ballerina Central repository:
 
-    ```bash
-    ./gradlew clean build -PpublishToLocalCentral=true
-    ```
+   ```bash
+   ./gradlew clean build -PpublishToLocalCentral=true
+   ```
 
 8. Publish the generated artifacts to the Ballerina Central repository:
 
@@ -320,7 +320,7 @@ All the contributors are encouraged to read the [Ballerina Code of Conduct](http
 
 ## Useful links
 
-* For more information go to the [`hubspot.crm.engagements.calls` package](https://central.ballerina.io/ballerinax/hubspot.crm.engagements.calls/latest).
-* For example demonstrations of the usage, go to [Ballerina By Examples](https://ballerina.io/learn/by-example/).
-* Chat live with us via our [Discord server](https://discord.gg/ballerinalang).
-* Post all technical questions on Stack Overflow with the [#ballerina](https://stackoverflow.com/questions/tagged/ballerina) tag.
+- For more information go to the [`hubspot.crm.engagements.calls` package](https://central.ballerina.io/ballerinax/hubspot.crm.engagements.calls/latest).
+- For example demonstrations of the usage, go to [Ballerina By Examples](https://ballerina.io/learn/by-example/).
+- Chat live with us via our [Discord server](https://discord.gg/ballerinalang).
+- Post all technical questions on Stack Overflow with the [#ballerina](https://stackoverflow.com/questions/tagged/ballerina) tag.
