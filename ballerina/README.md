@@ -216,7 +216,7 @@ public function main() returns error? {
 Refer to the [HubSpot CRM Association Documentation](https://developers.hubspot.com/docs/guides/api/crm/associations/associations-v4#call-to-object) to learn about associations and default association types. In this example, I used the association for 'call to contact,' which is 194.
 Also, refer to the [HubSpot CRM Engagements Calls Documentation](https://developers.hubspot.com/docs/reference/api/crm/engagements/calls) to learn about the properties of a call in HubSpot CRM.
 
-## Examples
+## Ballerina HubSpot CRM Engagements Calls connector
 
 The `HubSpot CRM Engagements Calls` connector provides practical examples illustrating usage in various scenarios. Explore these [examples](https://github.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/tree/main/examples), covering the following use cases:
 
