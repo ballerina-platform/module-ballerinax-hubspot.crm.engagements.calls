@@ -151,7 +151,7 @@ public type SimplePublicObject record {
     string archivedAt?;
     record {|ValueWithTimestamp[]...;|} propertiesWithHistory?;
     string id;
-    record {|string?...;|} properties;
+    CallProperties properties;
     string updatedAt;
 };
 
@@ -237,7 +237,7 @@ public type SimplePublicObjectBatchInputUpsert record {
     string idProperty?;
     string objectWriteTraceId?;
     string id;
-    record {|string...;|} properties;
+    CallProperties properties;
 };
 
 public type BatchResponseSimplePublicObjectWithErrors record {
@@ -266,7 +266,7 @@ public type ProxyConfig record {|
 
 public type SimplePublicObjectInput record {
     string objectWriteTraceId?;
-    record {|string...;|} properties;
+    CallProperties properties;
 };
 
 public type CollectionResponseSimplePublicObjectWithAssociationsForwardPaging record {
@@ -286,7 +286,7 @@ public type SimplePublicObjectWithAssociations record {
     string archivedAt?;
     record {|ValueWithTimestamp[]...;|} propertiesWithHistory?;
     string id;
-    record {|string?...;|} properties;
+    CallProperties properties;
     string updatedAt;
 };
 
@@ -335,7 +335,7 @@ public type SimplePublicUpsertObject record {
     boolean 'new;
     record {|ValueWithTimestamp[]...;|} propertiesWithHistory?;
     string id;
-    record {|string...;|} properties;
+    CallProperties properties;
     string updatedAt;
 };
 
@@ -343,7 +343,7 @@ public type SimplePublicObjectBatchInput record {
     string idProperty?;
     string objectWriteTraceId?;
     string id;
-    record {|string...;|} properties;
+    CallProperties properties;
 };
 
 public type NextPage record {
@@ -365,5 +365,20 @@ public type ApiKeysConfig record {|
 public type SimplePublicObjectInputForCreate record {
     PublicAssociationsForObject[] associations;
     string objectWriteTraceId?;
-    record {|string...;|} properties;
+    CallProperties properties;
+};
+
+public type CallProperties record {
+    string hs_object_id?;
+    string hs_call_body?;
+    string hs_timestamp?;
+    string hs_call_title?;
+    string hs_call_duration?;
+    string hubspot_owner_id?;
+    string hs_call_to_number?;
+    string hs_call_from_number?;
+    string hs_call_recording_url?;
+    string hs_createdate?;
+    string hs_lastmodifieddate?;
+    "BUSY"|"CALLING_CRM_USER"|"CANCELED"|"RINGING"|"QUEUED"|"NO_ANSWER"|"IN_PROGRESS"|"FAILED"|"CONNECTING"|"COMPLETED"|string hs_call_status?;
 };

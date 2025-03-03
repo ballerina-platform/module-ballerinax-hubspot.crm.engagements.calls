@@ -17,7 +17,7 @@
 import ballerina/http;
 import ballerina/io;
 import ballerina/oauth2;
-import ballerinax/hubspot.crm.engagements.calls as hsCalls;
+import ballerinax/hubspot.crm.engagements.calls as hscalls;
 
 // Variables required for authentication
 configurable string clientId = ?;
@@ -25,34 +25,34 @@ configurable string clientSecret = ?;
 configurable string refreshToken = ?;
 
 // example IDs for testing
-final string ownerId = "77367788";
-final string contactId = "83829237490";
+const string OWNER_ID = "77367788";
+const string CONTACT_ID = "83829237490";
 
-hsCalls:OAuth2RefreshTokenGrantConfig auth = {
+hscalls:OAuth2RefreshTokenGrantConfig auth = {
     clientId,
     clientSecret,
     refreshToken,
     credentialBearer: oauth2:POST_BODY_BEARER
 };
-final hsCalls:Client hubspotClientCalls = check new ({auth});
+final hscalls:Client hubspotClientCalls = check new ({auth});
 
 public function main() returns error? {
     // Batch create calls
     io:println("Batch creating calls...");
 
-    hsCalls:BatchInputSimplePublicObjectInputForCreate payloadCreate = {
+    hscalls:BatchInputSimplePublicObjectInputForCreate payloadCreate = {
         inputs: [
             {
                 properties: {
-                    "hs_timestamp": "2025-02-17T01:32:44.872Z",
-                    "hs_call_title": "Support call 1",
-                    "hubspot_owner_id": ownerId,
-                    "hs_call_body": "Resolved issue 1",
-                    "hs_call_duration": "3800",
-                    "hs_call_from_number": "(857) 829 5489",
-                    "hs_call_to_number": "(509) 999 9999",
-                    "hs_call_recording_url": "example.com/recordings/abc1",
-                    "hs_call_status": "IN_PROGRESS"
+                    hs_timestamp: "2025-02-17T01:32:44.872Z",
+                    hs_call_title: "Support call 1",
+                    hubspot_owner_id: OWNER_ID,
+                    hs_call_body: "Resolved issue 1",
+                    hs_call_duration: "3800",
+                    hs_call_from_number: "(857) 829 5489",
+                    hs_call_to_number: "(509) 999 9999",
+                    hs_call_recording_url: "example.com/recordings/abc1",
+                    hs_call_status: "IN_PROGRESS"
                 },
                 associations: [
                     {
@@ -63,22 +63,22 @@ public function main() returns error? {
                             }
                         ],
                         to: {
-                            id: contactId
+                            id: CONTACT_ID
                         }
                     }
                 ]
             },
             {
                 properties: {
-                    "hs_timestamp": "2025-02-17T01:32:44.872Z",
-                    "hs_call_title": "Support call 2",
-                    "hubspot_owner_id": ownerId,
-                    "hs_call_body": "Resolved issue 2",
-                    "hs_call_duration": "3800",
-                    "hs_call_from_number": "(857) 829 5489",
-                    "hs_call_to_number": "(509) 999 9999",
-                    "hs_call_recording_url": "example.com/recordings/abc2",
-                    "hs_call_status": "IN_PROGRESS"
+                    hs_timestamp: "2025-02-17T01:32:44.872Z",
+                    hs_call_title: "Support call 2",
+                    hubspot_owner_id: OWNER_ID,
+                    hs_call_body: "Resolved issue 2",
+                    hs_call_duration: "3800",
+                    hs_call_from_number: "(857) 829 5489",
+                    hs_call_to_number: "(509) 999 9999",
+                    hs_call_recording_url: "example.com/recordings/abc2",
+                    hs_call_status: "IN_PROGRESS"
                 },
                 associations: [
                     {
@@ -89,7 +89,7 @@ public function main() returns error? {
                             }
                         ],
                         to: {
-                            id: contactId
+                            id: CONTACT_ID
                         }
                     }   
                 ]
@@ -97,17 +97,17 @@ public function main() returns error? {
         ]
     };
 
-    hsCalls:BatchResponseSimplePublicObject responseCreate = check hubspotClientCalls->/batch/create.post(payloadCreate);
-    foreach hsCalls:SimplePublicObject call in responseCreate.results {
-        io:println(string `Created call: ${call.id}, Status: ${call.properties["hs_call_status"] ?: "Not Found!"}`);
+    hscalls:BatchResponseSimplePublicObject responseCreate = check hubspotClientCalls->/batch/create.post(payloadCreate);
+    foreach hscalls:SimplePublicObject call in responseCreate.results {
+        io:println(string `Created call: ${call.id}, Status: ${call.properties?.hs_call_status ?: "Not Found!"}`);
     }
     
-    string[] callIds = from hsCalls:SimplePublicObject callId in responseCreate.results select callId.id;
+    string[] callIds = from hscalls:SimplePublicObject callId in responseCreate.results select callId.id;
 
     // Batch read calls
     io:println("\nBatch reading calls...");
 
-    hsCalls:BatchReadInputSimplePublicObjectId payloadRead = {
+    hscalls:BatchReadInputSimplePublicObjectId payloadRead = {
         inputs: from string callId in callIds select {
             id: callId
         },
@@ -120,33 +120,33 @@ public function main() returns error? {
         ]
     };
 
-    hsCalls:BatchResponseSimplePublicObject responseRead = check hubspotClientCalls->/batch/read.post(payloadRead);
-    foreach hsCalls:SimplePublicObject call in responseRead.results {
-        io:println(string `Call ID: ${call.id}, Title: ${call.properties["hs_call_title"] ?: "Not Found!"}`);
+    hscalls:BatchResponseSimplePublicObject responseRead = check hubspotClientCalls->/batch/read.post(payloadRead);
+    foreach hscalls:SimplePublicObject call in responseRead.results {
+        io:println(string `Call ID: ${call.id}, Title: ${call.properties?.hs_call_title ?: "Not Found!"}`);
     }
 
     // Batch update calls
     io:println("\nBatch updating calls...");
 
-    hsCalls:BatchInputSimplePublicObjectBatchInput payloadUpdate = {
+    hscalls:BatchInputSimplePublicObjectBatchInput payloadUpdate = {
         inputs: from string callId in callIds select {
             id: callId,
             properties: {
-                "hs_call_title": string `Updated call title for ${callId}`,
-                "hs_call_status": "COMPLETED"
+                hs_call_title: string `Updated call title for ${callId}`,
+                hs_call_status: "COMPLETED"
             }
         }
     };
 
-    hsCalls:BatchResponseSimplePublicObject responseUpdate = check hubspotClientCalls->/batch/update.post(payloadUpdate);
-    foreach hsCalls:SimplePublicObject call in responseUpdate.results {
-        io:println(string `Updated call: ${call.id}, Title: ${call.properties["hs_call_title"] ?: "Not Found!"}, Status: ${call.properties["hs_call_status"] ?: ""}`);
+    hscalls:BatchResponseSimplePublicObject responseUpdate = check hubspotClientCalls->/batch/update.post(payloadUpdate);
+    foreach hscalls:SimplePublicObject call in responseUpdate.results {
+        io:println(string `Updated call: ${call.id}, Title: ${call.properties?.hs_call_title ?: "Not Found!"}, Status: ${call.properties?.hs_call_status ?: ""}`);
     }
 
     // Batch archive calls
     io:println("\nBatch archiving calls...");
 
-    hsCalls:BatchReadInputSimplePublicObjectId payloadArchive = {
+    hscalls:BatchReadInputSimplePublicObjectId payloadArchive = {
         inputs: from string callId in callIds select {
             id: callId
         },
