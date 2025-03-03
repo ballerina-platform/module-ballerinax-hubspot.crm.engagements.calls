@@ -49,7 +49,6 @@ const int:Signed32 HS_ASSOCIATION_TYPE_ID = 194; // call to contact association
 isolated string hsCallId = "";
 isolated string[] hsBatchCallIds = [];
 
-// Test: Post a call
 @test:Config {
     groups: ["live_tests", "mock_tests"]
 }
@@ -89,7 +88,6 @@ isolated function testPostACall() returns error? {
     }
 }
 
-// Test: Post a call with invalid associationTypeId
 @test:Config {
     groups: ["live_tests", "mock_tests"]
 }
@@ -126,7 +124,6 @@ isolated function testPostACallNegative() returns error? {
     test:assertTrue(response is error, "Expected an error response for invalid associationTypeId");
 }
 
-// Test: Get calls
 @test:Config {
     dependsOn: [testPostACall],
     groups: ["live_tests", "mock_tests"]
@@ -136,7 +133,6 @@ isolated function testGetCalls() returns error? {
     test:assertTrue(response.results.length() > 0, "No calls found");
 }
 
-// Test: Get a call by id
 @test:Config {
     dependsOn: [testPostACall],
     groups: ["live_tests", "mock_tests"]
@@ -151,7 +147,6 @@ isolated function testGetACallById() returns error? {
     test:assertTrue(response.id == callId, "Call id mismatch");
 }
 
-// Test: Get a call by id
 @test:Config {
     dependsOn: [testArchiveACall],
     groups: ["live_tests", "mock_tests"]
@@ -164,7 +159,6 @@ isolated function testGetACallByIdNegative() returns error? {
     test:assertTrue(response is error, "Call is not archived");
 }
 
-// Test: Search calls
 @test:Config {
     dependsOn: [testPostACall],
     groups: ["live_tests", "mock_tests"]
@@ -192,7 +186,6 @@ isolated function testSearchCalls() returns error? {
     test:assertTrue(response.results.length() > 0, "No calls found");
 }
 
-// Test: Search calls with invalid filter
 @test:Config {
     enable: isLiveServer,
     dependsOn: [testPostACall],
@@ -221,7 +214,6 @@ isolated function testSearchCallsNegative() returns error? {
     test:assertTrue(response is error, "Expected an error response for invalid search filter");
 }
 
-// Test: Update a call
 @test:Config {
     dependsOn: [testPostACall, testGetACallById, testSearchCalls],
     groups: ["live_tests", "mock_tests"]
@@ -255,7 +247,6 @@ isolated function testUpdateACall() returns error? {
     }
 }
 
-// Test: Update a call
 @test:Config {
     dependsOn: [testUpdateACall],
     groups: ["live_tests", "mock_tests"]
@@ -285,7 +276,6 @@ isolated function testUpdateACallNegative() returns error? {
     test:assertTrue(response is error, "Expected an error response for invalid update");
 }
 
-// Test: Archive a call
 @test:Config {
     dependsOn: [testUpdateACall, testPostACall],
     groups: ["live_tests", "mock_tests"]
@@ -301,7 +291,6 @@ isolated function testArchiveACall() returns error? {
     test:assertEquals(response.statusCode, 204, "Call deletion failed");
 }
 
-// Test: Create a batch of calls
 @test:Config {
     groups: ["live_tests", "mock_tests"]
 }
@@ -380,7 +369,6 @@ isolated function testBatchCreateCalls() returns error? {
     }
 }
 
-// Test: Read a batch of calls
 @test:Config {
     dependsOn: [testBatchCreateCalls],
     groups: ["live_tests", "mock_tests"]
@@ -409,7 +397,6 @@ isolated function testBatchReadCalls() returns error? {
     test:assertTrue(response.results.length() == 2, "Batch read did not return expected number of results");
 }
 
-// Test: Update a batch of calls
 @test:Config {
     dependsOn: [testBatchReadCalls],
     groups: ["live_tests", "mock_tests"]
@@ -440,7 +427,6 @@ isolated function testBatchUpdateCalls() returns error? {
     }
 }
 
-// Test: Archive a batch of calls
 @test:Config {
     dependsOn: [testBatchUpdateCalls],
     groups: ["live_tests", "mock_tests"]
