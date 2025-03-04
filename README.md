@@ -188,7 +188,7 @@ public function main() returns error? {
 
 ```ballerina
 public function main() returns error? {
-    hs_calls:SimplePublicObjectInputForCreate payloadCreate = {
+    hscalls:SimplePublicObjectInputForCreate payloadCreate = {
         properties: {
             "hs_timestamp": "2025-02-17T01:32:44.872Z",
             "hs_call_title": "Support call",
@@ -215,7 +215,7 @@ public function main() returns error? {
         ]
     };
 
-    hs_calls:SimplePublicObject responseCreated = check hubspot->/.post(payloadCreate);
+    hscalls:SimplePublicObject responseCreated = check hubspot->/.post(payloadCreate);
     string callId = responseCreated.id;
     io:println("Call created successfully with ID: " + callId);
 }
