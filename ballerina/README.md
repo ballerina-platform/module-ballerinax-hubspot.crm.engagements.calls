@@ -16,7 +16,7 @@ If you don't have an account, you can sign up for a free account [here](https://
 
 Within app developer accounts, you can create a [Developer Test Account](https://developers.hubspot.com/beta-docs/getting-started/account-types#developer-test-accounts) to test apps and integrations without affecting any real HubSpot data.
 
- > **Note:** These accounts are only for development and testing purposes. In production, you should not use Developer Test Accounts.
+> **Note:** These accounts are only for development and testing purposes. In production, you should not use Developer Test Accounts.
 
 1. Go to the `Test accounts` section from the left sidebar.
 
@@ -131,7 +131,7 @@ To use the `HubSpot CRM Engagement Calls` connector in your Ballerina applicatio
 Import the `hubspot.crm.engagements.calls` module and `oauth2` module.
 
 ```ballerina
-import ballerinax/hubspot.crm.engagements.calls as hsCalls;
+import ballerinax/hubspot.crm.engagements.calls as hscalls;
 import ballerina/oauth2;
 ```
 
@@ -147,21 +147,21 @@ import ballerina/oauth2;
 
 2. Instantiate a `OAuth2RefreshTokenGrantConfig` with the obtained credentials and initialize the connector with it.
 
-    ```ballerina
-    configurable string clientId = ?;
-    configurable string clientSecret = ?;
-    configurable string refreshToken = ?;
+   ```ballerina
+   configurable string clientId = ?;
+   configurable string clientSecret = ?;
+   configurable string refreshToken = ?;
 
-    OAuth2RefreshTokenGrantConfig auth = {
-        clientId,
-        clientSecret,
-        refreshToken,
-        credentialBearer: oauth2:POST_BODY_BEARER
-    };
+   OAuth2RefreshTokenGrantConfig auth = {
+       clientId,
+       clientSecret,
+       refreshToken,
+       credentialBearer: oauth2:POST_BODY_BEARER
+   };
 
-    ConnectionConfig config = {auth:auth};
-    final hsCalls:Client hubspot  = check new(config);
-    ```
+   ConnectionConfig config = {auth:auth};
+   final hscalls:Client hubspot  = check new(config);
+   ```
 
 ### Step 3: Invoke the connector operation
 
@@ -171,12 +171,52 @@ Now, utilize the available connector operations. A sample use case is shown belo
 
 ```ballerina
 public function main() returns error? {
-   hsCalls:CollectionResponseSimplePublicObjectWithAssociationsForwardPaging pageOfCalls = check hubspot->/.get();
+   hscalls:CollectionResponseSimplePublicObjectWithAssociationsForwardPaging pageOfCalls = check hubspot->/.get();
    io:println("Calls: ", pageOfCalls);
 }
 ```
 
-## Examples
+#### Create a Call
+
+```ballerina
+public function main() returns error? {
+    hs_calls:SimplePublicObjectInputForCreate payloadCreate = {
+        properties: {
+            "hs_timestamp": "2025-02-17T01:32:44.872Z",
+            "hs_call_title": "Support call",
+            "hubspot_owner_id": "12345", // Use existing owner ID
+            "hs_call_body": "Resolved issue",
+            "hs_call_duration": "3800",
+            "hs_call_from_number": "(857) 829 5489",
+            "hs_call_to_number": "(509) 999 9999",
+            "hs_call_recording_url": "example.com/recordings/abc",
+            "hs_call_status": "IN_PROGRESS"
+        },
+        associations: [
+        {
+            types: [
+                {
+                    associationCategory: "HUBSPOT_DEFINED",
+                    associationTypeId: 194
+                    }
+                ],
+                to: {
+                    id: contactId
+                }
+            }
+        ]
+    };
+
+    hs_calls:SimplePublicObject responseCreated = check hubspot->/.post(payloadCreate);
+    string callId = responseCreated.id;
+    io:println("Call created successfully with ID: " + callId);
+}
+```
+
+Refer to the [HubSpot CRM Association Documentation](https://developers.hubspot.com/docs/guides/api/crm/associations/associations-v4#call-to-object) to learn about associations and default association types. In this example, I used the association for 'call to contact,' which is 194.
+Also, refer to the [HubSpot CRM Engagements Calls Documentation](https://developers.hubspot.com/docs/reference/api/crm/engagements/calls) to learn about the properties of a call in HubSpot CRM.
+
+## Ballerina HubSpot CRM Engagements Calls connector
 
 The `HubSpot CRM Engagements Calls` connector provides practical examples illustrating usage in various scenarios. Explore these [examples](https://github.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/tree/main/examples), covering the following use cases:
 

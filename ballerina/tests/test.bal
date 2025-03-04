@@ -23,60 +23,58 @@ configurable string clientId = "clientId";
 configurable string clientSecret = "clientSecret";
 configurable string refreshToken = "refreshToken";
 
-final string serviceUrl = isLiveServer ? "https://api.hubapi.com/crm/v3/objects/calls" : "http://localhost:9090";
 final Client hubSpotClient = check initClient();
 
 isolated function initClient() returns Client|error {
     if isLiveServer {
         OAuth2RefreshTokenGrantConfig auth = {
-            clientId: clientId,
-            clientSecret: clientSecret,
-            refreshToken: refreshToken,
+            clientId,
+            clientSecret,
+            refreshToken,
             credentialBearer: oauth2:POST_BODY_BEARER
         };
-        return check new ({auth}, serviceUrl);
+        return check new ({auth}, "https://api.hubapi.com/crm/v3/objects/calls");
     }
     return check new ({
         auth: {
             token: "test-token"
         }
-    }, serviceUrl);
+    }, "http://localhost:9090");
 }
 
-final string hsOwnerId = "77367788"; // example owner id
-final string hsObjectId = "83829237490"; // example contact id
-final int:Signed32 hsAssociationTypeId = 194; // call to contact association
+const string HS_OWNER_ID = "77367788"; // example owner id
+const string HS_OBJECT_ID = "83829237490"; // example contact id
+const int:Signed32 HS_ASSOCIATION_TYPE_ID = 194; // call to contact association
 
 isolated string hsCallId = "";
 isolated string[] hsBatchCallIds = [];
 
-// Test: Post a call
 @test:Config {
     groups: ["live_tests", "mock_tests"]
 }
 isolated function testPostACall() returns error? {
     SimplePublicObjectInputForCreate payload = {
         properties: {
-            "hs_timestamp": "2025-02-17T01:32:44.872Z",
-            "hs_call_title": "Support call",
-            "hubspot_owner_id": hsOwnerId,
-            "hs_call_body": "Resolved issue",
-            "hs_call_duration": "3800",
-            "hs_call_from_number": "(857) 829 5489",
-            "hs_call_to_number": "(509) 999 9999",
-            "hs_call_recording_url": "example.com/recordings/abc",
-            "hs_call_status": "COMPLETED"
+            hs_timestamp: "2025-02-17T01:32:44.872Z",
+            hs_call_title: "Support call",
+            hubspot_owner_id: HS_OWNER_ID,
+            hs_call_body: "Resolved issue",
+            hs_call_duration: "3800",
+            hs_call_from_number: "(857) 829 5489",
+            hs_call_to_number: "(509) 999 9999",
+            hs_call_recording_url: "example.com/recordings/abc",
+            hs_call_status: "COMPLETED"
         },
         associations: [
             {
                 types: [
                     {
                         associationCategory: "HUBSPOT_DEFINED",
-                        associationTypeId: hsAssociationTypeId
+                        associationTypeId: HS_ASSOCIATION_TYPE_ID
                     }
                 ],
                 to: {
-                    id: hsObjectId
+                    id: HS_OBJECT_ID
                 }
             }
         ]
@@ -90,22 +88,21 @@ isolated function testPostACall() returns error? {
     }
 }
 
-// Test: (Negative) Post a call with invalid associationTypeId
 @test:Config {
     groups: ["live_tests", "mock_tests"]
 }
-isolated function testPostACall_Negative() returns error? {
+isolated function testPostACallNegative() returns error? {
     SimplePublicObjectInputForCreate payload = {
         properties: {
-            "hs_timestamp": "2025-02-17T01:32:44.872Z",
-            "hs_call_title": "Support call",
-            "hubspot_owner_id": hsOwnerId,
-            "hs_call_body": "Resolved issue",
-            "hs_call_duration": "3800",
-            "hs_call_from_number": "(857) 829 5489",
-            "hs_call_to_number": "(509) 999 9999",
-            "hs_call_recording_url": "example.com/recordings/abc",
-            "hs_call_status": "COMPLETED"
+            hs_timestamp: "2025-02-17T01:32:44.872Z",
+            hs_call_title: "Support call",
+            hubspot_owner_id: HS_OWNER_ID,
+            hs_call_body: "Resolved issue",
+            hs_call_duration: "3800",
+            hs_call_from_number: "(857) 829 5489",
+            hs_call_to_number: "(509) 999 9999",
+            hs_call_recording_url: "example.com/recordings/abc",
+            hs_call_status: "COMPLETED"
         },
         associations: [
             {
@@ -116,7 +113,7 @@ isolated function testPostACall_Negative() returns error? {
                     }
                 ],
                 to: {
-                    id: hsObjectId
+                    id: HS_OBJECT_ID
                 }
             }
         ]
@@ -127,7 +124,6 @@ isolated function testPostACall_Negative() returns error? {
     test:assertTrue(response is error, "Expected an error response for invalid associationTypeId");
 }
 
-// Test: Get calls
 @test:Config {
     dependsOn: [testPostACall],
     groups: ["live_tests", "mock_tests"]
@@ -137,7 +133,6 @@ isolated function testGetCalls() returns error? {
     test:assertTrue(response.results.length() > 0, "No calls found");
 }
 
-// Test: Get a call by id
 @test:Config {
     dependsOn: [testPostACall],
     groups: ["live_tests", "mock_tests"]
@@ -152,12 +147,11 @@ isolated function testGetACallById() returns error? {
     test:assertTrue(response.id == callId, "Call id mismatch");
 }
 
-// Test: (Nagative) Get a call by id
 @test:Config {
     dependsOn: [testArchiveACall],
     groups: ["live_tests", "mock_tests"]
 }
-isolated function testGetACallById_Negative() returns error? {
+isolated function testGetACallByIdNegative() returns error? {
     string callId = "invalid_call_id";
 
     SimplePublicObject|error response = hubSpotClient->/[callId].get();
@@ -165,7 +159,6 @@ isolated function testGetACallById_Negative() returns error? {
     test:assertTrue(response is error, "Call is not archived");
 }
 
-// Test: Search calls
 @test:Config {
     dependsOn: [testPostACall],
     groups: ["live_tests", "mock_tests"]
@@ -193,13 +186,12 @@ isolated function testSearchCalls() returns error? {
     test:assertTrue(response.results.length() > 0, "No calls found");
 }
 
-// Test: (Negative) Search calls with invalid filter
 @test:Config {
     enable: isLiveServer,
     dependsOn: [testPostACall],
     groups: ["live_tests"]
 }
-isolated function testSearchCalls_Negative() returns error? {
+isolated function testSearchCallsNegative() returns error? {
     PublicObjectSearchRequest payload = {
         filterGroups: [
             {
@@ -222,7 +214,6 @@ isolated function testSearchCalls_Negative() returns error? {
     test:assertTrue(response is error, "Expected an error response for invalid search filter");
 }
 
-// Test: Update a call
 @test:Config {
     dependsOn: [testPostACall, testGetACallById, testSearchCalls],
     groups: ["live_tests", "mock_tests"]
@@ -235,33 +226,32 @@ isolated function testUpdateACall() returns error? {
 
     SimplePublicObjectInput payload = {
         properties: {
-            "hs_timestamp": "2025-02-17T01:32:44.872Z",
-            "hs_call_title": "Support call",
-            "hubspot_owner_id": hsOwnerId,
-            "hs_call_body": "Resolved issue: updated",
-            "hs_call_duration": "3800",
-            "hs_call_from_number": "(857) 829 5489",
-            "hs_call_to_number": "(509) 999 9999",
-            "hs_call_recording_url": "example.com/recordings/abc",
-            "hs_call_status": "COMPLETED"
+            hs_timestamp: "2025-02-17T01:32:44.872Z",
+            hs_call_title: "Support call",
+            hubspot_owner_id: HS_OWNER_ID,
+            hs_call_body: "Resolved issue: updated",
+            hs_call_duration: "3800",
+            hs_call_from_number: "(857) 829 5489",
+            hs_call_to_number: "(509) 999 9999",
+            hs_call_recording_url: "example.com/recordings/abc",
+            hs_call_status: "COMPLETED"
         }
     };
 
     SimplePublicObject|error response = hubSpotClient->/[callId].patch(payload);
 
     if response is SimplePublicObject {
-        test:assertTrue(response.properties["hs_call_body"] == "Resolved issue: updated", "Call body is not updated");
+        test:assertTrue(response.properties?.hs_call_body == "Resolved issue: updated", "Call body is not updated");
     } else {
         test:assertTrue(false, "Response is not in correct type");
     }
 }
 
-// Test: (Negative) Update a call
 @test:Config {
     dependsOn: [testUpdateACall],
     groups: ["live_tests", "mock_tests"]
 }
-isolated function testUpdateACall_Negative() returns error? {
+isolated function testUpdateACallNegative() returns error? {
     string callId = "";
     lock {
         callId = hsCallId;
@@ -269,15 +259,15 @@ isolated function testUpdateACall_Negative() returns error? {
 
     SimplePublicObjectInput payload = {
         properties: {
-            "hs_timestamp": "2025-02-17T01:32:44.872Z",
-            "hs_call_title": "Support call",
-            "hubspot_owner_id": hsOwnerId,
-            "hs_call_body": "Resolved issue: invalid update",
-            "hs_call_duration": "3800",
-            "hs_call_from_number": "(857) 829 5489",
-            "hs_call_to_number": "(509) 999 9999",
-            "hs_call_recording_url": "example.com/recordings/abc",
-            "hs_call_status": "INVALID_STATUS" // Invalid status to trigger an error
+            hs_timestamp: "2025-02-17T01:32:44.872Z",
+            hs_call_title: "Support call",
+            hubspot_owner_id: HS_OWNER_ID,
+            hs_call_body: "Resolved issue: invalid update",
+            hs_call_duration: "3800",
+            hs_call_from_number: "(857) 829 5489",
+            hs_call_to_number: "(509) 999 9999",
+            hs_call_recording_url: "example.com/recordings/abc",
+            hs_call_status: "INVALID_STATUS" // Invalid status to trigger an error
         }
     };
 
@@ -286,7 +276,6 @@ isolated function testUpdateACall_Negative() returns error? {
     test:assertTrue(response is error, "Expected an error response for invalid update");
 }
 
-// Test: Archive a call
 @test:Config {
     dependsOn: [testUpdateACall, testPostACall],
     groups: ["live_tests", "mock_tests"]
@@ -302,7 +291,6 @@ isolated function testArchiveACall() returns error? {
     test:assertEquals(response.statusCode, 204, "Call deletion failed");
 }
 
-// Test: Create a batch of calls
 @test:Config {
     groups: ["live_tests", "mock_tests"]
 }
@@ -311,52 +299,52 @@ isolated function testBatchCreateCalls() returns error? {
         inputs: [
             {
                 properties: {
-                    "hs_timestamp": "2025-02-17T01:32:44.872Z",
-                    "hs_call_title": "Support call 1",
-                    "hubspot_owner_id": hsOwnerId,
-                    "hs_call_body": "Resolved issue 1",
-                    "hs_call_duration": "3800",
-                    "hs_call_from_number": "(857) 829 5489",
-                    "hs_call_to_number": "(509) 999 9999",
-                    "hs_call_recording_url": "example.com/recordings/abc1",
-                    "hs_call_status": "COMPLETED"
+                    hs_timestamp: "2025-02-17T01:32:44.872Z",
+                    hs_call_title: "Support call 1",
+                    hubspot_owner_id: HS_OWNER_ID,
+                    hs_call_body: "Resolved issue 1",
+                    hs_call_duration: "3800",
+                    hs_call_from_number: "(857) 829 5489",
+                    hs_call_to_number: "(509) 999 9999",
+                    hs_call_recording_url: "example.com/recordings/abc1",
+                    hs_call_status: "COMPLETED"
                 },
                 associations: [
                     {
                         types: [
                             {
                                 associationCategory: "HUBSPOT_DEFINED",
-                                associationTypeId: hsAssociationTypeId
+                                associationTypeId: HS_ASSOCIATION_TYPE_ID
                             }
                         ],
                         to: {
-                            id: hsObjectId
+                            id: HS_OBJECT_ID
                         }
                     }
                 ]
             },
             {
                 properties: {
-                    "hs_timestamp": "2025-02-17T01:32:44.872Z",
-                    "hs_call_title": "Support call 2",
-                    "hubspot_owner_id": hsOwnerId,
-                    "hs_call_body": "Resolved issue 2",
-                    "hs_call_duration": "3800",
-                    "hs_call_from_number": "(857) 829 5489",
-                    "hs_call_to_number": "(509) 999 9999",
-                    "hs_call_recording_url": "example.com/recordings/abc2",
-                    "hs_call_status": "COMPLETED"
+                    hs_timestamp: "2025-02-17T01:32:44.872Z",
+                    hs_call_title: "Support call 2",
+                    hubspot_owner_id: HS_OWNER_ID,
+                    hs_call_body: "Resolved issue 2",
+                    hs_call_duration: "3800",
+                    hs_call_from_number: "(857) 829 5489",
+                    hs_call_to_number: "(509) 999 9999",
+                    hs_call_recording_url: "example.com/recordings/abc2",
+                    hs_call_status: "COMPLETED"
                 },
                 associations: [
                     {
                         types: [
                             {
                                 associationCategory: "HUBSPOT_DEFINED",
-                                associationTypeId: hsAssociationTypeId
+                                associationTypeId: HS_ASSOCIATION_TYPE_ID
                             }
                         ],
                         to: {
-                            id: hsObjectId
+                            id: HS_OBJECT_ID
                         }
                     }
                 ]
@@ -381,7 +369,6 @@ isolated function testBatchCreateCalls() returns error? {
     }
 }
 
-// Test: Read a batch of calls
 @test:Config {
     dependsOn: [testBatchCreateCalls],
     groups: ["live_tests", "mock_tests"]
@@ -410,7 +397,6 @@ isolated function testBatchReadCalls() returns error? {
     test:assertTrue(response.results.length() == 2, "Batch read did not return expected number of results");
 }
 
-// Test: Update a batch of calls
 @test:Config {
     dependsOn: [testBatchReadCalls],
     groups: ["live_tests", "mock_tests"]
@@ -426,7 +412,7 @@ isolated function testBatchUpdateCalls() returns error? {
             return {
                 id: id,
                 properties: {
-                    "hs_call_body": "Updated call body"
+                    hs_call_body: "Updated call body"
                 }
             };
         })
@@ -437,11 +423,10 @@ isolated function testBatchUpdateCalls() returns error? {
     test:assertTrue(response.results.length() == callIds.length(), "Batch update did not return expected number of results");
 
     foreach var result in response.results {
-        test:assertTrue(result.properties["hs_call_body"] == "Updated call body", "Call body is not updated");
+        test:assertTrue(result.properties?.hs_call_body == "Updated call body", "Call body is not updated");
     }
 }
 
-// Test: Archive a batch of calls
 @test:Config {
     dependsOn: [testBatchUpdateCalls],
     groups: ["live_tests", "mock_tests"]

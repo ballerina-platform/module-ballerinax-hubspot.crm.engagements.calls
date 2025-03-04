@@ -17,7 +17,7 @@
 import ballerina/http;
 import ballerina/io;
 import ballerina/oauth2;
-import ballerinax/hubspot.crm.engagements.calls as hsCalls;
+import ballerinax/hubspot.crm.engagements.calls as hscalls;
 
 // Variables required for authentication
 configurable string clientId = ?;
@@ -25,32 +25,32 @@ configurable string clientSecret = ?;
 configurable string refreshToken = ?;
 
 // example IDs for testing
-final string ownerId = "77367788";
-final string contactId = "83829237490";
+const string OWNER_ID = "77367788";
+const string CONTACT_ID = "83829237490";
 
-hsCalls:OAuth2RefreshTokenGrantConfig auth = {
+hscalls:OAuth2RefreshTokenGrantConfig auth = {
     clientId,
     clientSecret,
     refreshToken,
     credentialBearer: oauth2:POST_BODY_BEARER
 };
-final hsCalls:Client hubspotClientCalls = check new ({auth});
+final hscalls:Client hubspotClientCalls = check new ({auth});
 
 public function main() returns error? {
     // create a new call
     io:println("Creating a new call...");
 
-    hsCalls:SimplePublicObjectInputForCreate payloadCreate = {
+    hscalls:SimplePublicObjectInputForCreate payloadCreate = {
         properties: {
-            "hs_timestamp": "2025-02-17T01:32:44.872Z",
-            "hs_call_title": "Support call",
-            "hubspot_owner_id": ownerId,
-            "hs_call_body": "Resolved issue",
-            "hs_call_duration": "3800",
-            "hs_call_from_number": "(857) 829 5489",
-            "hs_call_to_number": "(509) 999 9999",
-            "hs_call_recording_url": "example.com/recordings/abc",
-            "hs_call_status": "IN_PROGRESS"
+            hs_timestamp: "2025-02-17T01:32:44.872Z",
+            hs_call_title: "Support call",
+            hubspot_owner_id: OWNER_ID,
+            hs_call_body: "Resolved issue",
+            hs_call_duration: "3800",
+            hs_call_from_number: "(857) 829 5489",
+            hs_call_to_number: "(509) 999 9999",
+            hs_call_recording_url: "example.com/recordings/abc",
+            hs_call_status: "IN_PROGRESS"
         },
         associations: [
             {
@@ -61,39 +61,39 @@ public function main() returns error? {
                     }
                 ],
                 to: {
-                    id: contactId
+                    id: CONTACT_ID
                 }
             }
         ]
     };
 
-    hsCalls:SimplePublicObject responseCreated = check hubspotClientCalls->/.post(payloadCreate);
+    hscalls:SimplePublicObject responseCreated = check hubspotClientCalls->/.post(payloadCreate);
     string callId = responseCreated.id;
     io:println("Call created successfully with ID: ", callId);
 
     // get all calls
     io:println("\nGetting all calls...");
 
-    hsCalls:CollectionResponseSimplePublicObjectWithAssociationsForwardPaging responseGetAll = check hubspotClientCalls->/.get();
+    hscalls:CollectionResponseSimplePublicObjectWithAssociationsForwardPaging responseGetAll = check hubspotClientCalls->/.get();
     io:println("All calls:");
-    foreach hsCalls:SimplePublicObjectWithAssociations call in responseGetAll.results {
+    foreach hscalls:SimplePublicObjectWithAssociations call in responseGetAll.results {
         io:println("ID: ", call.id);
     }
 
     // update the call
     io:println("\nUpdating the call...");
 
-    hsCalls:SimplePublicObjectInput payloadUpdate = {
+    hscalls:SimplePublicObjectInput payloadUpdate = {
         properties: {
-            "hs_call_title": "Support call Updated",
-            "hs_call_body": "Resolved issue: updated",
-            "hs_call_status": "COMPLETED"
+            hs_call_title: "Support call Updated",
+            hs_call_body: "Resolved issue: updated",
+            hs_call_status: "COMPLETED"
         }
     };
 
-    hsCalls:SimplePublicObject responseUpdated = check hubspotClientCalls->/[callId].patch(payloadUpdate);
+    hscalls:SimplePublicObject responseUpdated = check hubspotClientCalls->/[callId].patch(payloadUpdate);
     io:println("Call updated successfully with ID: ", responseUpdated.id);
-    io:println("Updated status: ", responseUpdated.properties["hs_call_status"]);
+    io:println("Updated status: ", responseUpdated.properties?.hs_call_status);
 
     // archive the call
     io:println("\nArchive the call...");
