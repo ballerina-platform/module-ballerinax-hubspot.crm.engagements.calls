@@ -139,8 +139,8 @@ To use the `HubSpot CRM Engagement Calls` connector in your Ballerina applicatio
 Import the `hubspot.crm.engagements.calls` module and `oauth2` module.
 
 ```ballerina
-import ballerinax/hubspot.crm.engagements.calls as hscalls;
 import ballerina/oauth2;
+import ballerinax/hubspot.crm.engagements.calls as hscalls;
 ```
 
 ### Step 2: Instantiate a new connector
