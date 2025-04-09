@@ -2,7 +2,7 @@
 distribution = "2201.11.0"
 org = "ballerinax"
 name = "hubspot.crm.engagements.calls"
-version = "1.0.0"
+version = "2.0.0"
 license = ["Apache-2.0"]
 authors = ["Ballerina"]
 keywords = ["hubspot", "CRM", "Engagements", "Calls Management", "Customer Interaction", "Communication Tracking"]
