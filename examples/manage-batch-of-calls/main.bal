@@ -14,7 +14,6 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import ballerina/http;
 import ballerina/io;
 import ballerina/oauth2;
 import ballerinax/hubspot.crm.engagements.calls as hscalls;
@@ -44,15 +43,15 @@ public function main() returns error? {
         inputs: [
             {
                 properties: {
-                    hs_timestamp: "2025-02-17T01:32:44.872Z",
-                    hs_call_title: "Support call 1",
-                    hubspot_owner_id: OWNER_ID,
-                    hs_call_body: "Resolved issue 1",
-                    hs_call_duration: "3800",
-                    hs_call_from_number: "(857) 829 5489",
-                    hs_call_to_number: "(509) 999 9999",
-                    hs_call_recording_url: "example.com/recordings/abc1",
-                    hs_call_status: "IN_PROGRESS"
+                    "hsTimestamp": "2025-02-17T01:32:44.872Z",
+                    "hsCallTitle": "Support call",
+                    "hubspotOwnerId": OWNER_ID,
+                    "hsCallBody": "Resolved issue",
+                    "hsCallDuration": "3800",
+                    "hsCallFromNumber": "(857) 829 5489",
+                    "hsCallToNumber": "(509) 999 9999",
+                    "hsCallRecordingUrl": "example.com/recordings/abc",
+                    "hsCallStatus": "IN_PROGRESS"
                 },
                 associations: [
                     {
@@ -70,15 +69,15 @@ public function main() returns error? {
             },
             {
                 properties: {
-                    hs_timestamp: "2025-02-17T01:32:44.872Z",
-                    hs_call_title: "Support call 2",
-                    hubspot_owner_id: OWNER_ID,
-                    hs_call_body: "Resolved issue 2",
-                    hs_call_duration: "3800",
-                    hs_call_from_number: "(857) 829 5489",
-                    hs_call_to_number: "(509) 999 9999",
-                    hs_call_recording_url: "example.com/recordings/abc2",
-                    hs_call_status: "IN_PROGRESS"
+                    "hsTimestamp": "2025-02-17T01:32:44.872Z",
+                    "hsCallTitle": "Support call",
+                    "hubspotOwnerId": OWNER_ID,
+                    "hsCallBody": "Resolved issue",
+                    "hsCallDuration": "3800",
+                    "hsCallFromNumber": "(857) 829 5489",
+                    "hsCallToNumber": "(509) 999 9999",
+                    "hsCallRecordingUrl": "example.com/recordings/abc",
+                    "hsCallStatus": "IN_PROGRESS"
                 },
                 associations: [
                     {
@@ -99,7 +98,7 @@ public function main() returns error? {
 
     hscalls:BatchResponseSimplePublicObject responseCreate = check hubspotClientCalls->/batch/create.post(payloadCreate);
     foreach hscalls:SimplePublicObject call in responseCreate.results {
-        io:println(string `Created call: ${call.id}, Status: ${call.properties?.hs_call_status ?: "Not Found!"}`);
+        io:println(string `Created call: ${call.id}, Status: ${call.properties["hsCallStatus"] ?: "Not Found!"}`);
     }
     
     string[] callIds = from hscalls:SimplePublicObject callId in responseCreate.results select callId.id;
@@ -122,7 +121,7 @@ public function main() returns error? {
 
     hscalls:BatchResponseSimplePublicObject responseRead = check hubspotClientCalls->/batch/read.post(payloadRead);
     foreach hscalls:SimplePublicObject call in responseRead.results {
-        io:println(string `Call ID: ${call.id}, Title: ${call.properties?.hs_call_title ?: "Not Found!"}`);
+        io:println(string `Call ID: ${call.id}, Title: ${call.properties["hsCallTitle"] ?: "Not Found!"}`);
     }
 
     // Batch update calls
@@ -132,15 +131,16 @@ public function main() returns error? {
         inputs: from string callId in callIds select {
             id: callId,
             properties: {
-                hs_call_title: string `Updated call title for ${callId}`,
-                hs_call_status: "COMPLETED"
+                "hsCallTitle": string `Updated call title for ${callId}`,
+                "hsCallStatus": "COMPLETED"
             }
         }
     };
 
     hscalls:BatchResponseSimplePublicObject responseUpdate = check hubspotClientCalls->/batch/update.post(payloadUpdate);
     foreach hscalls:SimplePublicObject call in responseUpdate.results {
-        io:println(string `Updated call: ${call.id}, Title: ${call.properties?.hs_call_title ?: "Not Found!"}, Status: ${call.properties?.hs_call_status ?: ""}`);
+        io:println(string `Updated call: ${call.id}, 
+            Title: ${call.properties["hsCallTitle"] ?: "Not Found!"}, Status: ${call.properties["hsCallStatus"] ?: ""}`);
     }
 
     // Batch archive calls
@@ -151,14 +151,14 @@ public function main() returns error? {
             id: callId
         },
         properties: [
-            "hs_createdate",
-            "hs_call_title"
+            "hsCreateDate",
+            "hsCallTitle"
         ],
         propertiesWithHistory: [
-            "hs_call_status"
+            "hsCallStatus"
         ]
     };
 
-    http:Response responseArchive = check hubspotClientCalls->/batch/archive.post(payloadArchive);
-    io:println("Batch archive response status code: ", responseArchive.statusCode);
+    error? responseArchive = check hubspotClientCalls->/batch/archive.post(payloadArchive);
+    io:println("Batch archive response is successful");
 }
