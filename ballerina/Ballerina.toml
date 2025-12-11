@@ -5,7 +5,7 @@ name = "hubspot.crm.engagements.calls"
 version = "2.0.0"
 license = ["Apache-2.0"]
 authors = ["Ballerina"]
-keywords = ["hubspot", "CRM", "Engagements", "Calls Management", "Customer Interaction", "Communication Tracking"]
+keywords = ["Engagements", "Calls Management", "Customer Interaction", "Communication Tracking", "Vendor/HubSpot", "Area/CRM", "Type/Connector"]
 repository = "https://github.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls"
 
 [build-options]
