@@ -2,7 +2,14 @@
 
 [HubSpot](https://www.hubspot.com/) is an AI-powered customer relationship management (CRM) platform.
 
-The `ballerinax/hubspot.crm.engagements.calls` connector offers APIs to connect and interact with the [Hubspot CRM Engagements Calls API](https://developers.hubspot.com/docs/guides/api/crm/engagements/calls) endpoints, specifically based on the [HubSpot REST API](https://developers.hubspot.com/docs/reference/api/overview).
+The HubSpot connector offers APIs to connect and interact with the [Hubspot CRM Engagements Calls API](https://developers.hubspot.com/docs/guides/api/crm/engagements/calls) endpoints, specifically based on the [HubSpot REST API](https://developers.hubspot.com/docs/reference/api/overview).
+
+### Key Features
+
+- Create, read, update, and delete call engagement records
+- Batch operations for bulk call management
+- Search calls with filtering support
+- Track customer call interactions and communication history
 
 ## Setup guide
 
