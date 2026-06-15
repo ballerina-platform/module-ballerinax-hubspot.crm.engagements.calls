@@ -2,13 +2,13 @@
 
 [![Build](https://github.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/actions/workflows/ci.yml/badge.svg)](https://github.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/actions/workflows/ci.yml)
 [![GitHub Last Commit](https://img.shields.io/github/last-commit/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls.svg)](https://github.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.calls/commits/master)
-[![GitHub Issues](https://img.shields.io/github/issues/ballerina-platform/ballerina-library/module/hubspot.crm.engagements.calls.svg?label=Open%20Issues)](https://github.com/ballerina-platform/ballerina-library/labels/module%hubspot.crm.engagements.calls)
+[![GitHub Issues](https://img.shields.io/github/issues/ballerina-platform/ballerina-library/module/hubspot.crm.engagements.calls.svg?label=Open%20Issues)](https://github.com/ballerina-platform/ballerina-library/labels/module%2Fhubspot.crm.engagements.calls)
 
 ## Overview
 
 [HubSpot](https://www.hubspot.com/) is an AI-powered customer relationship management (CRM) platform.
 
-The `ballerinax/hubspot.crm.engagements.calls` connector offers APIs to connect and interact with the [Hubspot CRM Engagements Calls API](https://developers.hubspot.com/docs/guides/api/crm/engagements/calls) endpoints, specifically based on the [HubSpot REST API](https://developers.hubspot.com/docs/reference/api/overview).
+The `ballerinax/hubspot.crm.engagements.calls` connector offers APIs to connect and interact with the [HubSpot CRM Engagements Calls API](https://developers.hubspot.com/docs/guides/api/crm/engagements/calls) endpoints, specifically based on the [HubSpot REST API](https://developers.hubspot.com/docs/reference/api/overview).
 
 ## Setup guide
 
