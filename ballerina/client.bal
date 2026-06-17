@@ -196,7 +196,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
-    # Create or update a batch of calls by unique property
+    # Upsert a batch of calls
     #
     # + headers - Headers to be sent with the request 
     # + return - successful operation 

@@ -19,40 +19,65 @@
 
 import ballerina/http;
 
+# Standard error response structure returned by the API.
 public type StandardError record {
+    # Optional sub-category providing further error classification.
     record {} subCategory?;
+    # Contextual metadata map with string array values for the error.
     record {|string[]...;|} context;
+    # Map of relevant links associated with the error.
     record {|string...;|} links;
+    # Unique identifier for the error instance.
     string id?;
+    # High-level category classifying the error type.
     string category;
+    # Human-readable description of the error.
     string message;
+    # List of detailed error entries associated with this error.
     ErrorDetail[] errors;
+    # HTTP status code or status label for the error response.
     string status;
 };
 
+# Paginated collection of associated object identifiers.
 public type CollectionResponseAssociatedId record {
+    # Contains cursors for navigating to the next or previous page of results.
     Paging paging?;
+    # Array of associated object identifiers returned in this page.
     AssociatedId[] results;
 };
 
+# Defines association targets and their types for a given object.
 public type PublicAssociationsForObject record {
+    # List of association type specifications for the relationship.
     AssociationSpec[] types;
+    # Represents a public object identifier containing a single unique ID.
     PublicObjectId to;
 };
 
+# Batch operation response containing result objects and status.
 public type BatchResponseSimplePublicObject record {
+    # Datetime when the batch operation completed.
     string completedAt;
+    # Datetime when the batch operation was requested.
     string requestedAt?;
+    # Datetime when the batch operation started processing.
     string startedAt;
+    # Map of supplementary links related to the batch response.
     record {|string...;|} links?;
+    # Array of objects returned in the batch response.
     SimplePublicObject[] results;
+    # Current processing status of the batch operation.
     "PENDING"|"PROCESSING"|"CANCELED"|"COMPLETE" status;
 };
 
+# A logical grouping of filters applied together in a search query.
 public type FilterGroup record {
+    # Array of filter conditions within this group.
     Filter[] filters;
 };
 
+# Detailed information about a specific error encountered during a request.
 public type ErrorDetail record {
     # A specific category that contains more specific detail about the error
     string subCategory?;
@@ -66,38 +91,63 @@ public type ErrorDetail record {
     string message;
 };
 
+# Pagination metadata for forward-only cursor-based navigation.
 public type ForwardPaging record {
+    # Pagination details for retrieving the next page of results.
     NextPage next?;
 };
 
+# A minimal object representation containing only a unique identifier.
 public type SimplePublicObjectId record {
+    # The unique identifier of the object.
     string id;
 };
 
+# Batch upsert response including results, status, timestamps, and any errors.
 public type BatchResponseSimplePublicUpsertObjectWithErrors record {
+    # Timestamp when the batch operation completed.
     string completedAt;
+    # Total number of errors encountered in the batch operation.
     int:Signed32 numErrors?;
+    # Timestamp when the batch operation was requested.
     string requestedAt?;
+    # Timestamp when the batch operation began processing.
     string startedAt;
+    # Map of relevant hyperlinks associated with the batch response.
     record {|string...;|} links?;
+    # Array of successfully upserted objects in the batch.
     SimplePublicUpsertObject[] results;
+    # Array of errors encountered during the batch upsert operation.
     StandardError[] errors?;
+    # Current processing status of the batch upsert operation.
     "PENDING"|"PROCESSING"|"CANCELED"|"COMPLETE" status;
 };
 
+# Input schema for reading a batch of objects by ID with specified properties.
 public type BatchReadInputSimplePublicObjectId record {
+    # List of properties to return along with their historical values.
     string[] propertiesWithHistory;
+    # The property name used as the unique identifier for batch lookup.
     string idProperty?;
+    # Array of object IDs to retrieve in the batch read operation.
     SimplePublicObjectId[] inputs;
+    # List of property names to include in the response for each object.
     string[] properties;
 };
 
+# Response envelope for a batch upsert operation, including results, status, and timing metadata.
 public type BatchResponseSimplePublicUpsertObject record {
+    # Datetime when the batch operation completed.
     string completedAt;
+    # Datetime when the batch operation was requested.
     string requestedAt?;
+    # Datetime when the batch operation began processing.
     string startedAt;
+    # Map of related resource links associated with the batch response.
     record {|string...;|} links?;
+    # Array of upserted objects returned by the batch operation.
     SimplePublicUpsertObject[] results;
+    # Current processing status of the batch operation.
     "PENDING"|"PROCESSING"|"CANCELED"|"COMPLETE" status;
 };
 
@@ -115,16 +165,25 @@ public type GetCrmV3ObjectsCallsCallIdGetByIdQueries record {
     string[] properties?;
 };
 
+# A property value paired with its source metadata and the timestamp of last update.
 public type ValueWithTimestamp record {
+    # Identifier of the source that set this property value.
     string sourceId?;
+    # The type of source that provided this property value.
     string sourceType;
+    # Human-readable label describing the source of the value.
     string sourceLabel?;
+    # ID of the user who last updated this property value.
     int:Signed32 updatedByUserId?;
+    # The property value string.
     string value;
+    # Datetime when this property value was last updated.
     string timestamp;
 };
 
+# Input schema for a batch operation, containing a list of object IDs to process.
 public type BatchInputSimplePublicObjectId record {
+    # Array of object IDs to process in the batch operation.
     SimplePublicObjectId[] inputs;
 };
 
@@ -135,23 +194,37 @@ public type OAuth2RefreshTokenGrantConfig record {|
     string refreshUrl = "https://api.hubapi.com/oauth/v1/token";
 |};
 
+# Input schema for a batch upsert operation, containing objects to create or update.
 public type BatchInputSimplePublicObjectBatchInputUpsert record {
+    # Array of call records to upsert in the batch operation.
     SimplePublicObjectBatchInputUpsert[] inputs;
 };
 
+# Paginated collection of call records with a total count and forward paging cursor.
 public type CollectionResponseWithTotalSimplePublicObjectForwardPaging record {
+    # Total number of call records matching the request.
     int:Signed32 total;
+    # Pagination metadata for forward-only cursor-based navigation.
     ForwardPaging paging?;
+    # Array of call records returned in the current page.
     SimplePublicObject[] results;
 };
 
+# Represents a single call record with its properties, timestamps, and optional history.
 public type SimplePublicObject record {
+    # Timestamp when the call record was created.
     string createdAt;
+    # Indicates whether the call record is archived.
     boolean archived?;
+    # Timestamp when the call record was archived.
     string archivedAt?;
+    # Map of property names to their historical values with timestamps.
     record {|ValueWithTimestamp[]...;|} propertiesWithHistory?;
+    # Unique identifier of the call record.
     string id;
+    # Map of call property names to their current values.
     record {|string?...;|} properties;
+    # Timestamp when the call record was last updated.
     string updatedAt;
 };
 
@@ -199,7 +272,9 @@ public type ConnectionConfig record {|
     boolean laxDataBinding = true;
 |};
 
+# Represents a public object identifier containing a single unique ID.
 public type PublicObjectId record {
+    # Unique identifier of the public object.
     string id;
 };
 
@@ -219,8 +294,11 @@ public type GetCrmV3ObjectsCallsGetPageQueries record {
     string[] properties?;
 };
 
+# Contains cursors for navigating to the next or previous page of results.
 public type Paging record {
+    # Pagination details for retrieving the next page of results.
     NextPage next?;
+    # Pagination details for navigating to the previous result page.
     PreviousPage prev?;
 };
 
@@ -230,56 +308,95 @@ public type PostCrmV3ObjectsCallsBatchReadReadQueries record {
     boolean archived = false;
 };
 
+# Request payload for searching call records with filters, sorting, and pagination.
 public type PublicObjectSearchRequest record {
+    # Full-text search query string to filter call records.
     string query?;
+    # Maximum number of results to return in the response.
     int:Signed32 'limit?;
+    # Cursor token for retrieving the next page of results.
     string after?;
+    # List of sort criteria to order the search results.
     string[] sorts?;
+    # List of property names to include in the response.
     string[] properties?;
+    # Groups of filters used to narrow search results.
     FilterGroup[] filterGroups?;
 };
 
+# Input payload for upserting a single object in a batch operation, containing an identifier and property values.
 public type SimplePublicObjectBatchInputUpsert record {
+    # The property name used as the unique identifier for the object.
     string idProperty?;
+    # Trace identifier for tracking the object write operation.
     string objectWriteTraceId?;
+    # The unique identifier of the object to upsert.
     string id;
+    # Key-value map of property names and their values to set.
     record {|string...;|} properties;
 };
 
+# Batch operation response containing results, processing status, timestamps, and any errors encountered during execution.
 public type BatchResponseSimplePublicObjectWithErrors record {
+    # Timestamp indicating when the batch operation completed.
     string completedAt;
+    # Total number of errors encountered during the batch operation.
     int:Signed32 numErrors?;
+    # Timestamp indicating when the batch operation was requested.
     string requestedAt?;
+    # Timestamp indicating when the batch operation started processing.
     string startedAt;
+    # Map of related resource names to their associated URIs.
     record {|string...;|} links?;
+    # List of successfully processed public objects from the batch.
     SimplePublicObject[] results;
+    # List of errors encountered for individual items in the batch.
     StandardError[] errors?;
+    # Current processing status of the batch operation.
     "PENDING"|"PROCESSING"|"CANCELED"|"COMPLETE" status;
 };
 
+# Input schema for creating or updating a call object with properties and associations.
 public type SimplePublicObjectInput record {
+    # Trace identifier for auditing the write operation.
     string objectWriteTraceId?;
+    # Key-value pairs of call properties to set on the object.
     record {|string...;|} properties;
 };
 
+# Paginated collection of call objects including their associated records.
 public type CollectionResponseSimplePublicObjectWithAssociationsForwardPaging record {
+    # Pagination metadata for forward-only cursor-based navigation.
     ForwardPaging paging?;
+    # Array of call objects returned in the current page.
     SimplePublicObjectWithAssociations[] results;
 };
 
+# Defines the category and type of an association between CRM objects.
 public type AssociationSpec record {
+    # The source category of the association type (e.g., HUBSPOT_DEFINED).
     "HUBSPOT_DEFINED"|"USER_DEFINED"|"INTEGRATOR_DEFINED" associationCategory;
+    # Numeric identifier for the specific association type.
     int:Signed32 associationTypeId;
 };
 
+# A call object with its properties, timestamps, and related associations.
 public type SimplePublicObjectWithAssociations record {
+    # Map of associated CRM objects grouped by association type.
     record {|CollectionResponseAssociatedId...;|} associations?;
+    # Timestamp when the call record was created.
     string createdAt;
+    # Indicates whether the call record is archived.
     boolean archived?;
+    # Timestamp when the call record was archived.
     string archivedAt?;
+    # Map of property names to their historical values with timestamps.
     record {|ValueWithTimestamp[]...;|} propertiesWithHistory?;
+    # Unique identifier of the call record.
     string id;
+    # Key-value map of the call object's current property values.
     record {|string?...;|} properties;
+    # Timestamp when the call record was last updated.
     string updatedAt;
 };
 
@@ -289,53 +406,85 @@ public type PatchCrmV3ObjectsCallsCallIdUpdateQueries record {
     string idProperty?;
 };
 
+# Defines a filter condition using a property, operator, and comparison value.
 public type Filter record {
+    # Upper bound value used with the BETWEEN operator.
     string highValue?;
+    # The name of the property to filter by.
     string propertyName;
+    # A list of values to match against the filter property.
     string[] values?;
+    # A single value to match against the filter property.
     string value?;
     # null
     "EQ"|"NEQ"|"LT"|"LTE"|"GT"|"GTE"|"BETWEEN"|"IN"|"NOT_IN"|"HAS_PROPERTY"|"NOT_HAS_PROPERTY"|"CONTAINS_TOKEN"|"NOT_CONTAINS_TOKEN" operator;
 };
 
+# Pagination details for navigating to the previous result page.
 public type PreviousPage record {
+    # Cursor token representing the start of the previous page.
     string before;
+    # URL link to the previous page of results.
     string link?;
 };
 
+# A batch input wrapper containing an array of objects to create.
 public type BatchInputSimplePublicObjectInputForCreate record {
+    # An array of objects to create in the batch request.
     SimplePublicObjectInputForCreate[] inputs;
 };
 
+# A batch input wrapper containing an array of objects to update.
 public type BatchInputSimplePublicObjectBatchInput record {
+    # An array of batch input objects to update.
     SimplePublicObjectBatchInput[] inputs;
 };
 
+# Represents a call object returned after an upsert operation, indicating whether it was newly created.
 public type SimplePublicUpsertObject record {
+    # Timestamp when the object was originally created.
     string createdAt;
+    # Indicates whether the object is archived.
     boolean archived?;
+    # Timestamp when the object was archived, if applicable.
     string archivedAt?;
+    # Indicates whether the object was newly created by the upsert.
     boolean 'new;
+    # A map of property values including their historical change records.
     record {|ValueWithTimestamp[]...;|} propertiesWithHistory?;
+    # The unique identifier of the upserted object.
     string id;
+    # A map of property names to their current string values.
     record {|string...;|} properties;
+    # Timestamp when the object was last updated.
     string updatedAt;
 };
 
+# Represents a single call object within a batch update request, identified by ID with its updated properties.
 public type SimplePublicObjectBatchInput record {
+    # The property name used as a unique identifier for the object.
     string idProperty?;
+    # Trace ID for tracking the object write operation.
     string objectWriteTraceId?;
+    # The unique identifier of the object to update.
     string id;
+    # Key-value pairs of properties to set on the object.
     record {|string...;|} properties;
 };
 
+# Pagination details for retrieving the next page of results.
 public type NextPage record {
+    # The URL query string link to the next page of results.
     string link?;
+    # The cursor token used to fetch the next page of results.
     string after;
 };
 
+# Represents an associated object with its ID and association type.
 public type AssociatedId record {
+    # The unique identifier of the associated object.
     string id;
+    # The type defining the nature of the association.
     string 'type;
 };
 
@@ -345,8 +494,12 @@ public type ApiKeysConfig record {|
     string privateApp;
 |};
 
+# Input schema for creating a new call object with properties and associations.
 public type SimplePublicObjectInputForCreate record {
+    # List of associations linking this object to other CRM objects.
     PublicAssociationsForObject[] associations;
+    # Trace ID for tracking the object write operation.
     string objectWriteTraceId?;
+    # Key-value pairs of properties to set on the new object.
     record {|string...;|} properties;
 };
